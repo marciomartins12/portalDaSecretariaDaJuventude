@@ -127,6 +127,11 @@ sudo nano /etc/nginx/sites-available/portaljuventudeperimirim.com.br
 
 Conteúdo:
 
+
+  
+  
+  
+  
 ```nginx
 server {
   listen 80;

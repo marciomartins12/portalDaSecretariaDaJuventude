@@ -1220,6 +1220,10 @@ body.nav-open {
   border-color: rgba(255, 255, 255, 0.14);
 }
 
+.promo--single {
+  grid-template-columns: 1fr;
+}
+
 .promo--secondary {
   margin-top: 16px;
 }
@@ -2374,5 +2378,14 @@ body.nav-open {
 
   .form__actions {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero__title {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    text-align-last: left;
   }
 }

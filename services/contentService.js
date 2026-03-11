@@ -1,10 +1,24 @@
 const gincana = {
   title: "Gincana da Juventude de Peri Mirim",
   subtitle: "Energia, cooperação e protagonismo jovem em um só evento.",
-  dateISO: "2026-07-28T18:00:00-03:00",
-  dateLabel: "28 de julho de 2026",
+  dateISO: "2026-03-28T18:00:00-03:00",
+  dateLabel: "28 de março de 2026",
   location: "Praça da Matriz — Peri Mirim (MA)",
   prize: "Premiação para as 3 melhores equipes + reconhecimentos especiais"
+};
+
+const corrida = {
+  title: "Corrida da Juventude de Peri Mirim",
+  subtitle: "Percurso Praça Secundino Pereira → Praça Matriz. Qualquer idade pode se inscrever.",
+  dateLabel: "28 de março de 2026 • 6h",
+  location: "Saída: Praça Secundino Pereira • Chegada: Praça da Matriz"
+};
+
+const feirinha = {
+  title: "Feirinha do Povo",
+  subtitle: "Comunidade, cultura e produtos locais. Entrada gratuita.",
+  dateLabel: "30 de março de 2026",
+  location: "Peri Mirim (MA)"
 };
 
 const news = [
@@ -35,16 +49,16 @@ const edital = {
   objective:
     "Promover integração, liderança e participação da juventude, por meio de desafios culturais, esportivos e comunitários.",
   rules: [
-    "Equipes com mínimo de 3 participantes e máximo de 50.",
+    "Equipes com mínimo de 10 participantes e máximo de 15 (contando com o capitão).",
     "Respeito, inclusão e conduta ética são obrigatórios em todas as provas.",
     "Pontuações e critérios são divulgados antes de cada etapa.",
     "Provas podem envolver atividades físicas leves e desafios criativos."
   ],
   timeline: [
-    { title: "Inscrições", desc: "Até 10/07/2026" },
-    { title: "Confirmação das equipes", desc: "11/07/2026" },
-    { title: "Congresso técnico", desc: "15/07/2026" },
-    { title: "Realização do evento", desc: "28/07/2026" }
+    { title: "Inscrições", desc: "Até 20/03/2026" },
+    { title: "Confirmação das equipes", desc: "21/03/2026" },
+    { title: "Congresso técnico", desc: "25/03/2026" },
+    { title: "Realização do evento", desc: "28/03/2026" }
   ],
   requirements: [
     "Idade mínima recomendada: 12 anos (com autorização do responsável quando necessário).",
@@ -59,4 +73,4 @@ const edital = {
   ]
 };
 
-module.exports = { gincana, news, edital };
+module.exports = { gincana, corrida, feirinha, news, edital };

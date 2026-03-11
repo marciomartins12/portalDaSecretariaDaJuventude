@@ -5,6 +5,8 @@ function home(req, res) {
   res.render("home", {
     title: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
     gincana: content.gincana,
+    corrida: content.corrida,
+    feirinha: content.feirinha,
     news: content.news
   });
 }
