@@ -59,6 +59,7 @@ app.use((req, res, next) => {
     process.env.DEPARTMENT_NAME || "Secretaria Municipal da Juventude de Peri Mirim";
   const municipalityName = process.env.MUNICIPALITY_NAME || "Prefeitura Municipal de Peri Mirim";
   const phone = process.env.CONTACT_PHONE || "(98) 99999-9999";
+  const showFishBgEnv = String(process.env.SHOW_FISH_BG || "").trim();
 
   res.locals.site = {
     brandTitle: process.env.BRAND_TITLE || "Juventude",
@@ -76,7 +77,7 @@ app.use((req, res, next) => {
     email: process.env.CONTACT_EMAIL || "contato@perimirim.ma.gov.br",
     address: process.env.CONTACT_ADDRESS || "Centro — Peri Mirim (MA)",
     hours: process.env.CONTACT_HOURS || "Seg a Sex • 8h às 13h",
-    showFishBg: String(process.env.SHOW_FISH_BG || "").trim() === "1"
+    showFishBg: showFishBgEnv === "" ? true : showFishBgEnv === "1" || showFishBgEnv.toLowerCase() === "true"
   };
 
   next();

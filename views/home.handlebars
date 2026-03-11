@@ -134,106 +134,65 @@
 
 <section class="section section--highlight" id="evento">
   <div class="container">
-    <div class="promo promo--single glass reveal">
-      <div class="promo__copy">
-        <div class="promo__badge">Evento</div>
-        <h2 class="promo__title">{{corrida.title}}</h2>
-        <p class="promo__desc">{{corrida.subtitle}}</p>
-        <div class="promo__meta">
-          <div class="metaPill">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 3v3M17 3v3M4.5 8.5h15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 21H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 6Z" stroke="currentColor" stroke-width="1.6"/>
-              </svg>
-            </span>
-            {{corrida.dateLabel}}
-          </div>
-          <div class="metaPill">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M12 10.8a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".85"/>
-              </svg>
-            </span>
-            {{corrida.location}}
-          </div>
-        </div>
-        <div class="promo__actions">
-          <a class="btn btn--primary" href="/inscricoes/corrida">Inscrever-se</a>
-          <a class="btn btn--ghost" href="/editais">Ver editais</a>
-        </div>
-      </div>
+    <div class="section__head">
+      <h2 class="section__title">Eventos</h2>
+      <p class="section__desc">Confira os próximos eventos e participe.</p>
     </div>
 
-    <div class="promo promo--single promo--secondary glass reveal">
-      <div class="promo__copy">
-        <div class="promo__badge">Evento principal</div>
-        <h2 class="promo__title">{{gincana.title}}</h2>
-        <p class="promo__desc">{{gincana.subtitle}}</p>
-        <div class="promo__meta">
-          <div class="metaPill">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 3v3M17 3v3M4.5 8.5h15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 21H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 6Z" stroke="currentColor" stroke-width="1.6"/>
-              </svg>
-            </span>
-            {{gincana.dateLabel}}
+    <div class="eventsGrid">
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="bolt"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Corrida</div>
+            <h3 class="eventCard__title">{{corrida.title}}</h3>
+            <p class="eventCard__desc">{{corrida.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{corrida.dateLabel}}</div>
+              <div class="metaPill">{{corrida.location}}</div>
+            </div>
           </div>
-          <div class="metaPill">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M12 10.8a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".85"/>
-              </svg>
-            </span>
-            {{gincana.location}}
-          </div>
-          <div class="metaPill metaPill--accent">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M7 3h10v4a5 5 0 0 1-5 5 5 5 0 0 1-5-5V3Z" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
-            </span>
-            {{gincana.prize}}
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/inscricoes/corrida">Inscrever-se</a>
+            <a class="btn btn--ghost" href="/editais">Ver editais</a>
           </div>
         </div>
-        <div class="promo__actions">
-          <a class="btn btn--primary" href="/inscricoes/gincana">Inscrever equipe</a>
-          <a class="btn btn--ghost" href="/editais/gincana">Ver edital</a>
-        </div>
-      </div>
-    </div>
+      </article>
 
-    <div class="promo promo--single promo--secondary glass reveal">
-      <div class="promo__copy">
-        <div class="promo__badge">Evento</div>
-        <h2 class="promo__title">{{feirinha.title}}</h2>
-        <p class="promo__desc">{{feirinha.subtitle}}</p>
-        <div class="promo__meta">
-          <div class="metaPill">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 3v3M17 3v3M4.5 8.5h15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 21H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 6Z" stroke="currentColor" stroke-width="1.6"/>
-              </svg>
-            </span>
-            {{feirinha.dateLabel}}
+      <article class="eventCard eventCard--main glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="spark"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Evento principal</div>
+            <h3 class="eventCard__title">{{gincana.title}}</h3>
+            <p class="eventCard__desc">{{gincana.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{gincana.dateLabel}}</div>
+              <div class="metaPill">{{gincana.location}}</div>
+              <div class="metaPill metaPill--accent">{{gincana.prize}}</div>
+            </div>
           </div>
-          <div class="metaPill">
-            <span class="i" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M12 10.8a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".85"/>
-              </svg>
-            </span>
-            {{feirinha.location}}
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/inscricoes/gincana">Inscrever equipe</a>
+            <a class="btn btn--ghost" href="/editais/gincana">Ver edital</a>
           </div>
         </div>
-      </div>
+      </article>
+
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="users"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Feirinha</div>
+            <h3 class="eventCard__title">{{feirinha.title}}</h3>
+            <p class="eventCard__desc">{{feirinha.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{feirinha.dateLabel}}</div>
+              <div class="metaPill">{{feirinha.location}}</div>
+            </div>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 </section>
