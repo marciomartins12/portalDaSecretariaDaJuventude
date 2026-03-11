@@ -1,0 +1,208 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Inscrições abertas
+      </div>
+      <h1 class="pageHero__title">Inscrição da Gincana</h1>
+      <p class="pageHero__subtitle">{{gincana.title}} • {{gincana.dateLabel}}</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Dados enviados com segurança. Confirme telefone e lista de membros.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--soft" href="/editais/gincana">Ver edital</a>
+        <a class="btn btn--ghost" href="/inscricoes">Voltar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {{#if errors.form}}
+      <div class="alert alert--error glass reveal" role="alert">
+        <div class="alert__title">Não foi possível enviar</div>
+        <div class="alert__desc">{{errors.form}}</div>
+      </div>
+    {{/if}}
+
+    {{#if success}}
+      <div class="alert alert--success glass reveal" role="status">
+        <div class="alert__title">Inscrição enviada com sucesso!</div>
+        <div class="alert__desc">
+          Em breve entraremos em contato para confirmar sua equipe e orientar os próximos passos.
+          Você também receberá um e-mail de confirmação com o resumo da inscrição e a lista da equipe.
+        </div>
+      </div>
+    {{/if}}
+
+    <form class="form glass reveal" method="post" action="/inscricoes/gincana/revisar" novalidate>
+      <div class="form__head">
+        <h2 class="form__title">Formulário de inscrição</h2>
+        <p class="form__desc">Preencha os dados abaixo para registrar sua equipe.</p>
+      </div>
+
+      <input type="hidden" name="membersJson" value="{{form.membersJson}}" />
+
+      <div class="formGrid" data-inscricao-gincana>
+        <div class="field">
+          <label class="label" for="teamName">Nome da equipe</label>
+          <input class="input {{#if errors.teamName}}input--error{{/if}}" id="teamName" name="teamName" type="text" value="{{form.teamName}}" placeholder="Ex.: Piaba Ativa" autocomplete="organization" required />
+          {{#if errors.teamName}}<div class="errorMsg">{{errors.teamName}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="captainName">Nome do capitão</label>
+          <input class="input {{#if errors.captainName}}input--error{{/if}}" id="captainName" name="captainName" type="text" value="{{form.captainName}}" placeholder="Nome completo" autocomplete="name" required />
+          {{#if errors.captainName}}<div class="errorMsg">{{errors.captainName}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="captainEmail">E-mail</label>
+          <input class="input {{#if errors.captainEmail}}input--error{{/if}}" id="captainEmail" name="captainEmail" type="email" value="{{form.captainEmail}}" placeholder="email@exemplo.com" autocomplete="email" required />
+          {{#if errors.captainEmail}}<div class="errorMsg">{{errors.captainEmail}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="captainDob">Data de nascimento do capitão</label>
+          <input class="input {{#if errors.captainDob}}input--error{{/if}}" id="captainDob" name="captainDob" type="date" value="{{form.captainDob}}" required />
+          {{#if errors.captainDob}}<div class="errorMsg">{{errors.captainDob}}</div>{{/if}}
+          <div class="errorMsg" data-captain-age-error style="display:none">O capitão precisa ter 17 anos ou mais.</div>
+          <div class="hint">Regra: capitão com 17+ anos.</div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="phone">Telefone</label>
+          <input class="input {{#if errors.phone}}input--error{{/if}}" id="phone" name="phone" type="tel" value="{{form.phone}}" placeholder="(98) 9xxxx-xxxx" autocomplete="tel" required />
+          {{#if errors.phone}}<div class="errorMsg">{{errors.phone}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="neighborhood">Bairro</label>
+          <input class="input {{#if errors.neighborhood}}input--error{{/if}}" id="neighborhood" name="neighborhood" type="text" value="{{form.neighborhood}}" placeholder="Ex.: Centro" autocomplete="address-level3" required />
+          {{#if errors.neighborhood}}<div class="errorMsg">{{errors.neighborhood}}</div>{{/if}}
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="memberBox glass">
+          <div class="memberBox__head">
+            <div>
+              <div class="memberBox__title">Passo 2 — Adicionar participantes</div>
+              <div class="memberBox__sub">Só é possível adicionar participantes com 15 anos ou mais.</div>
+            </div>
+            <div class="memberBox__stats">
+              <span class="memberPill">Participantes: <span data-team-count>1</span></span>
+              <span class="memberPill">Na lista: <span data-members-count>0</span></span>
+              <span class="memberPill memberPill--muted">Mínimo: 10</span>
+              <span class="memberPill memberPill--muted">Máximo: 15</span>
+            </div>
+          </div>
+
+          <div class="note memberBox__note">
+            <span class="note__dot" aria-hidden="true"></span>
+            O capitão conta como 1 participante.
+            Para incluir alguém na equipe, preencha o nome e a data de nascimento e clique em “Adicionar”.
+            O participante só entra na lista depois desse clique.
+          </div>
+
+          {{#if errors.membersJson}}<div class="errorMsg">{{errors.membersJson}}</div>{{/if}}
+
+          <div class="memberBuilder">
+            <div class="formGrid">
+              <div class="field">
+                <label class="label" for="memberName">Nome do participante</label>
+                <input class="input" id="memberName" type="text" placeholder="Ex.: Maria Silva" autocomplete="off" />
+                <div class="hint">Digite o nome completo.</div>
+              </div>
+              <div class="field">
+                <label class="label" for="memberDob">Data de nascimento</label>
+                <input class="input" id="memberDob" type="date" />
+                <div class="hint">Regra: 15+ anos.</div>
+              </div>
+            </div>
+
+            <div class="memberBuilder__actions">
+              <button class="btn btn--soft" type="button" data-add-member>Adicionar à lista</button>
+              <div class="hint" data-member-hint>Depois de adicionar, você pode remover se precisar.</div>
+            </div>
+
+            <div class="errorMsg" data-member-add-error style="display:none"></div>
+          </div>
+
+          <div class="tableWrap glass memberBox__list">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Participante</th>
+                  <th>Data de nascimento</th>
+                  <th class="tRight">Ação</th>
+                </tr>
+              </thead>
+              <tbody data-members-list></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="termsBox glass">
+        <div class="termsBox__title">Passo 3 — Termos obrigatórios</div>
+        <div class="termsBox__sub">Para continuar, leia e aceite todos os termos abaixo.</div>
+
+        <div class="termsBox__list">
+          <label class="checkRow">
+            <input
+              class="checkRow__input"
+              type="checkbox"
+              name="termsImageRelease"
+              value="1"
+              {{#if form.termsImageRelease}}checked{{/if}}
+              required
+            />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Aceito o Termo de liberação de imagem</span>
+              <span class="checkRow__desc">
+                Autorizo o uso de imagem/voz em registros do evento.
+                <button class="link link--inline" type="button" data-modal-open="#termImageRelease">Ler termo</button>
+              </span>
+              {{#if errors.termsImageRelease}}<span class="errorMsg">{{errors.termsImageRelease}}</span>{{/if}}
+            </span>
+          </label>
+
+          <label class="checkRow">
+            <input
+              class="checkRow__input"
+              type="checkbox"
+              name="termsResponsibility"
+              value="1"
+              {{#if form.termsResponsibility}}checked{{/if}}
+              required
+            />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Aceito o Termo de responsabilidade</span>
+              <span class="checkRow__desc">
+                Declaro ciência das regras e assumo responsabilidade, inclusive por menores de idade.
+                <button class="link link--inline" type="button" data-modal-open="#termResponsibility">Ler termo</button>
+              </span>
+              {{#if errors.termsResponsibility}}<span class="errorMsg">{{errors.termsResponsibility}}</span>{{/if}}
+            </span>
+          </label>
+        </div>
+
+        <div class="errorMsg" data-terms-error style="display:none"></div>
+      </div>
+
+      <div class="form__actions">
+        <button class="btn btn--primary btn--wide" type="submit" data-go-review>Revisar dados</button>
+        <a class="btn btn--ghost btn--wide" href="/editais/gincana">Conferir regras</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{> termsModals}}

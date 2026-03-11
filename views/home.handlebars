@@ -1,0 +1,214 @@
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Portal oficial • Secretaria da Juventude 
+      </div>
+      <h1 class="hero__title">Secretaria Municipal da Juventude de Peri Mirim</h1>
+      <p class="hero__subtitle">Conectando oportunidades, talentos e o futuro da juventude.</p>
+
+      <div class="hero__actions">
+       
+        <a class="btn btn--soft" href="#evento">Ver eventos</a>
+      </div>
+    </div>
+
+    <div class="hero__panel glass">
+      <div class="heroCard">
+        <div class="heroCard__top">
+          <div>
+            <div class="heroCard__eyebrow">Destaque</div>
+            <div class="heroCard__title">{{gincana.title}}</div>
+            <div class="heroCard__info">{{gincana.dateLabel}} • {{gincana.location}}</div>
+          </div>
+          <div class="piabaMark" aria-hidden="true">
+            <svg width="54" height="54" viewBox="0 0 1280 1280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g transform="translate(0,1280) scale(0.1,-0.1)" fill="currentColor" stroke="none">
+                <path
+                  d="M5440 9720 c-270 -9 -501 -26 -698 -51 -286 -36 -425 -78 -456 -138 -55 -104 19 -234 408 -720 129 -161 282 -359 340 -440 94 -132 251 -375 258 -399 2 -6 -112 -68 -252 -139 -287 -144 -475 -259 -677 -410 -204 -154 -379 -232 -516 -233 -72 0 -180 25 -344 81 -254 86 -344 143 -898 559 -576 434 -762 552 -1000 637 -85 30 -232 42 -289 23 -83 -27 -145 -114 -172 -239 -18 -88 -18 -310 1 -458 57 -439 244 -1042 412 -1324 106 -180 114 -217 58 -295 -61 -85 -80 -178 -117 -579 -8 -85 -13 -284 -13 -505 0 -302 3 -385 18 -478 32 -199 91 -365 152 -422 55 -52 146 -31 284 67 98 70 335 313 616 633 138 156 304 343 371 415 165 178 319 312 413 360 70 35 346 121 434 135 170 28 317 -5 549 -121 108 -54 383 -222 414 -253 9 -8 7 -34 -7 -101 -24 -108 -28 -312 -9 -430 17 -113 58 -246 82 -272 26 -28 118 -59 229 -78 403 -68 1294 -54 1589 26 41 11 84 23 95 25 11 3 92 -8 180 -25 88 -16 188 -33 221 -36 34 -4 67 -11 73 -14 8 -6 3 -29 -18 -82 -44 -110 -77 -231 -96 -354 -26 -166 -17 -412 24 -606 77 -368 198 -650 325 -753 132 -109 294 -102 477 20 246 163 534 658 929 1596 72 171 43 154 270 163 379 16 889 101 1281 215 635 184 1237 479 1595 782 93 77 132 124 140 166 9 43 -21 187 -67 318 -227 660 -800 1390 -1439 1836 -226 157 -525 318 -768 414 l-122 48 -48 101 c-195 407 -504 711 -947 933 -273 136 -712 260 -1140 321 -492 70 -1411 105 -2145 81z"
+                />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="heroCard__meta">
+          <div class="metaPill">
+            <span class="i" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 3v3M17 3v3M4.5 8.5h15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 21H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 6Z" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            {{gincana.dateLabel}}
+          </div>
+          <div class="metaPill">
+            <span class="i" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 10.8a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".85"/>
+              </svg>
+            </span>
+            {{gincana.location}}
+          </div>
+        </div>
+
+        <div class="countdown" data-countdown>
+          <div class="countdown__item">
+            <div class="countdown__num" data-days>--</div>
+            <div class="countdown__label">dias</div>
+          </div>
+          <div class="countdown__item">
+            <div class="countdown__num" data-hours>--</div>
+            <div class="countdown__label">horas</div>
+          </div>
+          <div class="countdown__item">
+            <div class="countdown__num" data-minutes>--</div>
+            <div class="countdown__label">min</div>
+          </div>
+          <div class="countdown__item">
+            <div class="countdown__num" data-seconds>--</div>
+            <div class="countdown__label">seg</div>
+          </div>
+        </div>
+
+        <div class="heroCard__actions">
+          <a class="btn btn--primary btn--wide" href="/inscricoes/gincana">Inscrever equipe</a>
+          <a class="btn btn--ghost btn--wide" href="/editais/gincana">Ver edital</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Secretaria da Juventude</h2>
+      <p class="section__desc">O que fazemos para fortalecer oportunidades e participação da juventude de Peri Mirim.</p>
+    </div>
+
+    <div class="aboutPanel glass reveal">
+      <div class="aboutMain">
+        <div class="aboutMain__eyebrow">Secretaria Municipal da Juventude</div>
+        <div class="aboutMain__title">O que fazemos</div>
+        <div class="aboutMain__desc">
+          Apoiamos iniciativas, ações e projetos que aproximam a juventude de oportunidades e fortalecem o protagonismo no
+          município.
+        </div>
+
+        <input class="aboutMoreToggle" type="checkbox" id="aboutMoreToggle" />
+        <label class="btn btn--soft aboutMoreBtn" for="aboutMoreToggle">
+          <span class="aboutMoreBtn__more">Ver mais</span>
+          <span class="aboutMoreBtn__less">Ver menos</span>
+        </label>
+
+        <div class="aboutMore">
+          <div class="aboutHighlights">
+            <div class="aboutHighlight">
+              <div class="aboutHighlight__k">Formação</div>
+              <div class="aboutHighlight__v">Oficinas, orientação e desenvolvimento</div>
+            </div>
+            <div class="aboutHighlight">
+              <div class="aboutHighlight__k">Cultura & esporte</div>
+              <div class="aboutHighlight__v">Incentivo a eventos, talentos e atividades</div>
+            </div>
+            <div class="aboutHighlight">
+              <div class="aboutHighlight__k">Participação</div>
+              <div class="aboutHighlight__v">Escuta, cidadania e ações comunitárias</div>
+            </div>
+          </div>
+
+          <div class="aboutLeader">
+            <div class="aboutLeader__badge">Secretária</div>
+            <div class="aboutLeader__name">{{site.secretaryName}}</div>
+            <div class="aboutLeader__role">{{site.secretaryRole}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--highlight" id="evento">
+  <div class="container">
+    <div class="promo glass reveal">
+      <div class="promo__copy">
+        <div class="promo__badge">Evento principal</div>
+        <h2 class="promo__title">{{gincana.title}}</h2>
+        <p class="promo__desc">{{gincana.subtitle}}</p>
+        <div class="promo__meta">
+          <div class="metaPill">
+            <span class="i" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 3v3M17 3v3M4.5 8.5h15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 21H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 6Z" stroke="currentColor" stroke-width="1.6"/>
+              </svg>
+            </span>
+            {{gincana.dateLabel}}
+          </div>
+          <div class="metaPill">
+            <span class="i" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 10.8a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".85"/>
+              </svg>
+            </span>
+            {{gincana.location}}
+          </div>
+          <div class="metaPill metaPill--accent">
+            <span class="i" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M7 3h10v4a5 5 0 0 1-5 5 5 5 0 0 1-5-5V3Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M17 5h2a2 2 0 0 1 0 4h-2M7 5H5a2 2 0 0 0 0 4h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            {{gincana.prize}}
+          </div>
+        </div>
+        <div class="promo__actions">
+          <a class="btn btn--primary" href="/inscricoes/gincana">Inscrever Equipe</a>
+          <a class="btn btn--ghost" href="/editais/gincana">Ver Edital</a>
+        </div>
+      </div>
+
+      <div class="promo__art" aria-hidden="true">
+        <div class="promoArt glass promoArt--gincana">
+          <div class="promoArt__title">Protagonismo jovem</div>
+          <div class="promoArt__sub">Energia, cooperação e impacto na comunidade.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Notícias da Juventude</h2>
+      <p class="section__desc">Informações, projetos e novidades para acompanhar de perto.</p>
+    </div>
+
+    <div class="grid3">
+      {{#each news}}
+        <article class="newsCard glass reveal">
+          <div class="newsCard__media">
+            <img src="{{image}}" alt="" loading="lazy" />
+          </div>
+          <div class="newsCard__body">
+            <div class="newsCard__meta">
+              <span class="chip">Juventude</span>
+              <span class="newsCard__date">{{date}}</span>
+            </div>
+            <h3 class="newsCard__title">{{title}}</h3>
+            <p class="newsCard__desc">{{excerpt}}</p>
+            <a class="link" href="/noticias">Ler mais</a>
+          </div>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>

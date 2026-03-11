@@ -1,0 +1,135 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Inscrições abertas
+      </div>
+      <h1 class="pageHero__title">Inscrição da Corrida</h1>
+      <p class="pageHero__subtitle">Dia 28 • 6h • Praça Secundino Pereira → Praça Matriz</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Qualquer idade pode se inscrever. Leia e aceite os termos antes de enviar.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--soft" href="/editais">Ver editais</a>
+        <a class="btn btn--ghost" href="/inscricoes">Voltar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {{#if errors.form}}
+      <div class="alert alert--error glass reveal" role="alert">
+        <div class="alert__title">Não foi possível enviar</div>
+        <div class="alert__desc">{{errors.form}}</div>
+      </div>
+    {{/if}}
+
+    {{#if success}}
+      <div class="alert alert--success glass reveal" role="status">
+        <div class="alert__title">Inscrição enviada com sucesso!</div>
+        <div class="alert__desc">Em breve entraremos em contato com orientações e confirmação.</div>
+      </div>
+    {{/if}}
+
+    <form class="form glass reveal" method="post" action="/inscricoes/corrida" novalidate>
+      <div class="form__head">
+        <h2 class="form__title">Formulário de inscrição</h2>
+        <p class="form__desc">Preencha seus dados para registrar a participação na Corrida da Juventude.</p>
+      </div>
+
+      <div class="formGrid">
+        <div class="field">
+          <label class="label" for="fullName">Nome completo</label>
+          <input class="input {{#if errors.fullName}}input--error{{/if}}" id="fullName" name="fullName" type="text" value="{{form.fullName}}" placeholder="Ex.: Maria Silva" required />
+          {{#if errors.fullName}}<div class="errorMsg">{{errors.fullName}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="email">E-mail</label>
+          <input class="input {{#if errors.email}}input--error{{/if}}" id="email" name="email" type="email" value="{{form.email}}" placeholder="email@exemplo.com" required />
+          {{#if errors.email}}<div class="errorMsg">{{errors.email}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="phone">Telefone</label>
+          <input class="input {{#if errors.phone}}input--error{{/if}}" id="phone" name="phone" type="text" value="{{form.phone}}" placeholder="(98) 9XXXX-XXXX" required />
+          {{#if errors.phone}}<div class="errorMsg">{{errors.phone}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="neighborhood">Bairro</label>
+          <input class="input {{#if errors.neighborhood}}input--error{{/if}}" id="neighborhood" name="neighborhood" type="text" value="{{form.neighborhood}}" placeholder="Ex.: Centro" required />
+          {{#if errors.neighborhood}}<div class="errorMsg">{{errors.neighborhood}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="age">Idade</label>
+          <input class="input {{#if errors.age}}input--error{{/if}}" id="age" name="age" type="number" value="{{form.age}}" min="0" max="120" placeholder="Ex.: 16" required />
+          <div class="hint">Qualquer idade pode se inscrever.</div>
+          {{#if errors.age}}<div class="errorMsg">{{errors.age}}</div>{{/if}}
+        </div>
+      </div>
+
+      <div class="termsBox glass">
+        <div class="termsBox__title">Termos obrigatórios</div>
+        <div class="termsBox__sub">Para enviar, leia e aceite todos os termos.</div>
+
+        <div class="termsBox__list">
+          <label class="checkRow">
+            <input
+              class="checkRow__input"
+              type="checkbox"
+              name="termsImageRelease"
+              value="1"
+              {{#if form.termsImageRelease}}checked{{/if}}
+              required
+            />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Aceito o Termo de liberação de imagem</span>
+              <span class="checkRow__desc">
+                Autorizo o uso de imagem/voz em registros do evento.
+                <button class="link link--inline" type="button" data-modal-open="#termImageRelease">Ler termo</button>
+              </span>
+              {{#if errors.termsImageRelease}}<span class="errorMsg">{{errors.termsImageRelease}}</span>{{/if}}
+            </span>
+          </label>
+
+          <label class="checkRow">
+            <input
+              class="checkRow__input"
+              type="checkbox"
+              name="termsResponsibility"
+              value="1"
+              {{#if form.termsResponsibility}}checked{{/if}}
+              required
+            />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Aceito o Termo de responsabilidade</span>
+              <span class="checkRow__desc">
+                Declaro ciência das regras e assumo responsabilidade, inclusive por menores de idade.
+                <button class="link link--inline" type="button" data-modal-open="#termResponsibility">Ler termo</button>
+              </span>
+              {{#if errors.termsResponsibility}}<span class="errorMsg">{{errors.termsResponsibility}}</span>{{/if}}
+            </span>
+          </label>
+        </div>
+
+        <div class="errorMsg" data-terms-error style="display:none"></div>
+      </div>
+
+      <div class="form__actions">
+        <button class="btn btn--primary btn--wide" type="submit">Enviar Inscrição</button>
+        <a class="btn btn--ghost btn--wide" href="/inscricoes">Voltar</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+{{> termsModals}}

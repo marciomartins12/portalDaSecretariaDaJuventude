@@ -1,0 +1,114 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Documento oficial
+      </div>
+      <h1 class="pageHero__title">Edital da Gincana</h1>
+      <p class="pageHero__subtitle">{{gincana.title}} • {{gincana.dateLabel}}</p>
+      <div class="pageHero__actions">
+        <a class="btn btn--primary" href="/editais/gincana/pdf">Baixar Edital (PDF)</a>
+        <a class="btn btn--ghost" href="/inscricoes/gincana">Fazer Inscrição</a>
+      </div>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="infoList">
+        <div class="infoList__item">
+          <div class="infoList__k">Data</div>
+          <div class="infoList__v">{{gincana.dateLabel}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Local</div>
+          <div class="infoList__v">{{gincana.location}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Premiação</div>
+          <div class="infoList__v">{{gincana.prize}}</div>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Leitura organizada e objetiva, com foco em transparência e participação.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid2">
+      <article class="card glass reveal">
+        <div class="card__icon" aria-hidden="true" data-icon="target"></div>
+        <h2 class="card__title">Objetivo</h2>
+        <p class="card__desc">{{edital.objective}}</p>
+      </article>
+
+      <article class="card glass reveal">
+        <div class="card__icon" aria-hidden="true" data-icon="shield"></div>
+        <h2 class="card__title">Regras</h2>
+        <ul class="list">
+          {{#each edital.rules}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Cronograma</h2>
+      <p class="section__desc">Etapas com datas para acompanhar e se organizar.</p>
+    </div>
+
+    <div class="timeline reveal">
+      {{#each edital.timeline}}
+        <div class="timelineItem glass">
+          <div class="timelineItem__title">{{title}}</div>
+          <div class="timelineItem__desc">{{desc}}</div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid2">
+      <article class="card glass reveal">
+        <div class="card__icon" aria-hidden="true" data-icon="check"></div>
+        <h2 class="card__title">Requisitos</h2>
+        <ul class="list">
+          {{#each edital.requirements}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </article>
+
+      <article class="card glass reveal">
+        <div class="card__icon" aria-hidden="true" data-icon="trophy"></div>
+        <h2 class="card__title">Premiação</h2>
+        <ul class="list">
+          {{#each edital.prizes}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </article>
+    </div>
+
+    <div class="ctaBar glass reveal">
+      <div>
+        <div class="ctaBar__title">Pronto para participar?</div>
+        <div class="ctaBar__desc">Inscreva sua equipe e faça parte do movimento jovem da cidade.</div>
+      </div>
+      <div class="ctaBar__actions">
+        <a class="btn btn--primary" href="/inscricoes/gincana">Inscrever agora</a>
+        <a class="btn btn--ghost" href="/editais/gincana/pdf">Baixar PDF</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,58 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Participe dos eventos
+      </div>
+      <h1 class="pageHero__title">Inscrições</h1>
+      <p class="pageHero__subtitle">Escolha o evento e faça sua inscrição.</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Formulários organizados por evento. Preencha com atenção.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--soft" href="/editais">Ver editais</a>
+        <a class="btn btn--ghost" href="/">Voltar ao início</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid2">
+      <article class="card glass reveal">
+        <div class="card__icon" aria-hidden="true" data-icon="spark"></div>
+        <h2 class="card__title">Inscrição da Gincana</h2>
+        <p class="card__desc">{{gincana.title}} • {{gincana.dateLabel}}</p>
+        <div class="cardChips">
+          <span class="chip">Equipe</span>
+          <span class="chip">Capitão 17+</span>
+          <span class="chip">Participante 15+</span>
+        </div>
+        <div class="cardActions">
+          <a class="btn btn--primary" href="/inscricoes/gincana">Fazer inscrição</a>
+          <a class="btn btn--ghost" href="/editais/gincana">Ver edital</a>
+        </div>
+      </article>
+
+      <article class="card glass reveal">
+        <div class="card__icon" aria-hidden="true" data-icon="bolt"></div>
+        <h2 class="card__title">Inscrição da Corrida</h2>
+        <p class="card__desc">Corrida da Juventude • Dia 28 • 6h</p>
+        <div class="cardChips">
+          <span class="chip">Qualquer idade</span>
+          <span class="chip">Praça Secundino → Matriz</span>
+        </div>
+        <div class="cardActions">
+          <a class="btn btn--primary" href="/inscricoes/corrida">Fazer inscrição</a>
+          <a class="btn btn--ghost" href="/editais">Ver editais</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

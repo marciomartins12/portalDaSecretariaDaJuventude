@@ -1,0 +1,111 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Confirmação
+      </div>
+      <h1 class="pageHero__title">Revisar inscrição</h1>
+      <p class="pageHero__subtitle">Confira os dados antes de enviar.</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Se algo estiver errado, volte e edite antes de confirmar.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--ghost" href="/inscricoes">Voltar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="card glass reveal">
+      <div class="cardActions" style="margin-top:0">
+        <form id="editGincanaForm" method="post" action="/inscricoes/gincana/editar" novalidate>
+          <input type="hidden" name="teamName" value="{{data.teamName}}" />
+          <input type="hidden" name="captainName" value="{{data.captainName}}" />
+          <input type="hidden" name="captainEmail" value="{{data.captainEmail}}" />
+          <input type="hidden" name="captainDob" value="{{data.captainDob}}" />
+          <input type="hidden" name="phone" value="{{data.phone}}" />
+          <input type="hidden" name="neighborhood" value="{{data.neighborhood}}" />
+          <input type="hidden" name="membersJson" value="{{toJson data.members}}" />
+          <input type="hidden" name="termsImageRelease" value="{{#if data.termsImageRelease}}1{{/if}}" />
+          <input type="hidden" name="termsResponsibility" value="{{#if data.termsResponsibility}}1{{/if}}" />
+          <button class="btn btn--ghost" type="submit">Editar</button>
+        </form>
+      </div>
+
+      <h2 class="card__title" style="margin-top:12px">Resumo</h2>
+      <div class="infoList">
+        <div class="infoList__item">
+          <div class="infoList__k">Equipe</div>
+          <div class="infoList__v">{{data.teamName}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Capitão</div>
+          <div class="infoList__v">{{data.captainName}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Contato</div>
+          <div class="infoList__v">{{data.captainEmail}} • {{data.phone}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Bairro</div>
+          <div class="infoList__v">{{data.neighborhood}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Nascimento do capitão</div>
+          <div class="infoList__v">{{data.captainDob}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Participantes</div>
+          <div class="infoList__v">{{data.participantsTotal}} (capitão + {{data.members.length}} na lista)</div>
+        </div>
+      </div>
+
+      <div class="tableWrap glass" style="margin-top:14px">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Participante</th>
+              <th>Nascimento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tStrong">{{data.captainName}} <span class="chip" style="margin-left:8px">Capitão</span></td>
+              <td>{{data.captainDob}}</td>
+            </tr>
+            {{#each data.members}}
+              <tr>
+                <td class="tStrong">{{name}}</td>
+                <td>{{dob}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <form class="form glass reveal" method="post" action="/inscricoes/gincana/enviar" novalidate>
+      <input type="hidden" name="teamName" value="{{data.teamName}}" />
+      <input type="hidden" name="captainName" value="{{data.captainName}}" />
+      <input type="hidden" name="captainEmail" value="{{data.captainEmail}}" />
+      <input type="hidden" name="captainDob" value="{{data.captainDob}}" />
+      <input type="hidden" name="phone" value="{{data.phone}}" />
+      <input type="hidden" name="neighborhood" value="{{data.neighborhood}}" />
+      <input type="hidden" name="membersJson" value="{{toJson data.members}}" />
+      <input type="hidden" name="termsImageRelease" value="{{#if data.termsImageRelease}}1{{/if}}" />
+      <input type="hidden" name="termsResponsibility" value="{{#if data.termsResponsibility}}1{{/if}}" />
+
+      <div class="form__actions">
+        <button class="btn btn--primary btn--wide" type="submit">Confirmar e enviar</button>
+        <button class="btn btn--ghost btn--wide" type="submit" form="editGincanaForm">Editar</button>
+      </div>
+    </form>
+  </div>
+</section>

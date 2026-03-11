@@ -1,0 +1,51 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Atualizações e oportunidades
+      </div>
+      <h1 class="pageHero__title">Notícias da Juventude</h1>
+      <p class="pageHero__subtitle">Conteúdos para informar, inspirar e mobilizar.</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Acompanhe editais, oficinas e ações comunitárias.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--soft" href="/inscricoes">Inscrições</a>
+        <a class="btn btn--ghost" href="/">Início</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid3">
+      {{#each news}}
+        <article class="newsCard glass reveal">
+          <div class="newsCard__media">
+            <img src="{{image}}" alt="" loading="lazy" />
+          </div>
+          <div class="newsCard__body">
+            <h2 class="newsCard__title">{{title}}</h2>
+            <p class="newsCard__desc">{{excerpt}}</p>
+            <details class="details">
+              <summary class="btn btn--soft btn--wide">Ler mais</summary>
+              <div class="details__body">
+                <p>
+                  Estamos construindo uma agenda jovem, com ações que unem oportunidades, participação e impacto na comunidade.
+                  Em breve, esta matéria terá fotos, programação e orientações completas.
+                </p>
+                <a class="link" href="/inscricoes/gincana">Participar da gincana</a>
+              </div>
+            </details>
+          </div>
+        </article>
+      {{/each}}
+    </div>
+  </div>
+</section>
