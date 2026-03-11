@@ -2489,8 +2489,14 @@ body.nav-open {
   .hero__title {
     text-align: justify;
     text-justify: inter-word;
+    text-align-last: justify;
+    text-wrap: wrap;
     hyphens: auto;
-    text-align-last: left;
+    word-break: normal;
+    overflow-wrap: anywhere;
+    max-width: none;
+    font-size: clamp(30px, 9vw, 44px);
+    line-height: 1.04;
   }
 
   .eventRow__actions .btn {
