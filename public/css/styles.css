@@ -2486,6 +2486,10 @@ body.nav-open {
 }
 
 @media (max-width: 720px) {
+  .countdown {
+    display: none;
+  }
+
   .hero__title {
     text-align: justify;
     text-justify: inter-word;
