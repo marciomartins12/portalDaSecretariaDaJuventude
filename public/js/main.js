@@ -81,6 +81,12 @@
     btn.addEventListener("click", closeModal);
   });
 
+  const autoModal = document.querySelector("[data-auto-open-modal]");
+  if (autoModal) {
+    const target = autoModal.getAttribute("data-auto-open-modal");
+    if (target) openModal(target);
+  }
+
   const calcAge = (dateString) => {
     const d = new Date(dateString);
     if (!Number.isFinite(d.getTime())) return null;

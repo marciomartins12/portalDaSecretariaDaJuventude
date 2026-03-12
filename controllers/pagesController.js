@@ -1,5 +1,6 @@
 const content = require("../services/contentService");
 const PDFDocument = require("pdfkit");
+const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
 
 function home(req, res) {
   res.render("home", {
@@ -113,8 +114,17 @@ function inscricao(req, res) {
   });
 }
 
-function inscricaoCorrida(req, res) {
+async function inscricaoCorrida(req, res) {
   const success = req.query?.success === "1";
+  const id = String(req.query?.id || "").trim();
+  let corridaSuccess = null;
+  if (success && /^\d+$/.test(id)) {
+    try {
+      corridaSuccess = await getCorridaInscricaoById(Number(id));
+    } catch {
+      corridaSuccess = null;
+    }
+  }
   res.render("inscricao-corrida", {
     title: "Inscrição — Corrida da Juventude",
     form: {
@@ -127,7 +137,8 @@ function inscricaoCorrida(req, res) {
       termsResponsibility: false
     },
     errors: {},
-    success
+    success,
+    corridaSuccess
   });
 }
 

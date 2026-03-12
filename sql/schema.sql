@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS gincana_inscricoes (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_created_at (created_at),
-  KEY idx_captain_email (captain_email)
+  UNIQUE KEY uq_gincana_captain_email (captain_email),
+  UNIQUE KEY uq_gincana_captain_phone (captain_phone)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS gincana_participantes (
@@ -50,5 +51,6 @@ CREATE TABLE IF NOT EXISTS corrida_inscricoes (
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_created_at (created_at),
-  KEY idx_email (email)
+  UNIQUE KEY uq_corrida_email (email),
+  UNIQUE KEY uq_corrida_phone (phone)
 ) ENGINE=InnoDB;

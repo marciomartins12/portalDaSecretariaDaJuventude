@@ -19,6 +19,10 @@ function calcAge(date) {
   return age;
 }
 
+function digitsOnly(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
 function safeJsonParse(value) {
   try {
     const parsed = JSON.parse(String(value || "[]"));
@@ -35,7 +39,8 @@ function validateInscricaoGincana(req, res, next) {
   const teamName = String(data.teamName || "").trim();
   const captainName = String(data.captainName || "").trim();
   const captainEmail = String(data.captainEmail || "").trim().toLowerCase();
-  const phone = String(data.phone || "").trim();
+  const phoneRaw = String(data.phone || "").trim();
+  const phone = digitsOnly(phoneRaw);
   const neighborhood = String(data.neighborhood || "").trim();
   const captainDobParsed = parseDate(data.captainDob);
   const termsImageRelease =
@@ -52,7 +57,7 @@ function validateInscricaoGincana(req, res, next) {
     errors.captainEmail = "Informe um e-mail válido.";
   }
 
-  if (isBlank(phone)) errors.phone = "Informe um telefone para contato.";
+  if (isBlank(phoneRaw) || isBlank(phone)) errors.phone = "Informe um telefone para contato.";
   if (isBlank(neighborhood)) errors.neighborhood = "Informe o bairro.";
 
   if (!captainDobParsed) {
@@ -119,7 +124,7 @@ function validateInscricaoGincana(req, res, next) {
         captainName,
         captainEmail,
         captainDob: captainDobParsed ? captainDobParsed.raw : String(data.captainDob || "").trim(),
-        phone,
+        phone: phoneRaw,
         neighborhood,
         membersJson: Array.isArray(membersParsed) ? JSON.stringify(membersParsed) : "[]",
         termsImageRelease,

@@ -48,7 +48,30 @@ async function submitGincana(req, res) {
     }
 
     res.redirect("/inscricoes/gincana?success=1");
-  } catch {
+  } catch (err) {
+    if (err?.code === "DUPLICATE_CONTACT" || err?.code === "ER_DUP_ENTRY") {
+      return res.status(400).render("inscricao", {
+        title: "Inscrição — Gincana da Juventude",
+        gincana: require("../services/contentService").gincana,
+        success: false,
+        form: {
+          teamName: req.inscricaoGincana.teamName,
+          captainName: req.inscricaoGincana.captainName,
+          captainEmail: req.inscricaoGincana.captainEmail,
+          captainDob: req.inscricaoGincana.captainDob,
+          phone: String(req.body?.phone || ""),
+          neighborhood: req.inscricaoGincana.neighborhood,
+          membersJson: JSON.stringify(req.inscricaoGincana.members),
+          termsImageRelease: req.inscricaoGincana.termsImageRelease,
+          termsResponsibility: req.inscricaoGincana.termsResponsibility
+        },
+        errors: {
+          captainEmail: "Este e-mail já está cadastrado nesta inscrição.",
+          phone: "Este telefone já está cadastrado nesta inscrição."
+        }
+      });
+    }
+
     res.status(500).render("inscricao", {
       title: "Inscrição — Gincana da Juventude",
       gincana: require("../services/contentService").gincana,
@@ -58,7 +81,7 @@ async function submitGincana(req, res) {
         captainName: req.inscricaoGincana.captainName,
         captainEmail: req.inscricaoGincana.captainEmail,
         captainDob: req.inscricaoGincana.captainDob,
-        phone: req.inscricaoGincana.phone,
+        phone: String(req.body?.phone || ""),
         neighborhood: req.inscricaoGincana.neighborhood,
         membersJson: JSON.stringify(req.inscricaoGincana.members),
         termsImageRelease: req.inscricaoGincana.termsImageRelease,
@@ -74,7 +97,7 @@ async function submitGincana(req, res) {
 async function submitCorrida(req, res) {
   try {
     const payload = req.inscricaoCorrida || normalizeInscricaoCorrida(req.body);
-    const { bibNumber } = await createCorridaInscricao({ ...payload, termsIp: req.ip });
+    const { id, bibNumber } = await createCorridaInscricao({ ...payload, termsIp: req.ip });
 
     try {
       await sendCorridaConfirmationEmail({
@@ -88,8 +111,30 @@ async function submitCorrida(req, res) {
       process.stderr.write(`Falha ao enviar e-mail de confirmação: ${err?.message || String(err)}\n`);
     }
 
-    res.redirect("/inscricoes/corrida?success=1");
-  } catch {
+    res.redirect(`/inscricoes/corrida?success=1&id=${encodeURIComponent(String(id))}`);
+  } catch (err) {
+    if (err?.code === "DUPLICATE_EMAIL" || err?.code === "DUPLICATE_PHONE" || err?.code === "ER_DUP_ENTRY") {
+      const errors = {};
+      if (err?.code === "DUPLICATE_EMAIL") errors.email = "Este e-mail já está cadastrado.";
+      if (err?.code === "DUPLICATE_PHONE") errors.phone = "Este telefone já está cadastrado.";
+      if (err?.code === "ER_DUP_ENTRY") errors.form = "Já existe uma inscrição com este e-mail ou telefone.";
+
+      return res.status(400).render("inscricao-corrida", {
+        title: "Inscrição — Corrida da Juventude",
+        success: false,
+        form: {
+          fullName: String(req.body?.fullName || ""),
+          email: String(req.body?.email || ""),
+          phone: String(req.body?.phone || ""),
+          neighborhood: String(req.body?.neighborhood || ""),
+          age: String(req.body?.age || ""),
+          termsImageRelease: Boolean(req.body?.termsImageRelease),
+          termsResponsibility: Boolean(req.body?.termsResponsibility)
+        },
+        errors
+      });
+    }
+
     res.status(500).render("inscricao-corrida", {
       title: "Inscrição — Corrida da Juventude",
       success: false,

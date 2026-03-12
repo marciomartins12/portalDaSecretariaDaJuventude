@@ -38,6 +38,26 @@
       </div>
     {{/if}}
 
+    {{#if corridaSuccess}}
+      <div data-auto-open-modal="#corridaSuccessModal"></div>
+      <div class="modal" id="corridaSuccessModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Inscrição confirmada">
+        <button class="modal__backdrop" type="button" data-modal-close aria-label="Fechar"></button>
+        <div class="modal__panel glass">
+          <div class="modal__head">
+            <div class="modal__title">Inscrição confirmada</div>
+            <button class="btn btn--ghost" type="button" data-modal-close>Fechar</button>
+          </div>
+          <div class="modal__body">
+            <div class="successPopup">
+              <div class="successPopup__k">Seu número</div>
+              <div class="successPopup__v">{{corridaSuccess.bibNumber}}</div>
+              <div class="successPopup__hint">Guarde este número. Também enviamos a confirmação por e-mail.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
     <form class="form glass reveal" method="post" action="/inscricoes/corrida" novalidate>
       <div class="form__head">
         <h2 class="form__title">Formulário de inscrição</h2>

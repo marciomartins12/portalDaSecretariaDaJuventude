@@ -5,6 +5,16 @@ async function createGincanaInscricao(data) {
   try {
     await connection.beginTransaction();
 
+    const [existingRows] = await connection.execute(
+      "SELECT id FROM gincana_inscricoes WHERE captain_email = ? OR captain_phone = ? LIMIT 1",
+      [data.captainEmail, data.phone]
+    );
+    if (existingRows.length > 0) {
+      const err = new Error("E-mail ou telefone já cadastrado.");
+      err.code = "DUPLICATE_CONTACT";
+      throw err;
+    }
+
     const [result] = await connection.execute(
       `INSERT INTO gincana_inscricoes
         (

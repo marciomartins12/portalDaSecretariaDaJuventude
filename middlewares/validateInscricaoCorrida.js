@@ -7,6 +7,10 @@ function toInt(value) {
   return Number.isFinite(n) ? Math.trunc(n) : null;
 }
 
+function digitsOnly(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
 function validateInscricaoCorrida(req, res, next) {
   const data = req.body || {};
   const errors = {};
@@ -18,7 +22,9 @@ function validateInscricaoCorrida(req, res, next) {
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.email = "Informe um e-mail válido.";
   }
-  if (isBlank(data.phone)) errors.phone = "Informe um telefone para contato.";
+  const phoneRaw = String(data.phone || "").trim();
+  const phone = digitsOnly(phoneRaw);
+  if (isBlank(phoneRaw) || isBlank(phone)) errors.phone = "Informe um telefone para contato.";
   if (isBlank(data.neighborhood)) errors.neighborhood = "Informe o bairro.";
 
   const age = toInt(data.age);
@@ -38,7 +44,7 @@ function validateInscricaoCorrida(req, res, next) {
       form: {
         fullName: data.fullName || "",
         email: data.email || "",
-        phone: data.phone || "",
+        phone: phoneRaw,
         neighborhood: data.neighborhood || "",
         age: data.age || "",
         termsImageRelease,
@@ -51,7 +57,7 @@ function validateInscricaoCorrida(req, res, next) {
   req.inscricaoCorrida = {
     fullName: String(data.fullName || "").trim(),
     email,
-    phone: String(data.phone || "").trim(),
+    phone,
     neighborhood: String(data.neighborhood || "").trim(),
     age,
     termsImageRelease,

@@ -2225,6 +2225,38 @@ body.nav-open {
   margin-bottom: 0;
 }
 
+.successPopup {
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.successPopup__k {
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.95);
+}
+
+.successPopup__v {
+  font-family: Poppins, Inter, sans-serif;
+  font-weight: 900;
+  font-size: 42px;
+  letter-spacing: 0.18em;
+  color: rgba(248, 250, 252, 0.96);
+}
+
+.successPopup__hint {
+  color: rgba(148, 163, 184, 0.95);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
 .form__actions {
   margin-top: 16px;
   display: grid;
