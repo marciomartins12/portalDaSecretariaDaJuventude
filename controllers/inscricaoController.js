@@ -1,7 +1,7 @@
 const { normalizeInscricaoCorrida } = require("../services/inscricaoService");
 const { createGincanaInscricao } = require("../models/gincanaInscricaoModel");
 const { createCorridaInscricao } = require("../models/corridaInscricaoModel");
-const { sendGincanaConfirmationEmail } = require("../services/mailService");
+const { sendGincanaConfirmationEmail, sendCorridaConfirmationEmail } = require("../services/mailService");
 
 async function reviewGincana(req, res) {
   res.render("inscricao-gincana-revisar", {
@@ -74,7 +74,20 @@ async function submitGincana(req, res) {
 async function submitCorrida(req, res) {
   try {
     const payload = req.inscricaoCorrida || normalizeInscricaoCorrida(req.body);
-    await createCorridaInscricao({ ...payload, termsIp: req.ip });
+    const { bibNumber } = await createCorridaInscricao({ ...payload, termsIp: req.ip });
+
+    try {
+      await sendCorridaConfirmationEmail({
+        to: payload.email,
+        data: payload,
+        bibNumber,
+        corrida: require("../services/contentService").corrida,
+        site: res.locals?.site
+      });
+    } catch (err) {
+      process.stderr.write(`Falha ao enviar e-mail de confirmação: ${err?.message || String(err)}\n`);
+    }
+
     res.redirect("/inscricoes/corrida?success=1");
   } catch {
     res.status(500).render("inscricao-corrida", {

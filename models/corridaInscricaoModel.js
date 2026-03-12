@@ -17,7 +17,10 @@ async function createCorridaInscricao(data) {
     ]
   );
 
-  return { id: result.insertId };
+  const id = result.insertId;
+  const bibNumber = String(id).padStart(3, "0");
+
+  return { id, bibNumber };
 }
 
 module.exports = { createCorridaInscricao };
