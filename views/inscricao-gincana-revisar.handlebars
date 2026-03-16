@@ -29,6 +29,8 @@
           <input type="hidden" name="teamName" value="{{data.teamName}}" />
           <input type="hidden" name="captainName" value="{{data.captainName}}" />
           <input type="hidden" name="captainEmail" value="{{data.captainEmail}}" />
+          <input type="hidden" name="captainCpf" value="{{data.captainCpf}}" />
+          <input type="hidden" name="captainAddress" value="{{data.captainAddress}}" />
           <input type="hidden" name="captainDob" value="{{data.captainDob}}" />
           <input type="hidden" name="phone" value="{{data.phone}}" />
           <input type="hidden" name="neighborhood" value="{{data.neighborhood}}" />
@@ -54,6 +56,14 @@
           <div class="infoList__v">{{data.captainEmail}} • {{data.phone}}</div>
         </div>
         <div class="infoList__item">
+          <div class="infoList__k">CPF do capitão</div>
+          <div class="infoList__v">{{data.captainCpf}}</div>
+        </div>
+        <div class="infoList__item">
+          <div class="infoList__k">Endereço do capitão</div>
+          <div class="infoList__v">{{data.captainAddress}}</div>
+        </div>
+        <div class="infoList__item">
           <div class="infoList__k">Bairro</div>
           <div class="infoList__v">{{data.neighborhood}}</div>
         </div>
@@ -73,17 +83,23 @@
             <tr>
               <th>Participante</th>
               <th>Nascimento</th>
+              <th>CPF</th>
+              <th>Endereço</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td class="tStrong">{{data.captainName}} <span class="chip" style="margin-left:8px">Capitão</span></td>
               <td>{{data.captainDob}}</td>
+              <td>{{data.captainCpf}}</td>
+              <td>{{data.captainAddress}}</td>
             </tr>
             {{#each data.members}}
               <tr>
                 <td class="tStrong">{{name}}</td>
                 <td>{{dob}}</td>
+                <td>{{cpf}}</td>
+                <td>{{address}}</td>
               </tr>
             {{/each}}
           </tbody>
@@ -95,6 +111,8 @@
       <input type="hidden" name="teamName" value="{{data.teamName}}" />
       <input type="hidden" name="captainName" value="{{data.captainName}}" />
       <input type="hidden" name="captainEmail" value="{{data.captainEmail}}" />
+      <input type="hidden" name="captainCpf" value="{{data.captainCpf}}" />
+      <input type="hidden" name="captainAddress" value="{{data.captainAddress}}" />
       <input type="hidden" name="captainDob" value="{{data.captainDob}}" />
       <input type="hidden" name="phone" value="{{data.phone}}" />
       <input type="hidden" name="neighborhood" value="{{data.neighborhood}}" />

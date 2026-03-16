@@ -77,6 +77,18 @@
         </div>
 
         <div class="field">
+          <label class="label" for="captainCpf">CPF do capitão</label>
+          <input class="input {{#if errors.captainCpf}}input--error{{/if}}" id="captainCpf" name="captainCpf" type="text" value="{{form.captainCpf}}" placeholder="Somente números" inputmode="numeric" required />
+          {{#if errors.captainCpf}}<div class="errorMsg">{{errors.captainCpf}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="captainAddress">Endereço do capitão</label>
+          <input class="input {{#if errors.captainAddress}}input--error{{/if}}" id="captainAddress" name="captainAddress" type="text" value="{{form.captainAddress}}" placeholder="Rua, nº, complemento" autocomplete="street-address" required />
+          {{#if errors.captainAddress}}<div class="errorMsg">{{errors.captainAddress}}</div>{{/if}}
+        </div>
+
+        <div class="field">
           <label class="label" for="phone">Telefone</label>
           <input class="input {{#if errors.phone}}input--error{{/if}}" id="phone" name="phone" type="tel" value="{{form.phone}}" placeholder="(98) 9xxxx-xxxx" autocomplete="tel" required />
           {{#if errors.phone}}<div class="errorMsg">{{errors.phone}}</div>{{/if}}
@@ -99,8 +111,8 @@
             <div class="memberBox__stats">
               <span class="memberPill">Participantes: <span data-team-count>1</span></span>
               <span class="memberPill">Na lista: <span data-members-count>0</span></span>
-              <span class="memberPill memberPill--muted">Mínimo: 10</span>
-              <span class="memberPill memberPill--muted">Máximo: 15</span>
+              <span class="memberPill memberPill--muted">Mínimo: 2</span>
+              <span class="memberPill memberPill--muted">Máximo: 3</span>
             </div>
           </div>
 
@@ -125,6 +137,14 @@
                 <input class="input" id="memberDob" type="date" />
                 <div class="hint">Regra: 15+ anos.</div>
               </div>
+              <div class="field">
+                <label class="label" for="memberCpf">CPF</label>
+                <input class="input" id="memberCpf" type="text" placeholder="Somente números" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label class="label" for="memberAddress">Endereço</label>
+                <input class="input" id="memberAddress" type="text" placeholder="Rua, nº, complemento" />
+              </div>
             </div>
 
             <div class="memberBuilder__actions">
@@ -140,7 +160,9 @@
               <thead>
                 <tr>
                   <th>Participante</th>
-                  <th>Data de nascimento</th>
+                  <th>Nascimento</th>
+                  <th>CPF</th>
+                  <th>Endereço</th>
                   <th class="tRight">Ação</th>
                 </tr>
               </thead>

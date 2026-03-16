@@ -21,6 +21,8 @@ async function createGincanaInscricao(data) {
           team_name,
           captain_name,
           captain_email,
+          captain_cpf,
+          captain_address,
           captain_phone,
           neighborhood,
           captain_dob,
@@ -29,11 +31,13 @@ async function createGincanaInscricao(data) {
           terms_responsibility,
           terms_ip
         )
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         data.teamName,
         data.captainName,
         data.captainEmail,
+        data.captainCpf,
+        data.captainAddress,
         data.phone,
         data.neighborhood,
         data.captainDob,
@@ -47,16 +51,28 @@ async function createGincanaInscricao(data) {
     const inscricaoId = result.insertId;
 
     const participants = [
-      { name: data.captainName, dob: data.captainDob, isCaptain: 1 },
-      ...data.members.map((m) => ({ name: m.name, dob: m.dob, isCaptain: 0 }))
+      {
+        name: data.captainName,
+        dob: data.captainDob,
+        cpf: data.captainCpf,
+        address: data.captainAddress,
+        isCaptain: 1
+      },
+      ...data.members.map((m) => ({
+        name: m.name,
+        dob: m.dob,
+        cpf: m.cpf,
+        address: m.address,
+        isCaptain: 0
+      }))
     ];
 
     for (const p of participants) {
       await connection.execute(
         `INSERT INTO gincana_participantes
-          (inscricao_id, full_name, dob, is_captain)
-         VALUES (?, ?, ?, ?)`,
-        [inscricaoId, p.name, p.dob, p.isCaptain]
+          (inscricao_id, full_name, dob, cpf, address, is_captain)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [inscricaoId, p.name, p.dob, p.cpf, p.address, p.isCaptain]
       );
     }
 

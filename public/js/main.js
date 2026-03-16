@@ -106,6 +106,8 @@
     const addMemberBtn = form?.querySelector("[data-add-member]");
     const memberNameInput = form?.querySelector("#memberName");
     const memberDobInput = form?.querySelector("#memberDob");
+    const memberCpfInput = form?.querySelector("#memberCpf");
+    const memberAddressInput = form?.querySelector("#memberAddress");
     const membersList = form?.querySelector("[data-members-list]");
     const memberAddError = form?.querySelector("[data-member-add-error]");
     const submitBtn = form?.querySelector("[data-go-review]");
@@ -153,6 +155,12 @@
         const dobTd = document.createElement("td");
         dobTd.textContent = m.dob || "";
 
+        const cpfTd = document.createElement("td");
+        cpfTd.textContent = m.cpf || "";
+
+        const addressTd = document.createElement("td");
+        addressTd.textContent = m.address || "";
+
         const actionTd = document.createElement("td");
         actionTd.className = "tRight";
         const btn = document.createElement("button");
@@ -168,6 +176,8 @@
 
         tr.appendChild(nameTd);
         tr.appendChild(dobTd);
+        tr.appendChild(cpfTd);
+        tr.appendChild(addressTd);
         tr.appendChild(actionTd);
         membersList.appendChild(tr);
       });
@@ -203,7 +213,7 @@
 
     const validateTeamSize = () => {
       const teamCount = 1 + members.length;
-      return teamCount >= 10 && teamCount <= 15;
+      return teamCount >= 2 && teamCount <= 3;
     };
 
     const updateSubmitState = () => {
@@ -226,19 +236,27 @@
     if (addMemberBtn) {
       addMemberBtn.addEventListener("click", () => {
         setMemberAddError("");
-        if (members.length >= 14) return setMemberAddError("Limite atingido: máximo de 15 participantes (incluindo o capitão).");
+        if (members.length >= 2) return setMemberAddError("Limite atingido: máximo de 3 participantes (incluindo o capitão).");
         const name = String(memberNameInput?.value || "").trim();
         const dob = String(memberDobInput?.value || "").trim();
+        const cpf = String(memberCpfInput?.value || "").trim().replace(/\D/g, "");
+        const address = String(memberAddressInput?.value || "").trim();
+
         if (!name) return setMemberAddError("Informe o nome do participante.");
         if (!dob) return setMemberAddError("Informe a data de nascimento do participante.");
+        if (!cpf || cpf.length !== 11) return setMemberAddError("Informe um CPF válido (11 dígitos).");
+        if (!address) return setMemberAddError("Informe o endereço do participante.");
+
         const age = calcAge(dob);
         if (age === null) return setMemberAddError("Informe uma data de nascimento válida.");
         if (age < 15) return setMemberAddError("Participante com menos de 15 anos não pode ser adicionado.");
 
-        members.push({ name, dob });
+        members.push({ name, dob, cpf, address });
         if (membersInput) membersInput.value = JSON.stringify(members);
         if (memberNameInput) memberNameInput.value = "";
         if (memberDobInput) memberDobInput.value = "";
+        if (memberCpfInput) memberCpfInput.value = "";
+        if (memberAddressInput) memberAddressInput.value = "";
         setMemberAddError("");
         renderMembers();
       });
@@ -250,16 +268,16 @@
           e.preventDefault();
           return;
         }
-        if (1 + members.length < 10) {
+        if (1 + members.length < 2) {
           e.preventDefault();
           setMemberAddError(
-            "Adicione pelo menos 9 participantes para completar a equipe (mínimo 10 com o capitão)."
+            "Adicione pelo menos 1 participante para completar a equipe (mínimo 2 com o capitão)."
           );
           return;
         }
-        if (1 + members.length > 15) {
+        if (1 + members.length > 3) {
           e.preventDefault();
-          setMemberAddError("Remova participantes: máximo de 15 pessoas na equipe (incluindo o capitão).");
+          setMemberAddError("Remova participantes: máximo de 3 pessoas na equipe (incluindo o capitão).");
           return;
         }
         if (!validateTerms()) {

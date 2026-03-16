@@ -39,6 +39,9 @@ function validateInscricaoGincana(req, res, next) {
   const teamName = String(data.teamName || "").trim();
   const captainName = String(data.captainName || "").trim();
   const captainEmail = String(data.captainEmail || "").trim().toLowerCase();
+  const captainCpfRaw = String(data.captainCpf || "").trim();
+  const captainCpf = digitsOnly(captainCpfRaw);
+  const captainAddress = String(data.captainAddress || "").trim();
   const phoneRaw = String(data.phone || "").trim();
   const phone = digitsOnly(phoneRaw);
   const neighborhood = String(data.neighborhood || "").trim();
@@ -56,6 +59,11 @@ function validateInscricaoGincana(req, res, next) {
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(captainEmail)) {
     errors.captainEmail = "Informe um e-mail válido.";
   }
+
+  if (isBlank(captainCpfRaw) || isBlank(captainCpf) || captainCpf.length !== 11) {
+    errors.captainCpf = "Informe um CPF válido (11 dígitos).";
+  }
+  if (isBlank(captainAddress)) errors.captainAddress = "Informe o endereço do capitão.";
 
   if (isBlank(phoneRaw) || isBlank(phone)) errors.phone = "Informe um telefone para contato.";
   if (isBlank(neighborhood)) errors.neighborhood = "Informe o bairro.";
@@ -79,32 +87,43 @@ function validateInscricaoGincana(req, res, next) {
         .filter((m) => m && typeof m === "object")
         .map((m) => ({
           name: String(m.name || "").trim(),
-          dob: String(m.dob || "").trim()
+          dob: String(m.dob || "").trim(),
+          cpf: digitsOnly(m.cpf),
+          address: String(m.address || "").trim()
         }))
     : [];
 
   const validMembers = [];
   for (const m of members) {
-    if (isBlank(m.name) || isBlank(m.dob)) continue;
+    if (isBlank(m.name) || isBlank(m.dob) || isBlank(m.cpf) || isBlank(m.address)) {
+      errors.membersJson = "Preencha todos os campos de cada participante.";
+      break;
+    }
+    if (m.cpf.length !== 11) {
+      errors.membersJson = "CPF inválido em um dos participantes.";
+      break;
+    }
     const parsed = parseDate(m.dob);
     if (!parsed) continue;
     if (calcAge(parsed.date) < 15) {
       errors.membersJson = "Todos os participantes precisam ter 15 anos ou mais.";
       break;
     }
-    validMembers.push({ name: m.name, dob: parsed.raw });
+    validMembers.push({ name: m.name, dob: parsed.raw, cpf: m.cpf, address: m.address });
   }
 
   const participantsTotal = validMembers.length + 1;
   if (!errors.membersJson) {
-    if (participantsTotal < 10) errors.membersJson = "A equipe precisa ter no mínimo 10 participantes (incluindo o capitão).";
-    if (participantsTotal > 15) errors.membersJson = "A equipe pode ter no máximo 15 participantes (incluindo o capitão).";
+    if (participantsTotal < 2) errors.membersJson = "A equipe precisa ter no mínimo 2 participantes (incluindo o capitão).";
+    if (participantsTotal > 3) errors.membersJson = "A equipe pode ter no máximo 3 participantes (incluindo o capitão).";
   }
 
   const normalized = {
     teamName,
     captainName,
     captainEmail,
+    captainCpf,
+    captainAddress,
     captainDob: captainDobParsed ? captainDobParsed.raw : "",
     phone,
     neighborhood,
@@ -123,6 +142,8 @@ function validateInscricaoGincana(req, res, next) {
         teamName,
         captainName,
         captainEmail,
+        captainCpf: captainCpfRaw,
+        captainAddress,
         captainDob: captainDobParsed ? captainDobParsed.raw : String(data.captainDob || "").trim(),
         phone: phoneRaw,
         neighborhood,
