@@ -57,6 +57,8 @@ function validateInscricaoCorrida(req, res, next) {
   if (isBlank(phoneRaw) || isBlank(phone)) errors.phone = "Informe um telefone para contato.";
   const address = String(data.address || "").trim();
   if (isBlank(address)) errors.address = "Informe seu endereço.";
+  const neighborhood = String(data.neighborhood || "").trim();
+  if (isBlank(neighborhood)) errors.neighborhood = "Informe seu bairro.";
 
   const cpfRaw = String(data.cpf || "").trim();
   const cpf = digitsOnly(cpfRaw);
@@ -89,6 +91,7 @@ function validateInscricaoCorrida(req, res, next) {
         email: data.email || "",
         phone: phoneRaw,
         address,
+        neighborhood,
         cpf: cpfRaw,
         dob: dobParsed ? dobParsed.raw : String(data.dob || "").trim(),
         termsImageRelease,
@@ -103,6 +106,7 @@ function validateInscricaoCorrida(req, res, next) {
     email,
     phone,
     address,
+    neighborhood,
     cpf,
     dob: dobParsed.raw,
     termsImageRelease,

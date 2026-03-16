@@ -44,7 +44,7 @@ async function createCorridaInscricao(data) {
       data.email,
       data.phone,
       data.address,
-      data.neighborhood,
+      data.neighborhood || null,
       data.cpf,
       data.dob,
       data.termsImageRelease ? 1 : 0,
