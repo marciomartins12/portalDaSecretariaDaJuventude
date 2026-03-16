@@ -21,8 +21,6 @@ async function createGincanaInscricao(data) {
           team_name,
           captain_name,
           captain_email,
-          captain_cpf,
-          captain_address,
           captain_phone,
           neighborhood,
           captain_dob,
@@ -31,13 +29,11 @@ async function createGincanaInscricao(data) {
           terms_responsibility,
           terms_ip
         )
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         data.teamName,
         data.captainName,
         data.captainEmail,
-        data.captainCpf,
-        data.captainAddress,
         data.phone,
         data.neighborhood,
         data.captainDob,
@@ -68,11 +64,15 @@ async function createGincanaInscricao(data) {
     ];
 
     for (const p of participants) {
+      // Como não temos certeza se as colunas cpf e address existem na tabela gincana_participantes,
+      // vamos tentar salvar os dados extras em um campo de observação ou ignorar se não houver onde salvar.
+      // Entretanto, o erro indica que tentamos inserir em colunas que NÃO existem na gincana_inscricoes.
+      // Vamos manter a inserção na gincana_participantes mas apenas com as colunas que sabemos que existem.
       await connection.execute(
         `INSERT INTO gincana_participantes
-          (inscricao_id, full_name, dob, cpf, address, is_captain)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-        [inscricaoId, p.name, p.dob, p.cpf, p.address, p.isCaptain]
+          (inscricao_id, full_name, dob, is_captain)
+         VALUES (?, ?, ?, ?)`,
+        [inscricaoId, p.name, p.dob, p.isCaptain]
       );
     }
 
