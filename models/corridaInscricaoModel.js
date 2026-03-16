@@ -37,8 +37,8 @@ async function createCorridaInscricao(data) {
 
   const [result] = await pool.execute(
     `INSERT INTO corrida_inscricoes
-      (full_name, email, phone, address, neighborhood, cpf, dob, terms_image_release, terms_responsibility, terms_ip)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      (full_name, email, phone, address, neighborhood, cpf, dob, age, terms_image_release, terms_responsibility, terms_ip)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.fullName,
       data.email,
@@ -47,6 +47,7 @@ async function createCorridaInscricao(data) {
       data.neighborhood || null,
       data.cpf,
       data.dob,
+      data.age || 0,
       data.termsImageRelease ? 1 : 0,
       data.termsResponsibility ? 1 : 0,
       data.termsIp || null

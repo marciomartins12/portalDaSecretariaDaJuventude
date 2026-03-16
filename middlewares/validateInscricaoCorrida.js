@@ -69,10 +69,14 @@ function validateInscricaoCorrida(req, res, next) {
   }
 
   const dobParsed = parseDate(data.dob);
+  let age = 0;
   if (!dobParsed) {
     errors.dob = "Informe sua data de nascimento.";
-  } else if (calcAge(dobParsed.date) < 15) {
-    errors.dob = "Você precisa ter 15 anos ou mais.";
+  } else {
+    age = calcAge(dobParsed.date);
+    if (age < 15) {
+      errors.dob = "Você precisa ter 15 anos ou mais.";
+    }
   }
 
   const termsImageRelease =
@@ -109,6 +113,7 @@ function validateInscricaoCorrida(req, res, next) {
     neighborhood,
     cpf,
     dob: dobParsed.raw,
+    age,
     termsImageRelease,
     termsResponsibility
   };
