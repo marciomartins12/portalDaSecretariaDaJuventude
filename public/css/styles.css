@@ -593,32 +593,13 @@ img {
   min-width: 180px;
 }
 
-.brand__mark {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(193, 18, 31, 0.28), rgba(96, 165, 250, 0.18));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-}
+.brand__logo {
+  height: 280px;
+  width: auto;
+  max-width: 500px;
+  object-fit: contain;
+  display: block;
 
-.brand__text {
-  display: grid;
-  line-height: 1.05;
-}
-
-.brand__title {
-  font-family: Poppins, Inter, sans-serif;
-  font-weight: 800;
-  letter-spacing: 0.2px;
-}
-
-.brand__sub {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 600;
 }
 
 .nav {
@@ -2518,6 +2499,16 @@ body.nav-open {
 }
 
 @media (max-width: 720px) {
+  .brand {
+    min-width: 0;
+  }
+
+  .brand__logo {
+    margin-left: -30px;
+    height: 200px;
+    max-width: 500px;
+  }
+
   .countdown {
     display: none;
   }
