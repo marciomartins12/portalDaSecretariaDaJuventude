@@ -156,7 +156,7 @@ function validateInscricaoGincana(req, res, next) {
 
   if (Object.keys(errors).length > 0) {
     return res.status(400).render("inscricao", {
-      title: "Inscrição — Gincana da Juventude",
+      title: "Inscrição — Gincana Celebra Peri Mirim",
       gincana: content.gincana,
       success: false,
       form: {

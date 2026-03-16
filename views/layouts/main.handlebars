@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/public/css/styles.css" />
+    <link rel="stylesheet" href="/public/css/styles.css?v={{assetVersion}}" />
   </head>
   <body>
     <div class="fishBg" aria-hidden="true">
@@ -238,6 +238,6 @@
         gincanaDateISO: {{#if gincana}}{{{toJson gincana.dateISO}}}{{else}}null{{/if}}
       };
     </script>
-    <script src="/public/js/main.js" defer></script>
+    <script src="/public/js/main.js?v={{assetVersion}}" defer></script>
   </body>
 </html>

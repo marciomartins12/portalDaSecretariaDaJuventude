@@ -79,7 +79,7 @@ function buildGincanaConfirmationEmail(data, site) {
             Inscrição recebida com sucesso
           </h1>
           <p style="margin:10px 0 0;color:rgba(148,163,184,0.95);line-height:1.7;font-weight:650;">
-            Olá, ${escapeHtml(data.captainName)}. Esta é a confirmação da inscrição da sua equipe na Gincana da Juventude.
+            Olá, ${escapeHtml(data.captainName)}. Esta é a confirmação da inscrição da sua equipe na Gincana Celebra Peri Mirim.
           </p>
         </div>
 

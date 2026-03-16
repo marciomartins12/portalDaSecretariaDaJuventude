@@ -10,6 +10,12 @@ function configureViewEngine(app) {
       layoutsDir: path.join(__dirname, "..", "views", "layouts"),
       partialsDir: path.join(__dirname, "..", "views", "partials"),
       helpers: {
+        assetVersion() {
+          if (String(process.env.CACHE_ENABLED || "").trim() === "1") {
+            return "1.0.0"; // Versão fixa em produção se o cache estiver ligado
+          }
+          return Date.now(); // Cache busting dinâmico (timestamp) se o cache estiver desligado
+        },
         eq(a, b) {
           return a === b;
         },

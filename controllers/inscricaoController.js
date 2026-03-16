@@ -12,7 +12,7 @@ async function reviewGincana(req, res) {
 
 async function editGincana(req, res) {
   res.render("inscricao", {
-    title: "Inscrição — Gincana da Juventude",
+    title: "Inscrição — Gincana Celebra Peri Mirim",
     gincana: require("../services/contentService").gincana,
     success: false,
     form: {
@@ -52,7 +52,7 @@ async function submitGincana(req, res) {
     console.log(err)
     if (err?.code === "DUPLICATE_CONTACT" || err?.code === "ER_DUP_ENTRY") {
       return res.status(400).render("inscricao", {
-        title: "Inscrição — Gincana da Juventude",
+        title: "Inscrição — Gincana Celebra Peri Mirim",
         gincana: require("../services/contentService").gincana,
         success: false,
         form: {
@@ -74,7 +74,7 @@ async function submitGincana(req, res) {
     }
 
     res.status(500).render("inscricao", {
-      title: "Inscrição — Gincana da Juventude",
+      title: "Inscrição — Gincana Celebra Peri Mirim",
       gincana: require("../services/contentService").gincana,
       success: false,
       form: {
@@ -128,7 +128,7 @@ async function submitCorrida(req, res) {
       if (err?.code === "ER_DUP_ENTRY") errors.form = "Já existe uma inscrição com este e-mail, telefone ou CPF.";
 
       return res.status(400).render("inscricao-corrida", {
-        title: "Inscrição — Corrida da Juventude",
+        title: "Inscrição — Corrida Celebra Peri Mirim",
         success: false,
         form: {
           fullName: String(req.body?.fullName || ""),
@@ -146,7 +146,7 @@ async function submitCorrida(req, res) {
     }
 
     res.status(500).render("inscricao-corrida", {
-      title: "Inscrição — Corrida da Juventude",
+      title: "Inscrição — Corrida Celebra Peri Mirim",
       success: false,
       form: {
         fullName: String(req.body?.fullName || ""),

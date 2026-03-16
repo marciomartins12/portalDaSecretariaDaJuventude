@@ -96,7 +96,7 @@ function editalPdf(req, res) {
 function inscricao(req, res) {
   const success = req.query?.success === "1";
   res.render("inscricao", {
-    title: "Inscrição — Gincana da Juventude",
+    title: "Inscrição — Gincana Celebra Peri Mirim",
     gincana: content.gincana,
     form: {
       teamName: "",
@@ -126,7 +126,8 @@ async function inscricaoCorrida(req, res) {
     }
   }
   res.render("inscricao-corrida", {
-    title: "Inscrição — Corrida da Juventude",
+    title: "Inscrição — Corrida Celebra Peri Mirim",
+    corrida: content.corrida,
     form: {
       fullName: "",
       email: "",

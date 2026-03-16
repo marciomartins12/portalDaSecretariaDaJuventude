@@ -1,5 +1,5 @@
 const gincana = {
-  title: "Gincana da Juventude de Peri Mirim",
+  title: "Gincana Celebra Peri Mirim",
   subtitle: "Energia, cooperação e protagonismo jovem em um só evento.",
   dateISO: "2026-03-28T18:00:00-03:00",
   dateLabel: "28 de março de 2026",
@@ -8,7 +8,7 @@ const gincana = {
 };
 
 const corrida = {
-  title: "Corrida da Juventude de Peri Mirim",
+  title: "Corrida Celebra Peri Mirim",
   subtitle: "Percurso Praça Secundino Pereira → Praça Matriz. Qualquer idade pode se inscrever.",
   dateLabel: "28 de março de 2026 • 6h",
   location: "Saída: Praça Secundino Pereira • Chegada: Praça da Matriz"
