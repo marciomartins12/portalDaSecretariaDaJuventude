@@ -21,6 +21,7 @@ function normalizeInscricaoCorrida(body) {
     email: String(body?.email || "").trim().toLowerCase(),
     phone: String(body?.phone || "").trim(),
     address: String(body?.address || "").trim(),
+    neighborhood: String(body?.neighborhood || "").trim(),
     cpf: String(body?.cpf || "").trim(),
     dob: String(body?.dob || "").trim()
   };

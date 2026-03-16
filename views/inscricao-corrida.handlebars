@@ -85,8 +85,14 @@
 
         <div class="field">
           <label class="label" for="address">Endereço</label>
-          <input class="input {{#if errors.address}}input--error{{/if}}" id="address" name="address" type="text" value="{{form.address}}" placeholder="Ex.: Rua, nº, bairro, referência" required />
+          <input class="input {{#if errors.address}}input--error{{/if}}" id="address" name="address" type="text" value="{{form.address}}" placeholder="Ex.: Rua, nº, referência" required />
           {{#if errors.address}}<div class="errorMsg">{{errors.address}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="neighborhood">Bairro</label>
+          <input class="input {{#if errors.neighborhood}}input--error{{/if}}" id="neighborhood" name="neighborhood" type="text" value="{{form.neighborhood}}" placeholder="Ex.: Centro" required />
+          {{#if errors.neighborhood}}<div class="errorMsg">{{errors.neighborhood}}</div>{{/if}}
         </div>
 
         <div class="field">
