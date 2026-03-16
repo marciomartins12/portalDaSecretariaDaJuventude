@@ -29,8 +29,20 @@ function maskCpf(cpfDigits) {
 
 function buildGincanaConfirmationEmail(data, site) {
   const participants = [
-    { name: data.captainName, dob: data.captainDob, tag: "Capitão" },
-    ...data.members.map((m) => ({ name: m.name, dob: m.dob, tag: "" }))
+    {
+      name: data.captainName,
+      dob: data.captainDob,
+      cpf: data.captainCpf,
+      address: data.captainAddress,
+      tag: "Capitão"
+    },
+    ...data.members.map((m) => ({
+      name: m.name,
+      dob: m.dob,
+      cpf: m.cpf,
+      address: m.address,
+      tag: ""
+    }))
   ];
 
   const participantsRows = participants
@@ -42,8 +54,11 @@ function buildGincanaConfirmationEmail(data, site) {
         <tr>
           <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.10);">
             <div style="font-weight:800;color:rgba(248,250,252,0.96)">${escapeHtml(p.name)}${tag}</div>
+            <div style="font-size:11px;color:rgba(148,163,184,0.9);margin-top:4px;">
+              CPF: ${escapeHtml(maskCpf(p.cpf))} • ${escapeHtml(p.address)}
+            </div>
           </td>
-          <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.10);color:rgba(148,163,184,0.95);font-weight:700;">
+          <td style="padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.10);color:rgba(148,163,184,0.95);font-weight:700;vertical-align:top;">
             ${escapeHtml(formatDateBr(p.dob))}
           </td>
         </tr>
@@ -86,7 +101,7 @@ function buildGincanaConfirmationEmail(data, site) {
             </div>
             <div>
               <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">CPF</div>
-              <div style="margin-top:6px;font-weight:800;">${escapeHtml(maskCpf(data.cpf))}</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(maskCpf(data.captainCpf))}</div>
             </div>
           </div>
         </div>
