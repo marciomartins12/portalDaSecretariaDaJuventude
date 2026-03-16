@@ -151,7 +151,7 @@ function buildGincanaConfirmationEmail(data, site) {
 }
 
 function buildCorridaConfirmationEmail({ data, corrida, bibNumber }, site) {
-  const subject = `Confirmação de inscrição — Corrida da Juventude (#${escapeHtml(bibNumber)})`;
+  const subject = `Confirmação de inscrição — Corrida Celebra Peri Mirim (#${escapeHtml(bibNumber)})`;
 
   const html = `
     <div style="margin:0;padding:0;background:#0b1020;color:rgba(248,250,252,0.96);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
@@ -164,7 +164,7 @@ function buildCorridaConfirmationEmail({ data, corrida, bibNumber }, site) {
             Inscrição confirmada
           </h1>
           <p style="margin:10px 0 0;color:rgba(148,163,184,0.95);line-height:1.7;font-weight:650;">
-            Olá, ${escapeHtml(data.fullName)}. Esta é a confirmação da sua inscrição na Corrida da Juventude.
+            Olá, ${escapeHtml(data.fullName)}. Esta é a confirmação da sua inscrição na Corrida Celebra Peri Mirim.
           </p>
         </div>
 
@@ -178,7 +178,7 @@ function buildCorridaConfirmationEmail({ data, corrida, bibNumber }, site) {
             </div>
             <div style="flex:2 1 340px;min-width:260px;padding:14px;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);">
               <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Evento</div>
-              <div style="margin-top:6px;font-weight:900;">${escapeHtml(corrida?.title || "Corrida da Juventude")}</div>
+              <div style="margin-top:6px;font-weight:900;">${escapeHtml(corrida?.title || "Corrida Celebra Peri Mirim")}</div>
               <div style="margin-top:8px;color:rgba(148,163,184,0.95);font-weight:650;line-height:1.6;">
                 ${escapeHtml(corrida?.dateLabel || "")}${corrida?.location ? ` • ${escapeHtml(corrida.location)}` : ""}
               </div>

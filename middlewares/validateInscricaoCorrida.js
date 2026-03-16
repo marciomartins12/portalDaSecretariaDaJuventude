@@ -88,7 +88,7 @@ function validateInscricaoCorrida(req, res, next) {
 
   if (Object.keys(errors).length > 0) {
     return res.status(400).render("inscricao-corrida", {
-      title: "Inscrição — Corrida da Juventude",
+      title: "Inscrição — Corrida Celebra Peri Mirim",
       success: false,
       form: {
         fullName: data.fullName || "",
