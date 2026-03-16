@@ -20,8 +20,9 @@ function normalizeInscricaoCorrida(body) {
     fullName: String(body?.fullName || "").trim(),
     email: String(body?.email || "").trim().toLowerCase(),
     phone: String(body?.phone || "").trim(),
-    neighborhood: String(body?.neighborhood || "").trim(),
-    age: Number(String(body?.age || "").trim())
+    address: String(body?.address || "").trim(),
+    cpf: String(body?.cpf || "").trim(),
+    dob: String(body?.dob || "").trim()
   };
 
   return safe;

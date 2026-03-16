@@ -113,11 +113,17 @@ async function submitCorrida(req, res) {
 
     res.redirect(`/inscricoes/corrida?success=1&id=${encodeURIComponent(String(id))}`);
   } catch (err) {
-    if (err?.code === "DUPLICATE_EMAIL" || err?.code === "DUPLICATE_PHONE" || err?.code === "ER_DUP_ENTRY") {
+    if (
+      err?.code === "DUPLICATE_EMAIL" ||
+      err?.code === "DUPLICATE_PHONE" ||
+      err?.code === "DUPLICATE_CPF" ||
+      err?.code === "ER_DUP_ENTRY"
+    ) {
       const errors = {};
       if (err?.code === "DUPLICATE_EMAIL") errors.email = "Este e-mail já está cadastrado.";
       if (err?.code === "DUPLICATE_PHONE") errors.phone = "Este telefone já está cadastrado.";
-      if (err?.code === "ER_DUP_ENTRY") errors.form = "Já existe uma inscrição com este e-mail ou telefone.";
+      if (err?.code === "DUPLICATE_CPF") errors.cpf = "Este CPF já está cadastrado.";
+      if (err?.code === "ER_DUP_ENTRY") errors.form = "Já existe uma inscrição com este e-mail, telefone ou CPF.";
 
       return res.status(400).render("inscricao-corrida", {
         title: "Inscrição — Corrida da Juventude",
@@ -126,8 +132,9 @@ async function submitCorrida(req, res) {
           fullName: String(req.body?.fullName || ""),
           email: String(req.body?.email || ""),
           phone: String(req.body?.phone || ""),
-          neighborhood: String(req.body?.neighborhood || ""),
-          age: String(req.body?.age || ""),
+          address: String(req.body?.address || ""),
+          cpf: String(req.body?.cpf || ""),
+          dob: String(req.body?.dob || ""),
           termsImageRelease: Boolean(req.body?.termsImageRelease),
           termsResponsibility: Boolean(req.body?.termsResponsibility)
         },
@@ -142,8 +149,9 @@ async function submitCorrida(req, res) {
         fullName: String(req.body?.fullName || ""),
         email: String(req.body?.email || ""),
         phone: String(req.body?.phone || ""),
-        neighborhood: String(req.body?.neighborhood || ""),
-        age: String(req.body?.age || ""),
+        address: String(req.body?.address || ""),
+        cpf: String(req.body?.cpf || ""),
+        dob: String(req.body?.dob || ""),
         termsImageRelease: Boolean(req.body?.termsImageRelease),
         termsResponsibility: Boolean(req.body?.termsResponsibility)
       },

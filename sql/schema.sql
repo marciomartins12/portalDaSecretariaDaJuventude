@@ -43,8 +43,9 @@ CREATE TABLE IF NOT EXISTS corrida_inscricoes (
   full_name VARCHAR(160) NOT NULL,
   email VARCHAR(160) NOT NULL,
   phone VARCHAR(40) NOT NULL,
-  neighborhood VARCHAR(120) NOT NULL,
-  age INT NOT NULL,
+  address VARCHAR(220) NOT NULL,
+  cpf VARCHAR(11) NULL,
+  dob DATE NULL,
   terms_image_release TINYINT(1) NOT NULL DEFAULT 0,
   terms_responsibility TINYINT(1) NOT NULL DEFAULT 0,
   terms_ip VARCHAR(64) NULL,
@@ -52,5 +53,6 @@ CREATE TABLE IF NOT EXISTS corrida_inscricoes (
   PRIMARY KEY (id),
   KEY idx_created_at (created_at),
   UNIQUE KEY uq_corrida_email (email),
-  UNIQUE KEY uq_corrida_phone (phone)
+  UNIQUE KEY uq_corrida_phone (phone),
+  UNIQUE KEY uq_corrida_cpf (cpf)
 ) ENGINE=InnoDB;

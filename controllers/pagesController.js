@@ -131,8 +131,9 @@ async function inscricaoCorrida(req, res) {
       fullName: "",
       email: "",
       phone: "",
-      neighborhood: "",
-      age: "",
+      address: "",
+      cpf: "",
+      dob: "",
       termsImageRelease: false,
       termsResponsibility: false
     },

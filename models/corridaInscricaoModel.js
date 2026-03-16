@@ -25,16 +25,27 @@ async function createCorridaInscricao(data) {
     throw err;
   }
 
+  const [cpfRows] = await pool.execute(
+    "SELECT id FROM corrida_inscricoes WHERE cpf = ? LIMIT 1",
+    [data.cpf]
+  );
+  if (cpfRows.length > 0) {
+    const err = new Error("CPF já cadastrado.");
+    err.code = "DUPLICATE_CPF";
+    throw err;
+  }
+
   const [result] = await pool.execute(
     `INSERT INTO corrida_inscricoes
-      (full_name, email, phone, neighborhood, age, terms_image_release, terms_responsibility, terms_ip)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      (full_name, email, phone, address, cpf, dob, terms_image_release, terms_responsibility, terms_ip)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       data.fullName,
       data.email,
       data.phone,
-      data.neighborhood,
-      data.age,
+      data.address,
+      data.cpf,
+      data.dob,
       data.termsImageRelease ? 1 : 0,
       data.termsResponsibility ? 1 : 0,
       data.termsIp || null

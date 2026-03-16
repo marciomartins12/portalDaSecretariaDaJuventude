@@ -22,6 +22,18 @@ async function ensureIndex(connection, { database, table, indexName, ddl }) {
   }
 }
 
+async function ensureColumn(connection, { database, table, columnName, existsSql, ddl }) {
+  const [rows] = await connection.execute(existsSql, [database, table, columnName]);
+  if (rows.length > 0) return;
+  try {
+    await connection.execute(ddl);
+  } catch (err) {
+    process.stderr.write(
+      `Falha ao criar coluna ${columnName} em ${table}: ${err?.message || String(err)}\n`
+    );
+  }
+}
+
 async function initDatabase() {
   const auto = String(process.env.DB_AUTO_INIT || "0").trim() === "1";
   if (!auto) return;
@@ -48,6 +60,31 @@ async function initDatabase() {
       .replace(/USE\s+secretaria_juventude;/gi, `USE \`${database}\`;`);
     await connection.query(sql);
 
+    const columnExistsSql =
+      "SELECT 1 FROM information_schema.columns WHERE table_schema = ? AND table_name = ? AND column_name = ? LIMIT 1";
+
+    await ensureColumn(connection, {
+      database,
+      table: "corrida_inscricoes",
+      columnName: "address",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `corrida_inscricoes` ADD COLUMN `address` VARCHAR(220) NOT NULL DEFAULT ''"
+    });
+    await ensureColumn(connection, {
+      database,
+      table: "corrida_inscricoes",
+      columnName: "cpf",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `corrida_inscricoes` ADD COLUMN `cpf` VARCHAR(11) NULL"
+    });
+    await ensureColumn(connection, {
+      database,
+      table: "corrida_inscricoes",
+      columnName: "dob",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `corrida_inscricoes` ADD COLUMN `dob` DATE NULL"
+    });
+
     await ensureIndex(connection, {
       database,
       table: "corrida_inscricoes",
@@ -59,6 +96,12 @@ async function initDatabase() {
       table: "corrida_inscricoes",
       indexName: "uq_corrida_phone",
       ddl: "ALTER TABLE `corrida_inscricoes` ADD UNIQUE KEY `uq_corrida_phone` (`phone`)"
+    });
+    await ensureIndex(connection, {
+      database,
+      table: "corrida_inscricoes",
+      indexName: "uq_corrida_cpf",
+      ddl: "ALTER TABLE `corrida_inscricoes` ADD UNIQUE KEY `uq_corrida_cpf` (`cpf`)"
     });
     await ensureIndex(connection, {
       database,

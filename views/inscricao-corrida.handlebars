@@ -12,7 +12,7 @@
     <div class="pageHero__card glass">
       <div class="note">
         <span class="note__dot" aria-hidden="true"></span>
-        Qualquer idade pode se inscrever. Leia e aceite os termos antes de enviar.
+        Inscrição a partir de 15 anos. Leia e aceite os termos antes de enviar.
       </div>
       <div class="pageHero__actions">
         <a class="btn btn--soft" href="/editais">Ver editais</a>
@@ -84,16 +84,22 @@
         </div>
 
         <div class="field">
-          <label class="label" for="neighborhood">Bairro</label>
-          <input class="input {{#if errors.neighborhood}}input--error{{/if}}" id="neighborhood" name="neighborhood" type="text" value="{{form.neighborhood}}" placeholder="Ex.: Centro" required />
-          {{#if errors.neighborhood}}<div class="errorMsg">{{errors.neighborhood}}</div>{{/if}}
+          <label class="label" for="address">Endereço</label>
+          <input class="input {{#if errors.address}}input--error{{/if}}" id="address" name="address" type="text" value="{{form.address}}" placeholder="Ex.: Rua, nº, bairro, referência" required />
+          {{#if errors.address}}<div class="errorMsg">{{errors.address}}</div>{{/if}}
         </div>
 
         <div class="field">
-          <label class="label" for="age">Idade</label>
-          <input class="input {{#if errors.age}}input--error{{/if}}" id="age" name="age" type="number" value="{{form.age}}" min="0" max="120" placeholder="Ex.: 16" required />
-          <div class="hint">Qualquer idade pode se inscrever.</div>
-          {{#if errors.age}}<div class="errorMsg">{{errors.age}}</div>{{/if}}
+          <label class="label" for="cpf">CPF</label>
+          <input class="input {{#if errors.cpf}}input--error{{/if}}" id="cpf" name="cpf" type="text" value="{{form.cpf}}" placeholder="Somente números" inputmode="numeric" autocomplete="off" required />
+          {{#if errors.cpf}}<div class="errorMsg">{{errors.cpf}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="dob">Data de nascimento</label>
+          <input class="input {{#if errors.dob}}input--error{{/if}}" id="dob" name="dob" type="date" value="{{form.dob}}" required />
+          <div class="hint">Você precisa ter 15 anos ou mais.</div>
+          {{#if errors.dob}}<div class="errorMsg">{{errors.dob}}</div>{{/if}}
         </div>
       </div>
 

@@ -21,6 +21,12 @@ function formatDateBr(isoDate) {
   return `${d}/${m}/${y}`;
 }
 
+function maskCpf(cpfDigits) {
+  const d = String(cpfDigits || "").replace(/\D/g, "");
+  if (d.length !== 11) return d;
+  return `***.***.${d.slice(6, 9)}-${d.slice(9)}`;
+}
+
 function buildGincanaConfirmationEmail(data, site) {
   const participants = [
     { name: data.captainName, dob: data.captainDob, tag: "Capitão" },
@@ -79,8 +85,8 @@ function buildGincanaConfirmationEmail(data, site) {
               <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.phone)}</div>
             </div>
             <div>
-              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Bairro</div>
-              <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.neighborhood)}</div>
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">CPF</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(maskCpf(data.cpf))}</div>
             </div>
           </div>
         </div>
@@ -182,8 +188,12 @@ function buildCorridaConfirmationEmail({ data, corrida, bibNumber }, site) {
               <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.neighborhood)}</div>
             </div>
             <div>
-              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Idade</div>
-              <div style="margin-top:6px;font-weight:800;">${escapeHtml(String(data.age))}</div>
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Nascimento</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(formatDateBr(String(data.dob || "")))}</div>
+            </div>
+            <div style="grid-column:1/-1;">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Endereço</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.address)}</div>
             </div>
           </div>
 
