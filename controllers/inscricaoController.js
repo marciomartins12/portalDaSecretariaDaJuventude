@@ -49,6 +49,7 @@ async function submitGincana(req, res) {
 
     res.redirect("/inscricoes/gincana?success=1");
   } catch (err) {
+    console.log(err)
     if (err?.code === "DUPLICATE_CONTACT" || err?.code === "ER_DUP_ENTRY") {
       return res.status(400).render("inscricao", {
         title: "Inscrição — Gincana da Juventude",
@@ -113,6 +114,7 @@ async function submitCorrida(req, res) {
 
     res.redirect(`/inscricoes/corrida?success=1&id=${encodeURIComponent(String(id))}`);
   } catch (err) {
+    console.log(err)
     if (
       err?.code === "DUPLICATE_EMAIL" ||
       err?.code === "DUPLICATE_PHONE" ||
