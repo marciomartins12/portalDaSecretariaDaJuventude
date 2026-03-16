@@ -88,16 +88,30 @@
   }
 
   const calcAge = (dateString) => {
-    const d = new Date(dateString);
-    if (!Number.isFinite(d.getTime())) return null;
-    const now = new Date();
-    let age = now.getFullYear() - d.getFullYear();
-    const m = now.getMonth() - d.getMonth();
-    if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age -= 1;
-    return age;
-  };
+      const d = new Date(dateString);
+      if (!Number.isFinite(d.getTime())) return null;
+      const now = new Date();
+      let age = now.getFullYear() - d.getFullYear();
+      const m = now.getMonth() - d.getMonth();
+      if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age -= 1;
+      return age;
+    };
 
-  const inscricaoGincanaRoot = document.querySelector("[data-inscricao-gincana]");
+    const isValidCpf = (cpf) => {
+      cpf = String(cpf || "").replace(/\D/g, "");
+      if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+      const calc = (base, factor) => {
+        let sum = 0;
+        for (let i = 0; i < base.length; i++) sum += Number(base[i]) * (factor - i);
+        const mod = sum % 11;
+        return mod < 2 ? 0 : 11 - mod;
+      };
+      const d1 = calc(cpf.slice(0, 9), 10);
+      const d2 = calc(cpf.slice(0, 9) + d1, 11);
+      return cpf.endsWith(`${d1}${d2}`);
+    };
+
+    const inscricaoGincanaRoot = document.querySelector("[data-inscricao-gincana]");
   if (inscricaoGincanaRoot) {
     const form = inscricaoGincanaRoot.closest("form");
     const membersInput = form?.querySelector("input[name='membersJson']");
@@ -244,7 +258,7 @@
 
         if (!name) return setMemberAddError("Informe o nome do participante.");
         if (!dob) return setMemberAddError("Informe a data de nascimento do participante.");
-        if (!cpf || cpf.length !== 11) return setMemberAddError("Informe um CPF válido (11 dígitos).");
+        if (!isValidCpf(cpf)) return setMemberAddError("Informe um CPF válido para o participante.");
         if (!address) return setMemberAddError("Informe o endereço do participante.");
 
         const age = calcAge(dob);

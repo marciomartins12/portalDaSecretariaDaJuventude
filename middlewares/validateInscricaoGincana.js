@@ -23,6 +23,25 @@ function digitsOnly(value) {
   return String(value || "").replace(/\D/g, "");
 }
 
+function isValidCpf(cpfDigits) {
+  const cpf = digitsOnly(cpfDigits);
+  if (!/^\d{11}$/.test(cpf)) return false;
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+  const calc = (base, factor) => {
+    let sum = 0;
+    for (let i = 0; i < base.length; i += 1) {
+      sum += Number(base[i]) * (factor - i);
+    }
+    const mod = sum % 11;
+    return mod < 2 ? 0 : 11 - mod;
+  };
+
+  const d1 = calc(cpf.slice(0, 9), 10);
+  const d2 = calc(cpf.slice(0, 9) + String(d1), 11);
+  return cpf.endsWith(`${d1}${d2}`);
+}
+
 function safeJsonParse(value) {
   try {
     const parsed = JSON.parse(String(value || "[]"));
@@ -60,8 +79,10 @@ function validateInscricaoGincana(req, res, next) {
     errors.captainEmail = "Informe um e-mail válido.";
   }
 
-  if (isBlank(captainCpfRaw) || isBlank(captainCpf) || captainCpf.length !== 11) {
-    errors.captainCpf = "Informe um CPF válido (11 dígitos).";
+  if (isBlank(captainCpfRaw) || isBlank(captainCpf)) {
+    errors.captainCpf = "Informe o CPF do capitão.";
+  } else if (!isValidCpf(captainCpf)) {
+    errors.captainCpf = "Informe um CPF válido.";
   }
   if (isBlank(captainAddress)) errors.captainAddress = "Informe o endereço do capitão.";
 
@@ -99,8 +120,8 @@ function validateInscricaoGincana(req, res, next) {
       errors.membersJson = "Preencha todos os campos de cada participante.";
       break;
     }
-    if (m.cpf.length !== 11) {
-      errors.membersJson = "CPF inválido em um dos participantes.";
+    if (!isValidCpf(m.cpf)) {
+      errors.membersJson = `CPF inválido para o participante "${m.name}".`;
       break;
     }
     const parsed = parseDate(m.dob);

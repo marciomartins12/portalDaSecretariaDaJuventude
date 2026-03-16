@@ -43,12 +43,24 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ limit: "100kb" }));
 
+// Controle de Cache do Navegador
+const cacheEnabled = String(process.env.CACHE_ENABLED || "").trim() === "1";
+if (!cacheEnabled) {
+  app.use((req, res, next) => {
+    res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.set("Pragma", "no-cache");
+    res.set("Expires", "0");
+    res.set("Surrogate-Control", "no-store");
+    next();
+  });
+}
+
 app.use(
   "/public",
   express.static(path.join(__dirname, "public"), {
-    etag: true,
-    maxAge: "7d",
-    immutable: true
+    etag: cacheEnabled,
+    maxAge: cacheEnabled ? "7d" : "0",
+    immutable: cacheEnabled
   })
 );
 
