@@ -2896,6 +2896,9 @@ body.nav-open {
     margin-left: -55px;
     max-width: 220px;
   }
+  .hero {
+  padding: 2px 0 34px;
+}
 
   .countdown {
     display: none;
