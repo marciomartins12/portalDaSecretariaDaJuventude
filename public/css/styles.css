@@ -1169,8 +1169,16 @@ body.nav-open {
   line-height: 1.03;
 }
 
-.hero__titleLine {
+.brDesktop {
   display: block;
+}
+
+.brMobile {
+  display: none;
+}
+
+.hero__lineB {
+  display: inline;
 }
 
 .hero__subtitle {
@@ -2918,7 +2926,15 @@ body.nav-open {
     letter-spacing: -0.03em;
   }
 
-  .hero__titleLine {
+  .brDesktop {
+    display: none;
+  }
+
+  .brMobile {
+    display: block;
+  }
+
+  .hero__lineB {
     white-space: nowrap;
   }
 
