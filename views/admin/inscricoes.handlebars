@@ -1,0 +1,41 @@
+<div class="adminShell">
+  {{> adminSidebar active="inscricoes"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Inscrições</div>
+        <div class="adminTop__meta">Selecione um evento para visualizar os inscritos</div>
+      </div>
+      <a class="btn" href="/admin">Dashboard</a>
+    </div>
+
+    <div class="adminPage">
+      <div class="panel">
+        <div class="panel__head">
+          <div class="panel__title">Eventos</div>
+        </div>
+        <div class="panel__body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Evento</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each events}}
+                <tr>
+                  <td>{{name}}</td>
+                  <td>{{total}}</td>
+                  <td><a class="btn" href="{{href}}">Abrir</a></td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

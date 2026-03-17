@@ -1,0 +1,46 @@
+<div class="adminShell">
+  {{> adminSidebar active="admins"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Administradores</div>
+        <div class="adminTop__meta">Gerenciamento disponível apenas para MASTER</div>
+      </div>
+      <a class="btn btn--primary" href="/admin/admins/new">Novo</a>
+    </div>
+
+    <div class="adminPage">
+      <div class="panel">
+        <div class="panel__head">
+          <div class="panel__title">Lista</div>
+        </div>
+        <div class="panel__body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>E-mail</th>
+                <th>Role</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each rows}}
+                <tr>
+                  <td>{{email}}</td>
+                  <td class="muted">{{role}}</td>
+                  <td style="display:flex;gap:10px;justify-content:flex-end;">
+                    <a class="btn" href="/admin/admins/{{id}}/edit">Editar</a>
+                    <form method="post" action="/admin/admins/{{id}}/delete">
+                      <button class="btn btn--danger" type="submit">Remover</button>
+                    </form>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

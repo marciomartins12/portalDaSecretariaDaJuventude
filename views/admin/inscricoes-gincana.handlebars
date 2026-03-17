@@ -1,0 +1,44 @@
+<div class="adminShell">
+  {{> adminSidebar active="inscricoes"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Inscritos — Gincana</div>
+        <div class="adminTop__meta">{{total}} equipe(s)</div>
+      </div>
+      <a class="btn" href="/admin/inscricoes">Voltar</a>
+    </div>
+
+    <div class="adminPage">
+      {{#each teams}}
+        <div class="panel">
+          <div class="panel__head">
+            <div class="panel__title">{{teamName}}</div>
+            <div class="muted">{{captainName}} • {{captainEmail}}</div>
+          </div>
+          <div class="panel__body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Nascimento</th>
+                  <th>Papel</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each participants}}
+                  <tr>
+                    <td>{{fullName}}</td>
+                    <td class="muted">{{dob}}</td>
+                    <td>{{role}}</td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </main>
+</div>

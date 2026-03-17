@@ -4,10 +4,13 @@ const express = require("express");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 const { configureViewEngine } = require("./config/viewEngine");
 const { initDatabase } = require("./config/dbInit");
 const routes = require("./routes");
+const adminRoutes = require("./routes/admin");
+const { initAdminSeed } = require("./services/adminSeedService");
 
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -42,6 +45,7 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ limit: "100kb" }));
+app.use(cookieParser());
 
 // Controle de Cache do Navegador
 const cacheEnabled = String(process.env.CACHE_ENABLED || "").trim() === "1";
@@ -95,6 +99,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/admin", adminRoutes);
 app.use(routes);
 
 app.use((req, res) => {
@@ -114,6 +119,12 @@ async function start() {
     await initDatabase();
   } catch (err) {
     process.stderr.write(`Falha ao inicializar o banco de dados: ${err?.message || String(err)}\n`);
+  }
+
+  try {
+    await initAdminSeed();
+  } catch (err) {
+    process.stderr.write(`Falha ao inicializar admin: ${err?.message || String(err)}\n`);
   }
 
   app.listen(port, () => {

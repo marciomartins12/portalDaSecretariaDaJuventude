@@ -1,0 +1,23 @@
+<aside class="adminSidebar">
+  <div class="adminBrand">
+    <div class="adminBrand__title">Admin</div>
+    <div class="adminBrand__sub">{{site.departmentName}}</div>
+  </div>
+
+  <nav class="adminNav" aria-label="Admin">
+    <a class="adminNav__link {{#if (eq active 'dashboard')}}adminNav__link--active{{/if}}" href="/admin">
+      Dashboard
+    </a>
+    <a class="adminNav__link {{#if (eq active 'inscricoes')}}adminNav__link--active{{/if}}" href="/admin/inscricoes">
+      Inscrições
+    </a>
+    {{#if (eq admin.role 'MASTER')}}
+      <a class="adminNav__link {{#if (eq active 'admins')}}adminNav__link--active{{/if}}" href="/admin/admins">
+        Administradores
+      </a>
+    {{/if}}
+    <form method="post" action="/admin/logout">
+      <button class="adminNav__link" type="submit">Logout</button>
+    </form>
+  </nav>
+</aside>

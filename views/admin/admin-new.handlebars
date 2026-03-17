@@ -1,0 +1,49 @@
+<div class="adminShell">
+  {{> adminSidebar active="admins"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Novo administrador</div>
+        <div class="adminTop__meta">Crie um usuário ADMIN ou MASTER</div>
+      </div>
+      <a class="btn" href="/admin/admins">Voltar</a>
+    </div>
+
+    <div class="adminPage">
+      <div class="panel">
+        <div class="panel__head">
+          <div class="panel__title">Dados</div>
+        </div>
+        <div class="panel__body">
+          {{#if error}}
+            <div class="alert alert--error">{{error}}</div>
+            <div style="height: 10px"></div>
+          {{/if}}
+
+          <form class="form" method="post" action="/admin/admins">
+            <div class="field">
+              <div class="label">E-mail</div>
+              <input class="input" type="email" name="email" required value="{{form.email}}" />
+            </div>
+
+            <div class="field">
+              <div class="label">Senha</div>
+              <input class="input" type="password" name="password" required />
+            </div>
+
+            <div class="field">
+              <div class="label">Role</div>
+              <select class="input" name="role">
+                <option value="ADMIN" {{#if (eq form.role 'ADMIN')}}selected{{/if}}>ADMIN</option>
+                <option value="MASTER" {{#if (eq form.role 'MASTER')}}selected{{/if}}>MASTER</option>
+              </select>
+            </div>
+
+            <button class="btn btn--primary" type="submit">Criar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

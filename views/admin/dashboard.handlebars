@@ -1,0 +1,58 @@
+<div class="adminShell">
+  {{> adminSidebar active="dashboard"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Dashboard</div>
+        <div class="adminTop__meta">{{admin.email}} • {{admin.role}}</div>
+      </div>
+      <a class="btn" href="/">Site público</a>
+    </div>
+
+    <div class="adminPage">
+      <div class="gridCards">
+        <div class="card">
+          <div class="card__k">Total de eventos</div>
+          <div class="card__v">{{stats.totalEventos}}</div>
+        </div>
+        <div class="card">
+          <div class="card__k">Total de inscrições</div>
+          <div class="card__v">{{stats.totalInscricoes}}</div>
+        </div>
+        <div class="card">
+          <div class="card__k">Gincana</div>
+          <div class="card__v">{{stats.totalGincana}}</div>
+        </div>
+        <div class="card">
+          <div class="card__k">Corrida</div>
+          <div class="card__v">{{stats.totalCorrida}}</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel__head">
+          <div class="panel__title">Eventos com mais inscrições</div>
+        </div>
+        <div class="panel__body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Evento</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each stats.ranking}}
+                <tr>
+                  <td>{{name}}</td>
+                  <td>{{total}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
