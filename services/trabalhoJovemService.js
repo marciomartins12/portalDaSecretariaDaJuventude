@@ -33,10 +33,10 @@ const trabalhoJovem = {
   docs: {
     title: "Documentos e Arquivos",
     items: [
-      // {
-      //   label: "",
-      //   href: "/public/trabalho-jovem/arquivos/modelo-curriculo.docx"
-      // }
+      {
+        label: "Edital Normativo No. 01/2026",
+        href: "https://trabalhojovem.ma.gov.br/wp-content/uploads/2026/03/Instrucao-Normativa-No-01_2026-SEINC.pdf"
+      }
     ]
   }
 };
