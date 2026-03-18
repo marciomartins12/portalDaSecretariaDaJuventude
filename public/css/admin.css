@@ -189,6 +189,10 @@ a {
   padding: 14px 16px;
 }
 
+.tableWrap {
+  overflow: auto;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;

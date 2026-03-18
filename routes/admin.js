@@ -14,8 +14,10 @@ router.post("/logout", adminController.logout);
 router.get("/", requireAdmin, adminController.dashboard);
 router.get("/inscricoes", requireAdmin, adminInscricoesController.listEvents);
 router.get("/inscricoes/corrida", requireAdmin, adminInscricoesController.listCorrida);
+router.get("/inscricoes/corrida/export.docx", requireAdmin, adminInscricoesController.exportCorridaDocx);
 router.post("/inscricoes/corrida/:id/delete", requireAdmin, adminInscricoesController.deleteCorrida);
 router.get("/inscricoes/gincana", requireAdmin, adminInscricoesController.listGincana);
+router.get("/inscricoes/gincana/export.docx", requireAdmin, adminInscricoesController.exportGincanaDocx);
 
 router.get("/admins", requireAdmin, requireRole("MASTER"), adminAdminsController.listAdmins);
 router.get("/admins/new", requireAdmin, requireRole("MASTER"), adminAdminsController.newAdminPage);
@@ -25,4 +27,3 @@ router.post("/admins/:id", requireAdmin, requireRole("MASTER"), adminAdminsContr
 router.post("/admins/:id/delete", requireAdmin, requireRole("MASTER"), adminAdminsController.deleteAdmin);
 
 module.exports = router;
-

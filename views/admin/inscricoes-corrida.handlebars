@@ -7,7 +7,10 @@
         <div class="adminTop__title">Inscritos — Corrida</div>
         <div class="adminTop__meta">{{total}} inscrição(ões)</div>
       </div>
-      <a class="btn" href="/admin/inscricoes">Voltar</a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+        <a class="btn btn--primary" href="{{exportHref}}">Exportar DOCX</a>
+        <a class="btn" href="/admin/inscricoes">Voltar</a>
+      </div>
     </div>
 
     <div class="adminPage">
@@ -15,22 +18,44 @@
         <div class="panel__head">
           <div class="panel__title">Lista</div>
         </div>
-        <div class="panel__body">
+        <div class="panel__body tableWrap">
           <table class="table">
             <thead>
               <tr>
+                <th>ID</th>
+                <th>Inscrição</th>
+                <th>Data</th>
                 <th>Nome</th>
                 <th>E-mail</th>
                 <th>Telefone</th>
+                <th>Endereço</th>
+                <th>Bairro</th>
+                <th>CPF</th>
+                <th>Nascimento</th>
+                <th>Idade</th>
+                <th>Imagem</th>
+                <th>Respons.</th>
+                <th>IP</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {{#each rows}}
                 <tr>
+                  <td class="muted">{{id}}</td>
+                  <td class="muted">#{{bib}}</td>
+                  <td class="muted">{{createdAt}}</td>
                   <td>{{fullName}}</td>
                   <td class="muted">{{email}}</td>
                   <td class="muted">{{phone}}</td>
+                  <td class="muted">{{address}}</td>
+                  <td class="muted">{{neighborhood}}</td>
+                  <td class="muted">{{cpf}}</td>
+                  <td class="muted">{{dob}}</td>
+                  <td class="muted">{{age}}</td>
+                  <td class="muted">{{termsImageRelease}}</td>
+                  <td class="muted">{{termsResponsibility}}</td>
+                  <td class="muted">{{termsIp}}</td>
                   <td>
                     <form method="post" action="/admin/inscricoes/corrida/{{id}}/delete">
                       <button class="btn btn--danger" type="submit">Excluir</button>

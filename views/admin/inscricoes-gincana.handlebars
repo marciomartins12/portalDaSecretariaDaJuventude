@@ -7,7 +7,10 @@
         <div class="adminTop__title">Inscritos — Gincana</div>
         <div class="adminTop__meta">{{total}} equipe(s)</div>
       </div>
-      <a class="btn" href="/admin/inscricoes">Voltar</a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+        <a class="btn btn--primary" href="{{exportHref}}">Exportar DOCX</a>
+        <a class="btn" href="/admin/inscricoes">Voltar</a>
+      </div>
     </div>
 
     <div class="adminPage">
@@ -15,14 +18,22 @@
         <div class="panel">
           <div class="panel__head">
             <div class="panel__title">{{teamName}}</div>
-            <div class="muted">{{captainName}} • {{captainEmail}}</div>
+            <div class="muted">Criado em {{createdAt}}</div>
           </div>
           <div class="panel__body">
+            <div class="muted" style="display:grid;gap:6px;margin-bottom:12px;">
+              <div><strong style="color:rgba(248,250,252,0.94);">Líder:</strong> {{captainName}} • {{captainEmail}} • {{captainPhone}}</div>
+              <div><strong style="color:rgba(248,250,252,0.94);">Bairro:</strong> {{neighborhood}} • <strong style="color:rgba(248,250,252,0.94);">Nascimento:</strong> {{captainDob}} • <strong style="color:rgba(248,250,252,0.94);">Idade:</strong> {{captainAge}}</div>
+              <div><strong style="color:rgba(248,250,252,0.94);">Participantes informados:</strong> {{participantsTotal}} • <strong style="color:rgba(248,250,252,0.94);">Imagem:</strong> {{termsImageRelease}} • <strong style="color:rgba(248,250,252,0.94);">Respons.:</strong> {{termsResponsibility}} • <strong style="color:rgba(248,250,252,0.94);">IP:</strong> {{termsIp}}</div>
+            </div>
             <table class="table">
               <thead>
                 <tr>
                   <th>Nome</th>
                   <th>Nascimento</th>
+                  <th>Idade</th>
+                  <th>CPF</th>
+                  <th>Endereço</th>
                   <th>Papel</th>
                 </tr>
               </thead>
@@ -31,6 +42,9 @@
                   <tr>
                     <td>{{fullName}}</td>
                     <td class="muted">{{dob}}</td>
+                    <td class="muted">{{age}}</td>
+                    <td class="muted">{{cpf}}</td>
+                    <td class="muted">{{address}}</td>
                     <td>{{role}}</td>
                   </tr>
                 {{/each}}

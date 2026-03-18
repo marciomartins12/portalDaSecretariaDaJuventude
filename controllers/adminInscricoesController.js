@@ -1,6 +1,7 @@
 const { pool } = require("../config/db");
 const { CorridaInscricao, GincanaInscricao } = require("../models/indexSequelize");
 const content = require("../services/contentService");
+const { buildCorridaDocx, buildGincanaDocx } = require("../services/docxExportService");
 
 function formatDateBr(value) {
   const s = String(value || "").trim();
@@ -148,4 +149,106 @@ async function listGincana(req, res) {
   });
 }
 
-module.exports = { listEvents, listCorrida, deleteCorrida, listGincana };
+async function exportCorridaDocx(req, res) {
+  const [rows] = await pool.execute(
+    "SELECT * FROM corrida_inscricoes ORDER BY created_at DESC"
+  );
+
+  const mapped = rows.map((r) => ({
+    id: Number(r.id),
+    bib: bibFromId(r.id),
+    createdAt: formatDateTimeBr(r.created_at),
+    fullName: r.full_name,
+    email: r.email,
+    phone: r.phone,
+    address: r.address,
+    neighborhood: r.neighborhood ?? "",
+    cpf: r.cpf ?? "",
+    dob: r.dob ? formatDateBr(r.dob) : "",
+    age: r.age ? Number(r.age) : calcAge(r.dob),
+    termsImageRelease: r.terms_image_release ? "Sim" : "Não",
+    termsResponsibility: r.terms_responsibility ? "Sim" : "Não",
+    termsIp: r.terms_ip ?? ""
+  }));
+
+  const buffer = await buildCorridaDocx({
+    heading: {
+      title: "Inscritos — Corrida",
+      subtitle: `Total: ${mapped.length}`
+    },
+    rows: mapped
+  });
+
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename="inscritos-corrida.docx"`
+  );
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+  res.send(buffer);
+}
+
+async function exportGincanaDocx(req, res) {
+  const [rows] = await pool.execute("SELECT * FROM gincana_inscricoes ORDER BY created_at DESC");
+  const teams = [];
+  for (const r of rows) {
+    const [pRows] = await pool.execute(
+      "SELECT * FROM gincana_participantes WHERE inscricao_id = ? ORDER BY is_captain DESC, id ASC",
+      [r.id]
+    );
+    const participants = pRows.map((p) => ({
+      fullName: p.full_name,
+      dob: p.dob ? formatDateBr(p.dob) : "",
+      age: calcAge(p.dob),
+      cpf: p.cpf ?? "",
+      address: p.address ?? "",
+      role: p.is_captain ? "Líder" : "Participante"
+    }));
+
+    teams.push({
+      id: Number(r.id),
+      createdAt: formatDateTimeBr(r.created_at),
+      teamName: r.team_name,
+      captainName: r.captain_name,
+      captainEmail: r.captain_email,
+      captainPhone: r.captain_phone,
+      neighborhood: r.neighborhood,
+      captainDob: r.captain_dob ? formatDateBr(r.captain_dob) : "",
+      captainAge: calcAge(r.captain_dob),
+      participantsTotal: Number(r.participants_total || 0),
+      termsImageRelease: r.terms_image_release ? "Sim" : "Não",
+      termsResponsibility: r.terms_responsibility ? "Sim" : "Não",
+      termsIp: r.terms_ip ?? "",
+      participants
+    });
+  }
+
+  const buffer = await buildGincanaDocx({
+    heading: {
+      title: "Inscritos — Gincana",
+      subtitle: `Equipes: ${teams.length}`
+    },
+    teams
+  });
+
+  res.setHeader(
+    "Content-Disposition",
+    `attachment; filename="inscritos-gincana.docx"`
+  );
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+  res.send(buffer);
+}
+
+module.exports = {
+  listEvents,
+  listCorrida,
+  deleteCorrida,
+  listGincana,
+  exportCorridaDocx,
+  exportGincanaDocx
+};

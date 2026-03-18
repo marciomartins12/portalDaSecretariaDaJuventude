@@ -29,7 +29,10 @@
                 <tr>
                   <td>{{name}}</td>
                   <td>{{total}}</td>
-                  <td><a class="btn" href="{{href}}">Abrir</a></td>
+                  <td style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
+                    <a class="btn" href="{{href}}">Abrir</a>
+                    <a class="btn btn--primary" href="{{exportHref}}">Exportar DOCX</a>
+                  </td>
                 </tr>
               {{/each}}
             </tbody>

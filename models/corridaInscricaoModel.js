@@ -4,6 +4,15 @@ function bibFromId(id) {
   return String(id).padStart(3, "0");
 }
 
+async function getTableColumns(table) {
+  const database = process.env.DB_NAME || "secretaria_juventude";
+  const [rows] = await pool.execute(
+    "SELECT column_name FROM information_schema.columns WHERE table_schema = ? AND table_name = ?",
+    [database, table]
+  );
+  return new Set(rows.map((r) => String(r.column_name)));
+}
+
 async function createCorridaInscricao(data) {
   const [emailRows] = await pool.execute(
     "SELECT id FROM corrida_inscricoes WHERE email = ? LIMIT 1",
@@ -35,23 +44,35 @@ async function createCorridaInscricao(data) {
     throw err;
   }
 
+  const cols = await getTableColumns("corrida_inscricoes");
+  const columns = ["full_name", "email", "phone", "address", "cpf", "dob", "terms_image_release", "terms_responsibility", "terms_ip"];
+  const values = [
+    data.fullName,
+    data.email,
+    data.phone,
+    data.address,
+    data.cpf,
+    data.dob,
+    data.termsImageRelease ? 1 : 0,
+    data.termsResponsibility ? 1 : 0,
+    data.termsIp || null
+  ];
+
+  if (cols.has("neighborhood")) {
+    columns.splice(4, 0, "neighborhood");
+    values.splice(4, 0, data.neighborhood || null);
+  }
+  if (cols.has("age")) {
+    const age = data.age ? Number(data.age) : 0;
+    const dobIndex = columns.indexOf("dob");
+    columns.splice(dobIndex + 1, 0, "age");
+    values.splice(dobIndex + 1, 0, Number.isFinite(age) ? age : 0);
+  }
+
+  const placeholders = columns.map(() => "?").join(", ");
   const [result] = await pool.execute(
-    `INSERT INTO corrida_inscricoes
-      (full_name, email, phone, address, neighborhood, cpf, dob, age, terms_image_release, terms_responsibility, terms_ip)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      data.fullName,
-      data.email,
-      data.phone,
-      data.address,
-      data.neighborhood || null,
-      data.cpf,
-      data.dob,
-      data.age || 0,
-      data.termsImageRelease ? 1 : 0,
-      data.termsResponsibility ? 1 : 0,
-      data.termsIp || null
-    ]
+    `INSERT INTO corrida_inscricoes (${columns.join(", ")}) VALUES (${placeholders})`,
+    values
   );
 
   const id = result.insertId;

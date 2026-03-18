@@ -115,6 +115,36 @@ async function initDatabase() {
       indexName: "uq_gincana_captain_phone",
       ddl: "ALTER TABLE `gincana_inscricoes` ADD UNIQUE KEY `uq_gincana_captain_phone` (`captain_phone`)"
     });
+
+    await ensureColumn(connection, {
+      database,
+      table: "gincana_participantes",
+      columnName: "cpf",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `gincana_participantes` ADD COLUMN `cpf` VARCHAR(11) NULL"
+    });
+    await ensureColumn(connection, {
+      database,
+      table: "gincana_participantes",
+      columnName: "address",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `gincana_participantes` ADD COLUMN `address` VARCHAR(220) NULL"
+    });
+
+    await ensureColumn(connection, {
+      database,
+      table: "corrida_inscricoes",
+      columnName: "neighborhood",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `corrida_inscricoes` ADD COLUMN `neighborhood` VARCHAR(120) NULL"
+    });
+    await ensureColumn(connection, {
+      database,
+      table: "corrida_inscricoes",
+      columnName: "age",
+      existsSql: columnExistsSql,
+      ddl: "ALTER TABLE `corrida_inscricoes` ADD COLUMN `age` INT NOT NULL DEFAULT 0"
+    });
   } finally {
     await connection.end();
   }

@@ -1,5 +1,14 @@
 const { pool } = require("../config/db");
 
+async function getTableColumns(connection, table) {
+  const database = process.env.DB_NAME || "secretaria_juventude";
+  const [rows] = await connection.execute(
+    "SELECT column_name FROM information_schema.columns WHERE table_schema = ? AND table_name = ?",
+    [database, table]
+  );
+  return new Set(rows.map((r) => String(r.column_name)));
+}
+
 async function createGincanaInscricao(data) {
   const connection = await pool.getConnection();
   try {
@@ -63,16 +72,27 @@ async function createGincanaInscricao(data) {
       }))
     ];
 
+    const cols = await getTableColumns(connection, "gincana_participantes");
+    const hasCpf = cols.has("cpf");
+    const hasAddress = cols.has("address");
+
     for (const p of participants) {
-      // Como não temos certeza se as colunas cpf e address existem na tabela gincana_participantes,
-      // vamos tentar salvar os dados extras em um campo de observação ou ignorar se não houver onde salvar.
-      // Entretanto, o erro indica que tentamos inserir em colunas que NÃO existem na gincana_inscricoes.
-      // Vamos manter a inserção na gincana_participantes mas apenas com as colunas que sabemos que existem.
+      const columns = ["inscricao_id", "full_name", "dob", "is_captain"];
+      const values = [inscricaoId, p.name, p.dob, p.isCaptain];
+
+      if (hasCpf) {
+        columns.push("cpf");
+        values.push(p.cpf || null);
+      }
+      if (hasAddress) {
+        columns.push("address");
+        values.push(p.address || null);
+      }
+
+      const placeholders = columns.map(() => "?").join(", ");
       await connection.execute(
-        `INSERT INTO gincana_participantes
-          (inscricao_id, full_name, dob, is_captain)
-         VALUES (?, ?, ?, ?)`,
-        [inscricaoId, p.name, p.dob, p.isCaptain]
+        `INSERT INTO gincana_participantes (${columns.join(", ")}) VALUES (${placeholders})`,
+        values
       );
     }
 
