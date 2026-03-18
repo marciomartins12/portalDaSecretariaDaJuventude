@@ -21,11 +21,40 @@
             <div class="muted">Criado em {{createdAt}}</div>
           </div>
           <div class="panel__body">
-            <div class="muted" style="display:grid;gap:6px;margin-bottom:12px;">
-              <div><strong style="color:rgba(248,250,252,0.94);">Líder:</strong> {{captainName}} • {{captainEmail}} • {{captainPhone}}</div>
-              <div><strong style="color:rgba(248,250,252,0.94);">Bairro:</strong> {{neighborhood}} • <strong style="color:rgba(248,250,252,0.94);">Nascimento:</strong> {{captainDob}} • <strong style="color:rgba(248,250,252,0.94);">Idade:</strong> {{captainAge}}</div>
-              <div><strong style="color:rgba(248,250,252,0.94);">Participantes informados:</strong> {{participantsTotal}} • <strong style="color:rgba(248,250,252,0.94);">Imagem:</strong> {{termsImageRelease}} • <strong style="color:rgba(248,250,252,0.94);">Respons.:</strong> {{termsResponsibility}} • <strong style="color:rgba(248,250,252,0.94);">IP:</strong> {{termsIp}}</div>
+            <div class="kvGrid">
+              <div class="card">
+                <div class="card__k">Equipe</div>
+                <div class="kv">
+                  <div class="kv__row"><div class="kv__k">Nome</div><div class="kv__v">{{teamName}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Bairro</div><div class="kv__v">{{neighborhood}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Participantes informados</div><div class="kv__v">{{participantsTotal}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Criado em</div><div class="kv__v">{{createdAt}}</div></div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__k">Líder</div>
+                <div class="kv">
+                  <div class="kv__row"><div class="kv__k">Nome</div><div class="kv__v">{{captainName}}</div></div>
+                  <div class="kv__row"><div class="kv__k">E-mail</div><div class="kv__v">{{captainEmail}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Telefone</div><div class="kv__v">{{captainPhone}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Nascimento</div><div class="kv__v">{{captainDob}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Idade</div><div class="kv__v">{{captainAge}}</div></div>
+                  <div class="kv__row"><div class="kv__k">CPF</div><div class="kv__v">{{captainCpf}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Endereço</div><div class="kv__v">{{captainAddress}}</div></div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__k">Termos</div>
+                <div class="kv">
+                  <div class="kv__row"><div class="kv__k">Imagem</div><div class="kv__v">{{termsImageRelease}}</div></div>
+                  <div class="kv__row"><div class="kv__k">Responsabilidade</div><div class="kv__v">{{termsResponsibility}}</div></div>
+                  <div class="kv__row"><div class="kv__k">IP</div><div class="kv__v">{{termsIp}}</div></div>
+                </div>
+              </div>
             </div>
+
             <table class="table">
               <thead>
                 <tr>

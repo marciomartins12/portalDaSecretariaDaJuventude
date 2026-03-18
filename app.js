@@ -11,6 +11,7 @@ const { initDatabase } = require("./config/dbInit");
 const routes = require("./routes");
 const adminRoutes = require("./routes/admin");
 const { initAdminSeed } = require("./services/adminSeedService");
+const { ensureAdminSchema } = require("./services/adminSchemaService");
 
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -119,6 +120,12 @@ async function start() {
     await initDatabase();
   } catch (err) {
     process.stderr.write(`Falha ao inicializar o banco de dados: ${err?.message || String(err)}\n`);
+  }
+
+  try {
+    await ensureAdminSchema();
+  } catch (err) {
+    process.stderr.write(`Falha ao ajustar schema admin: ${err?.message || String(err)}\n`);
   }
 
   try {

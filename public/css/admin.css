@@ -141,6 +141,38 @@ a {
   gap: 12px;
 }
 
+.kvGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.kv {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.kv__row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.kv__k {
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.kv__v {
+  color: rgba(248, 250, 252, 0.92);
+  font-weight: 750;
+  word-break: break-word;
+}
+
 .card {
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.03);
@@ -342,6 +374,10 @@ a {
 
   .gridCards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .kvGrid {
+    grid-template-columns: 1fr;
   }
 }
 

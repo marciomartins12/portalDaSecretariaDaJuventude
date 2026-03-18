@@ -32,5 +32,6 @@ router.get("/edital/pdf", (req, res) => res.redirect(302, "/editais/gincana/pdf"
 router.get("/editais/gincana", pagesController.edital);
 router.get("/editais/gincana/pdf", pagesController.editalPdf);
 router.get("/noticias", pagesController.noticias);
+router.get("/trabalho-jovem", pagesController.trabalhoJovem);
 
 module.exports = router;

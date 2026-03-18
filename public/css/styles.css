@@ -1295,6 +1295,297 @@ body.nav-open {
   margin-top: 14px;
 }
 
+.tjHero {
+  padding: 42px 0 18px;
+}
+
+.tjHero__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.tjCrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(20, 20, 40, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(248, 250, 252, 0.86);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.tjCrumb--page {
+  margin-bottom: 14px;
+}
+
+.tjCrumb__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ff3b3b, #ff7a18);
+  box-shadow: 0 0 0 4px rgba(255, 59, 59, 0.18);
+}
+
+.tjCrumb__sep {
+  opacity: 0.8;
+}
+
+.tjHero__title {
+  margin: 14px 0 10px;
+  font-family: Poppins, Inter, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: clamp(34px, 4.4vw, 58px);
+  line-height: 1.03;
+}
+
+.tjHero__titleA {
+  color: rgba(248, 250, 252, 0.95);
+}
+
+.tjHero__titleB {
+  background: linear-gradient(90deg, #00c6ff, #8a2be2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tjHero__subtitle {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 64ch;
+  font-weight: 650;
+}
+
+.tjSection {
+  padding: 22px 0 60px;
+}
+
+.tjSection__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.tjSide {
+  display: grid;
+  gap: 14px;
+}
+
+.tjMain {
+  display: grid;
+  gap: 14px;
+}
+
+.tjCard {
+  border-radius: 20px;
+}
+
+.tjCard__head {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tjCard__headRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tjCard__title {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  font-size: 16px;
+}
+
+.tjCard__titleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tjIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(248, 250, 252, 0.92);
+}
+
+.tjCard__body {
+  padding: 14px 16px;
+}
+
+.tjNotice {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px;
+}
+
+.tjNotice__title {
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.tjNotice__sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.tjLinks {
+  display: grid;
+  gap: 10px;
+}
+
+.tjLink {
+  display: grid;
+  gap: 6px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.tjLink:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.tjLink__label {
+  font-weight: 900;
+}
+
+.tjLink__desc {
+  color: var(--muted);
+  font-weight: 650;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.tjSearch {
+  min-width: min(320px, 100%);
+}
+
+.tjSearch__input {
+  width: 100%;
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 20, 40, 0.6);
+  color: rgba(248, 250, 252, 0.95);
+  outline: none;
+}
+
+.tjSearch__input:focus {
+  border-color: rgba(0, 198, 255, 0.36);
+}
+
+.tjTableWrap {
+  overflow: auto;
+}
+
+.tjTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+.tjTable th,
+.tjTable td {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  font-size: 13px;
+}
+
+.tjTable th {
+  color: rgba(226, 232, 240, 0.9);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.tjEmpty,
+.tjEmptyRow {
+  color: rgba(148, 163, 184, 0.92);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.tjEmptyRow {
+  padding: 16px 10px;
+}
+
+.tjDocs {
+  display: grid;
+  gap: 10px;
+}
+
+.tjDoc {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px;
+}
+
+.tjDoc__title {
+  font-weight: 800;
+  color: rgba(248, 250, 252, 0.94);
+  line-height: 1.35;
+}
+
+@media (max-width: 980px) {
+  .tjHero__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tjSection__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .tjHero {
+    padding-top: 18px;
+  }
+
+  .tjCard__headRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tjSearch {
+    min-width: 0;
+  }
+
+  .tjDoc {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+}
+
 .section {
   padding: 56px 0;
 }

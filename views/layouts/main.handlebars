@@ -239,5 +239,8 @@
       };
     </script>
     <script src="/public/js/main.js?v={{assetVersion}}" defer></script>
+    {{#if pageScript}}
+      <script src="{{pageScript}}?v={{assetVersion}}" defer></script>
+    {{/if}}
   </body>
 </html>

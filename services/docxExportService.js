@@ -55,6 +55,31 @@ function spacer(lines = 1) {
   return new Paragraph({ text: "", spacing: { after: 200 * lines } });
 }
 
+function metaLine(text) {
+  return new Paragraph({
+    alignment: AlignmentType.LEFT,
+    children: [
+      new TextRun({
+        text: String(text || ""),
+        size: 20,
+        color: "475569"
+      })
+    ]
+  });
+}
+
+function buildHeaderMeta(heading) {
+  const lines = [];
+  if (heading?.departmentName) lines.push(metaLine(heading.departmentName));
+  if (heading?.exportedAt || heading?.exportedBy) {
+    const by = heading?.exportedBy ? ` • Exportado por: ${heading.exportedBy}` : "";
+    const at = heading?.exportedAt ? `Emissão: ${heading.exportedAt}` : "Emissão";
+    lines.push(metaLine(`${at}${by}`));
+  }
+  if (lines.length === 0) return [];
+  return [...lines, spacer(1)];
+}
+
 async function buildCorridaDocx({ heading, rows }) {
   const tableRows = [
     new TableRow({
@@ -100,6 +125,7 @@ async function buildCorridaDocx({ heading, rows }) {
       {
         properties: {},
         children: [
+          ...buildHeaderMeta(heading),
           title(heading.title),
           subtitle(heading.subtitle),
           spacer(1),
@@ -116,14 +142,23 @@ async function buildCorridaDocx({ heading, rows }) {
 }
 
 async function buildGincanaDocx({ heading, teams }) {
-  const children = [title(heading.title), subtitle(heading.subtitle), spacer(1)];
+  const children = [...buildHeaderMeta(heading), title(heading.title), subtitle(heading.subtitle), spacer(1)];
 
   for (const team of teams) {
     children.push(
       new Paragraph({
         children: [
-          new TextRun({ text: team.teamName, bold: true, size: 28 }),
-          new TextRun({ text: `  •  ${team.createdAt}`, color: "475569", size: 22 })
+          new TextRun({ text: `Equipe: ${team.teamName}`, bold: true, size: 28 }),
+          new TextRun({ text: `  •  Inscrição #${team.id}`, color: "475569", size: 22 })
+        ]
+      })
+    );
+
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({ text: "Criado em: ", bold: true, size: 22 }),
+          new TextRun({ text: `${team.createdAt}`, size: 22 })
         ]
       })
     );
@@ -133,6 +168,17 @@ async function buildGincanaDocx({ heading, teams }) {
         children: [
           new TextRun({ text: "Líder: ", bold: true, size: 22 }),
           new TextRun({ text: `${team.captainName} • ${team.captainEmail} • ${team.captainPhone}`, size: 22 })
+        ]
+      })
+    );
+
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({ text: "CPF: ", bold: true, size: 22 }),
+          new TextRun({ text: `${team.captainCpf || ""}`, size: 22 }),
+          new TextRun({ text: "   Endereço: ", bold: true, size: 22 }),
+          new TextRun({ text: `${team.captainAddress || ""}`, size: 22 })
         ]
       })
     );
@@ -210,4 +256,3 @@ async function buildGincanaDocx({ heading, teams }) {
 }
 
 module.exports = { buildCorridaDocx, buildGincanaDocx };
-

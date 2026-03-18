@@ -1,4 +1,5 @@
 const content = require("../services/contentService");
+const { trabalhoJovem } = require("../services/trabalhoJovemService");
 const PDFDocument = require("pdfkit");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
 
@@ -151,6 +152,14 @@ function noticias(req, res) {
   });
 }
 
+function trabalhoJovemPage(req, res) {
+  res.render("trabalho-jovem", {
+    title: "Trabalho Jovem",
+    pageScript: "/public/js/trabalho-jovem.js",
+    trabalhoJovem
+  });
+}
+
 module.exports = {
   home,
   inscricoes,
@@ -159,5 +168,6 @@ module.exports = {
   editalPdf,
   inscricao,
   inscricaoCorrida,
-  noticias
+  noticias,
+  trabalhoJovem: trabalhoJovemPage
 };

@@ -3,12 +3,28 @@ const { CorridaInscricao, GincanaInscricao } = require("../models/indexSequelize
 const content = require("../services/contentService");
 const { buildCorridaDocx, buildGincanaDocx } = require("../services/docxExportService");
 
+function dateOnlyParts(value) {
+  if (!value) return null;
+  if (value instanceof Date) {
+    const yyyy = value.getUTCFullYear();
+    const mm = value.getUTCMonth() + 1;
+    const dd = value.getUTCDate();
+    return { yyyy, mm, dd };
+  }
+
+  const s = String(value).trim();
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s);
+  if (!m) return null;
+  return { yyyy: Number(m[1]), mm: Number(m[2]), dd: Number(m[3]) };
+}
+
 function formatDateBr(value) {
-  const s = String(value || "").trim();
-  if (!s) return "";
-  const parts = s.split("-");
-  if (parts.length !== 3) return s;
-  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  const p = dateOnlyParts(value);
+  if (!p) return "";
+  const dd = String(p.dd).padStart(2, "0");
+  const mm = String(p.mm).padStart(2, "0");
+  const yyyy = String(p.yyyy);
+  return `${dd}/${mm}/${yyyy}`;
 }
 
 function formatDateTimeBr(value) {
@@ -24,14 +40,13 @@ function formatDateTimeBr(value) {
 }
 
 function calcAge(dob) {
-  const s = String(dob || "").trim();
-  if (!s) return null;
-  const d = new Date(`${s}T00:00:00`);
-  if (Number.isNaN(d.getTime())) return null;
+  const p = dateOnlyParts(dob);
+  if (!p) return null;
+
   const now = new Date();
-  let age = now.getFullYear() - d.getFullYear();
-  const m = now.getMonth() - d.getMonth();
-  if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age -= 1;
+  let age = now.getFullYear() - p.yyyy;
+  const m = (now.getMonth() + 1) - p.mm;
+  if (m < 0 || (m === 0 && now.getDate() < p.dd)) age -= 1;
   return age;
 }
 
@@ -113,6 +128,7 @@ async function listGincana(req, res) {
       "SELECT * FROM gincana_participantes WHERE inscricao_id = ? ORDER BY is_captain DESC, id ASC",
       [r.id]
     );
+    const captainRow = pRows.find((x) => Boolean(x.is_captain)) || null;
     const participants = pRows.map((p) => ({
       fullName: p.full_name,
       dob: p.dob ? formatDateBr(p.dob) : "",
@@ -132,6 +148,8 @@ async function listGincana(req, res) {
       neighborhood: r.neighborhood,
       captainDob: r.captain_dob ? formatDateBr(r.captain_dob) : "",
       captainAge: calcAge(r.captain_dob),
+      captainCpf: captainRow?.cpf ?? "",
+      captainAddress: captainRow?.address ?? "",
       participantsTotal: Number(r.participants_total || 0),
       termsImageRelease: r.terms_image_release ? "Sim" : "Não",
       termsResponsibility: r.terms_responsibility ? "Sim" : "Não",
@@ -174,7 +192,10 @@ async function exportCorridaDocx(req, res) {
   const buffer = await buildCorridaDocx({
     heading: {
       title: "Inscritos — Corrida",
-      subtitle: `Total: ${mapped.length}`
+      subtitle: `Total: ${mapped.length}`,
+      departmentName: res.locals.site?.departmentName || "",
+      exportedBy: req.admin?.email || "",
+      exportedAt: formatDateTimeBr(new Date())
     },
     rows: mapped
   });
@@ -198,6 +219,7 @@ async function exportGincanaDocx(req, res) {
       "SELECT * FROM gincana_participantes WHERE inscricao_id = ? ORDER BY is_captain DESC, id ASC",
       [r.id]
     );
+    const captainRow = pRows.find((x) => Boolean(x.is_captain)) || null;
     const participants = pRows.map((p) => ({
       fullName: p.full_name,
       dob: p.dob ? formatDateBr(p.dob) : "",
@@ -217,6 +239,8 @@ async function exportGincanaDocx(req, res) {
       neighborhood: r.neighborhood,
       captainDob: r.captain_dob ? formatDateBr(r.captain_dob) : "",
       captainAge: calcAge(r.captain_dob),
+      captainCpf: captainRow?.cpf ?? "",
+      captainAddress: captainRow?.address ?? "",
       participantsTotal: Number(r.participants_total || 0),
       termsImageRelease: r.terms_image_release ? "Sim" : "Não",
       termsResponsibility: r.terms_responsibility ? "Sim" : "Não",
@@ -228,7 +252,10 @@ async function exportGincanaDocx(req, res) {
   const buffer = await buildGincanaDocx({
     heading: {
       title: "Inscritos — Gincana",
-      subtitle: `Equipes: ${teams.length}`
+      subtitle: `Equipes: ${teams.length}`,
+      departmentName: res.locals.site?.departmentName || "",
+      exportedBy: req.admin?.email || "",
+      exportedAt: formatDateTimeBr(new Date())
     },
     teams
   });

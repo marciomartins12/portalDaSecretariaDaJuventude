@@ -1,0 +1,132 @@
+<section class="tjHero">
+  <div class="container tjHero__grid">
+    <div>
+      <div class="tjCrumb">
+        <span class="tjCrumb__dot"></span>
+        Portal oficial • Secretaria da Juventude <span class="tjCrumb__sep">›</span> Trabalho Jovem
+      </div>
+
+      <h1 class="tjHero__title">
+        <span class="tjHero__titleA">{{trabalhoJovem.hero.titleA}}</span>
+        <span class="tjHero__titleB">{{trabalhoJovem.hero.titleB}}</span>
+      </h1>
+      <p class="tjHero__subtitle">{{trabalhoJovem.hero.subtitle}}</p>
+    </div>
+
+    <div class="tjSide">
+      <div class="tjCard cardNeon neonBorder">
+        <div class="tjCard__head">
+          <div class="tjCard__title tjCard__titleRow">
+            <span class="tjIcon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M4 11v2a2 2 0 0 0 2 2h1l3 6h2l-2.2-6H17a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M17 7H7a3 3 0 0 0-3 3v1h13V7Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M17 7l4-2v14l-4-2V7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            {{trabalhoJovem.notice.title}}
+          </div>
+        </div>
+        <div class="tjCard__body">
+          {{#if trabalhoJovem.notice.items.length}}
+            {{#each trabalhoJovem.notice.items}}
+              <div class="tjNotice">
+                <div class="tjNotice__title">{{title}}</div>
+                <div class="tjNotice__sub">{{subtitle}}</div>
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="tjEmpty">Nenhum aviso cadastrado.</div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tjSection">
+  <div class="container tjSection__grid">
+    <div class="tjMain">
+      <div class="tjCard cardNeon neonBorder">
+        <div class="tjCard__head tjCard__headRow">
+          <div class="tjCard__title">{{trabalhoJovem.selected.title}}</div>
+          <div class="tjSearch">
+            <input class="tjSearch__input" type="text" placeholder="{{trabalhoJovem.selected.placeholder}}" data-tj-search />
+          </div>
+        </div>
+        <div class="tjCard__body tjTableWrap">
+          <table class="tjTable" data-tj-table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#if trabalhoJovem.selected.rows.length}}
+                {{#each trabalhoJovem.selected.rows}}
+                  <tr>
+                    <td data-tj-name>{{name}}</td>
+                    <td data-tj-cpf>{{cpf}}</td>
+                  </tr>
+                {{/each}}
+              {{else}}
+                <tr>
+                  <td class="tjEmptyRow" colspan="2">Nenhum selecionado cadastrado.</td>
+                </tr>
+              {{/if}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tjCard cardNeon neonBorder">
+        <div class="tjCard__head">
+          <div class="tjCard__title">{{trabalhoJovem.docs.title}}</div>
+        </div>
+        <div class="tjCard__body tjDocs">
+          {{#if trabalhoJovem.docs.items.length}}
+            {{#each trabalhoJovem.docs.items}}
+              <div class="tjDoc">
+                <div class="tjDoc__title">{{label}}</div>
+                <a class="btn btn--soft" href="{{href}}" download>Baixar</a>
+              </div>
+            {{/each}}
+          {{else}}
+            <div class="tjEmpty">Nenhum arquivo cadastrado.</div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <aside class="tjSide">
+      <div class="tjCard cardNeon neonBorder">
+        <div class="tjCard__head">
+          <div class="tjCard__title tjCard__titleRow">
+            <span class="tjIcon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M2 12h20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M12 2c3 3.2 4.8 6.5 4.8 10S15 18.8 12 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M12 2c-3 3.2-4.8 6.5-4.8 10S9 18.8 12 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            {{trabalhoJovem.links.title}}
+          </div>
+        </div>
+        <div class="tjCard__body tjLinks">
+          {{#if trabalhoJovem.links.items.length}}
+            {{#each trabalhoJovem.links.items}}
+              <a class="tjLink" href="{{href}}" target="_blank" rel="noreferrer">
+                <div class="tjLink__label">{{label}}</div>
+                <div class="tjLink__desc">{{href}}</div>
+              </a>
+            {{/each}}
+          {{else}}
+            <div class="tjEmpty">Nenhum link cadastrado.</div>
+          {{/if}}
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
