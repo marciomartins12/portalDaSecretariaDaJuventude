@@ -15,7 +15,7 @@
         <div class="panel__head">
           <div class="panel__title">Lista</div>
         </div>
-        <div class="panel__body">
+        <div class="panel__body tableWrap">
           <table class="table">
             <thead>
               <tr>
@@ -29,7 +29,7 @@
                 <tr>
                   <td>{{email}}</td>
                   <td class="muted">{{role}}</td>
-                  <td style="display:flex;gap:10px;justify-content:flex-end;">
+                  <td class="tableActions">
                     <a class="btn" href="/admin/admins/{{id}}/edit">Editar</a>
                     <form method="post" action="/admin/admins/{{id}}/delete">
                       <button class="btn btn--danger" type="submit">Remover</button>

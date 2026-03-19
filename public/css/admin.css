@@ -290,6 +290,8 @@ a {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   text-align: left;
   font-size: 13px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .table th {
@@ -302,6 +304,13 @@ a {
 
 .muted {
   color: var(--muted);
+}
+
+.tableActions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -474,5 +483,13 @@ a {
 
   .adminBottomNav__label {
     display: none;
+  }
+
+  .tableActions {
+    justify-content: flex-start;
+  }
+
+  .tableActions .btn {
+    width: 100%;
   }
 }
