@@ -856,9 +856,10 @@ img {
 }
 
 .brand__logo {
-  height: 270px;
+  height: 300px;
   width: auto;
-  max-width: 220px;
+  max-width: 3000px;
+  margin-bottom: -10px;
   object-fit: contain;
   display: block;
 
