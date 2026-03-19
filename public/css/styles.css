@@ -1309,7 +1309,6 @@ body.nav-open {
 .tjCrumb {
   display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 10px;
   padding: 8px 12px;
   border-radius: 999px;
@@ -1318,7 +1317,6 @@ body.nav-open {
   color: rgba(248, 250, 252, 0.86);
   font-weight: 700;
   font-size: 13px;
-  max-width: 100%;
 }
 
 .tjCrumb--page {
@@ -1504,13 +1502,13 @@ body.nav-open {
 .tjTableWrap {
   overflow: auto;
   max-width: 100%;
-  -webkit-overflow-scrolling: touch;
 }
 
 .tjTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 520px;
+  min-width: 0;
+  table-layout: fixed;
 }
 
 .tjTable th,
@@ -1591,14 +1589,6 @@ body.nav-open {
   .tjDoc {
     grid-template-columns: 1fr;
     align-items: start;
-  }
-
-  .tjTable {
-    min-width: 420px;
-  }
-
-  .tjCrumb {
-    gap: 8px;
   }
 }
 
