@@ -1,7 +1,0 @@
-Coloque aqui os arquivos do Trabalho Jovem.
-
-Exemplos (substitua pelos arquivos reais):
-- lista-selecionados-trabalho-jovem.docx
-- edital-jovem-aprendiz-2024.pdf
-- edital-estagio-prefeitura-2024.pdf
-- modelo-curriculo-simples.docx

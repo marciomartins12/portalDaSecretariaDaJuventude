@@ -227,7 +227,7 @@
 
     const validateTeamSize = () => {
       const teamCount = 1 + members.length;
-      return teamCount >= 2 && teamCount <= 3;
+      return teamCount >= 10 && teamCount <= 15;
     };
 
     const updateSubmitState = () => {
@@ -250,7 +250,7 @@
     if (addMemberBtn) {
       addMemberBtn.addEventListener("click", () => {
         setMemberAddError("");
-        if (members.length >= 2) return setMemberAddError("Limite atingido: máximo de 3 participantes (incluindo o capitão).");
+        if (members.length >= 14) return setMemberAddError("Limite atingido: máximo de 15 participantes (incluindo o capitão).");
         const name = String(memberNameInput?.value || "").trim();
         const dob = String(memberDobInput?.value || "").trim();
         const cpf = String(memberCpfInput?.value || "").trim().replace(/\D/g, "");
@@ -282,16 +282,16 @@
           e.preventDefault();
           return;
         }
-        if (1 + members.length < 2) {
+        if (1 + members.length < 10) {
           e.preventDefault();
           setMemberAddError(
-            "Adicione pelo menos 1 participante para completar a equipe (mínimo 2 com o capitão)."
+            "Adicione pelo menos 9 participantes para completar a equipe (mínimo 10 com o capitão)."
           );
           return;
         }
-        if (1 + members.length > 3) {
+        if (1 + members.length > 15) {
           e.preventDefault();
-          setMemberAddError("Remova participantes: máximo de 3 pessoas na equipe (incluindo o capitão).");
+          setMemberAddError("Remova participantes: máximo de 15 pessoas na equipe (incluindo o capitão).");
           return;
         }
         if (!validateTerms()) {

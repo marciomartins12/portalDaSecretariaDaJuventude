@@ -135,8 +135,8 @@ function validateInscricaoGincana(req, res, next) {
 
   const participantsTotal = validMembers.length + 1;
   if (!errors.membersJson) {
-    if (participantsTotal < 2) errors.membersJson = "A equipe precisa ter no mínimo 2 participantes (incluindo o capitão).";
-    if (participantsTotal > 3) errors.membersJson = "A equipe pode ter no máximo 3 participantes (incluindo o capitão).";
+    if (participantsTotal < 10) errors.membersJson = "A equipe precisa ter no mínimo 10 participantes (incluindo o capitão).";
+    if (participantsTotal > 15) errors.membersJson = "A equipe pode ter no máximo 15 participantes (incluindo o capitão).";
   }
 
   const normalized = {

@@ -111,8 +111,8 @@
             <div class="memberBox__stats">
               <span class="memberPill">Participantes: <span data-team-count>1</span></span>
               <span class="memberPill">Na lista: <span data-members-count>0</span></span>
-              <span class="memberPill memberPill--muted">Mínimo: 2</span>
-              <span class="memberPill memberPill--muted">Máximo: 3</span>
+              <span class="memberPill memberPill--muted">Mínimo: 10</span>
+              <span class="memberPill memberPill--muted">Máximo: 15</span>
             </div>
           </div>
 
@@ -121,6 +121,7 @@
             O capitão conta como 1 participante.
             Para incluir alguém na equipe, preencha o nome e a data de nascimento e clique em “Adicionar”.
             O participante só entra na lista depois desse clique.
+            Total permitido: mínimo 10 e máximo 15 (incluindo o capitão).
           </div>
 
           {{#if errors.membersJson}}<div class="errorMsg">{{errors.membersJson}}</div>{{/if}}
