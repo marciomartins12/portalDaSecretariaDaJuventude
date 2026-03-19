@@ -21,3 +21,49 @@
     </form>
   </nav>
 </aside>
+
+<nav class="adminBottomNav" aria-label="Admin mobile">
+  <a class="adminBottomNav__item {{#if (eq active 'dashboard')}}adminBottomNav__item--active{{/if}}" href="/admin">
+    <span class="adminBottomNav__icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M4 11.5L12 4l8 7.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-8.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="adminBottomNav__label">Início</span>
+  </a>
+
+  <a class="adminBottomNav__item {{#if (eq active 'inscricoes')}}adminBottomNav__item--active{{/if}}" href="/admin/inscricoes">
+    <span class="adminBottomNav__icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M7 4h10M7 4v3M17 4v3M6 8h12v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M8.5 12h7M8.5 15h7M8.5 18h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="adminBottomNav__label">Inscrições</span>
+  </a>
+
+  {{#if (eq admin.role 'MASTER')}}
+    <a class="adminBottomNav__item {{#if (eq active 'admins')}}adminBottomNav__item--active{{/if}}" href="/admin/admins">
+      <span class="adminBottomNav__icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0Z" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M4 20a7 7 0 0 1 16 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="adminBottomNav__label">Admins</span>
+    </a>
+  {{/if}}
+
+  <form method="post" action="/admin/logout">
+    <button class="adminBottomNav__item" type="submit">
+      <span class="adminBottomNav__icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M10 17l-1 0a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M14 7l4 5-4 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 12H10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="adminBottomNav__label">Sair</span>
+    </button>
+  </form>
+</nav>
