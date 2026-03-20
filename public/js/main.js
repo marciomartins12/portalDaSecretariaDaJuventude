@@ -31,7 +31,7 @@
     img.loading = "eager";
     img.src = iconSrc;
     img.onload = () => {
-      const size = 128;
+      const size = 300;
       const canvas = document.createElement("canvas");
       canvas.width = size;
       canvas.height = size;
