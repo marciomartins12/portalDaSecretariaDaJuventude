@@ -38,7 +38,7 @@ function edital(req, res) {
 function editalPdf(req, res) {
   const filePath = path.join(__dirname, "..", "public", "arquivos", "edital-da-gincana-2026.pdf");
   if (!fs.existsSync(filePath)) return res.status(404).send("Arquivo não encontrado.");
-  return res.download(filePath, "edital-da-gincana-2026-secretaria-de-juventude.pdf");
+  return res.download(filePath, "edital-da-gincana-2026.pdf");
 }
 
 function inscricao(req, res) {
