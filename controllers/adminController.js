@@ -1,4 +1,3 @@
-const { Op } = require("sequelize");
 const content = require("../services/contentService");
 const { authenticateAdmin, signAdminToken } = require("../services/adminAuthService");
 const { CorridaInscricao, GincanaInscricao } = require("../models/indexSequelize");

@@ -39,3 +39,4 @@ Thumbs.db
 .idea/
 
 ./DEPLOY.md
+.data/
