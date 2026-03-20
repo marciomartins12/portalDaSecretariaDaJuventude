@@ -1225,7 +1225,9 @@ body.nav-open {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-
+.editaltiotulomaior{
+  font-size: 40px !important;
+}
 .heroCard__title {
   font-family: Poppins, Inter, sans-serif;
   font-weight: 800;
