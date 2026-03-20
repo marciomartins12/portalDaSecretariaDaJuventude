@@ -3,6 +3,7 @@ const { trabalhoJovem } = require("../services/trabalhoJovemService");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
 const path = require("path");
 const fs = require("fs");
+const { getEditalGincanaFromPdf } = require("../services/editalPdfService");
 
 function home(req, res) {
   res.render("home", {
@@ -28,10 +29,18 @@ function editais(req, res) {
   });
 }
 
-function edital(req, res) {
+async function edital(req, res) {
+  let editalPdf = null;
+  try {
+    editalPdf = await getEditalGincanaFromPdf();
+  } catch {
+    editalPdf = null;
+  }
+
   res.render("edital", {
     title: "Edital — Gincana da Juventude",
-    gincana: content.gincana
+    gincana: content.gincana,
+    editalPdf
   });
 }
 
