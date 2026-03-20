@@ -11,11 +11,9 @@ const { configureViewEngine } = require("./config/viewEngine");
 const { initDatabase } = require("./config/dbInit");
 const routes = require("./routes");
 const adminRoutes = require("./routes/admin");
-const webhooksRoutes = require("./routes/webhooks");
 const { initAdminSeed } = require("./services/adminSeedService");
 const { ensureAdminSchema } = require("./services/adminSchemaService");
 const { initSocket } = require("./socket");
-const { startWhatsappMonitor } = require("./services/whatsapp/whatsappMonitor");
 
 const app = express();
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
@@ -105,7 +103,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/admin", adminRoutes);
-app.use("/webhooks", webhooksRoutes);
 app.use(routes);
 
 app.use((req, res) => {
@@ -141,7 +138,6 @@ async function start() {
 
   const server = http.createServer(app);
   initSocket(server);
-  startWhatsappMonitor();
 
   server.listen(port, () => {
     process.stdout.write(`Servidor rodando em http://localhost:${port}\n`);

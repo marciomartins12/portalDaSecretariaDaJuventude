@@ -64,18 +64,6 @@ function initSocket(server) {
       socket.join(`admin:${adminId}`);
     }
 
-    socket.on("join_atendimento", (atendimentoId) => {
-      const id = Number(atendimentoId);
-      if (!id) return;
-      socket.join(`atendimento:${id}`);
-    });
-
-    socket.on("leave_atendimento", (atendimentoId) => {
-      const id = Number(atendimentoId);
-      if (!id) return;
-      socket.leave(`atendimento:${id}`);
-    });
-
     socket.on("disconnect", async () => {
       if (!adminId) return;
       const current = presenceCounts.get(adminId) || 0;
