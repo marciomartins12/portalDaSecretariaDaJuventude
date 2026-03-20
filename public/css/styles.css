@@ -897,6 +897,8 @@ img {
   border-color: rgba(255, 255, 255, 0.14);
   background: linear-gradient(135deg, rgba(79, 209, 197, 0.16), rgba(96, 165, 250, 0.14));
   box-shadow: 0 0 0 1px rgba(79, 209, 197, 0.08), 0 0 18px rgba(79, 209, 197, 0.18);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav__link--restricted:hover {

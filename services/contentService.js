@@ -32,32 +32,6 @@ const news = [
   }
 ];
 
-const edital = {
-  objective:
-    "Promover integração, liderança e participação da juventude, por meio de desafios culturais, esportivos e comunitários.",
-  rules: [
-    "Equipes com mínimo de 10 participantes e máximo de 15 (contando com o capitão).",
-    "Respeito, inclusão e conduta ética são obrigatórios em todas as provas.",
-    "Pontuações e critérios são divulgados antes de cada etapa.",
-    "Provas podem envolver atividades físicas leves e desafios criativos."
-  ],
-  timeline: [
-    { title: "Inscrições", desc: "Até 20/03/2026" },
-    { title: "Confirmação das equipes", desc: "21/03/2026" },
-    { title: "Congresso técnico", desc: "25/03/2026" },
-    { title: "Realização do evento", desc: "28/03/2026" }
-  ],
-  requirements: [
-    "Idade mínima recomendada: 12 anos (com autorização do responsável quando necessário).",
-    "Informar líder e contatos válidos.",
-    "Lista de membros completa no ato da inscrição."
-  ],
-  prizes: [
-    "1º lugar: troféu + kit esportivo + brindes",
-    "2º lugar: troféu + brindes",
-    "3º lugar: medalhas + brindes",
-    "Destaques: reconhecimento para participação, criatividade e fair play"
-  ]
-};
 
-module.exports = { gincana, corrida, feirinha, news, edital };
+
+module.exports = { gincana, corrida, feirinha, news };
