@@ -22,22 +22,9 @@ const feirinha = {
 };
 
 const news = [
+ 
   {
     id: "1",
-    title: "Oficina de liderança jovem abre inscrições",
-    excerpt: "Encontros práticos para fortalecer comunicação, projeto de vida e participação comunitária.",
-    image: "/public/assets/news-1.svg",
-    date: "Mar/2026"
-  },
-  {
-    id: "2",
-    title: "Mutirão: juventude e cidadania no bairro",
-    excerpt: "Ação integrada com serviços, cultura e esporte para aproximar oportunidades de quem mais precisa.",
-    image: "/public/assets/news-2.svg",
-    date: "Fev/2026"
-  },
-  {
-    id: "3",
     title: "Feirinha do Povo acontece dia 30 de março",
     excerpt: "Um encontro para valorizar a comunidade, produtos locais e cultura, com entrada gratuita.",
     image: "/public/assets/gallery-1.svg",
