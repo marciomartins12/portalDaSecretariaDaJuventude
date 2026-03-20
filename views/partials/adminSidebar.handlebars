@@ -11,6 +11,9 @@
     <a class="adminNav__link {{#if (eq active 'inscricoes')}}adminNav__link--active{{/if}}" href="/admin/inscricoes">
       Inscrições
     </a>
+    <a class="adminNav__link {{#if (eq active 'atendimentos')}}adminNav__link--active{{/if}}" href="/admin/atendimentos">
+      Atendimento
+    </a>
     {{#if (eq admin.role 'MASTER')}}
       <a class="adminNav__link {{#if (eq active 'admins')}}adminNav__link--active{{/if}}" href="/admin/admins">
         Administradores
@@ -40,6 +43,17 @@
       </svg>
     </span>
     <span class="adminBottomNav__label">Inscrições</span>
+  </a>
+
+  <a class="adminBottomNav__item {{#if (eq active 'atendimentos')}}adminBottomNav__item--active{{/if}}" href="/admin/atendimentos">
+    <span class="adminBottomNav__icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M6 12a6 6 0 0 1 12 0v5a2 2 0 0 1-2 2h-1l-3 2v-2H8a2 2 0 0 1-2-2v-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M9 12h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M9 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="adminBottomNav__label">Atendimento</span>
   </a>
 
   {{#if (eq admin.role 'MASTER')}}

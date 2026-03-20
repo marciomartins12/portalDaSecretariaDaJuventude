@@ -60,3 +60,41 @@ CREATE TABLE IF NOT EXISTS corrida_inscricoes (
   UNIQUE KEY uq_corrida_phone (phone),
   UNIQUE KEY uq_corrida_cpf (cpf)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS atendimentos (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  telefone VARCHAR(40) NOT NULL,
+  status ENUM('aberto', 'em_atendimento', 'finalizado') NOT NULL DEFAULT 'aberto',
+  atendente_id BIGINT UNSIGNED NULL,
+  data_inicio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  data_fim DATETIME NULL,
+  last_activity_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  unread_count INT NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_status (status),
+  KEY idx_telefone (telefone),
+  KEY idx_last_activity (last_activity_at),
+  KEY idx_atendente (atendente_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS mensagens (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  atendimento_id BIGINT UNSIGNED NOT NULL,
+  remetente ENUM('cliente', 'atendente') NOT NULL,
+  atendente_id BIGINT UNSIGNED NULL,
+  conteudo TEXT NOT NULL,
+  whatsapp_id VARCHAR(120) NULL,
+  status ENUM('enviado', 'erro') NOT NULL DEFAULT 'enviado',
+  timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_atendimento_id (atendimento_id),
+  KEY idx_timestamp (timestamp),
+  UNIQUE KEY uq_whatsapp_id (whatsapp_id),
+  CONSTRAINT fk_mensagens_atendimento
+    FOREIGN KEY (atendimento_id)
+    REFERENCES atendimentos (id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB;

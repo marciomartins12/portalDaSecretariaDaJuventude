@@ -1,0 +1,68 @@
+<div class="adminShell">
+  {{> adminSidebar active="atendimentos"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Atendimento</div>
+        <div class="adminTop__meta">WhatsApp • multiatendimento</div>
+      </div>
+      <div class="adminTop__actions">
+        <div class="waStatus" id="waStatus"></div>
+        <button class="btn" type="button" id="waConnectBtn">Conectar WhatsApp</button>
+        <button class="btn" type="button" id="waQrBtn">Ver QR</button>
+      </div>
+    </div>
+
+    <div class="chatShell glass" id="atendimentoApp" data-admin-id="{{admin.id}}" data-admin-name="{{admin.name}}">
+      <aside class="chatSidebar">
+        <div class="chatSidebar__filters">
+          <select class="input" id="statusFilter">
+            <option value="">Todos</option>
+            <option value="aberto">Abertos</option>
+            <option value="em_atendimento">Em atendimento</option>
+            <option value="finalizado">Finalizados</option>
+          </select>
+          <input class="input" id="searchInput" placeholder="Buscar por número..." />
+        </div>
+        <div class="chatList" id="chatList"></div>
+      </aside>
+
+      <section class="chatMain">
+        <header class="chatHeader">
+          <div class="chatHeader__title" id="chatTitle">Selecione um atendimento</div>
+          <div class="chatHeader__meta" id="chatMeta"></div>
+          <div class="chatHeader__actions">
+            <button class="btn" type="button" id="assumeBtn" disabled>Assumir</button>
+            <button class="btn" type="button" id="releaseBtn" disabled>Liberar</button>
+            <button class="btn btn--danger" type="button" id="finalizeBtn" disabled>Finalizar</button>
+          </div>
+        </header>
+
+        <div class="chatMessages" id="chatMessages"></div>
+
+        <form class="chatComposer" id="chatComposer">
+          <input class="input chatComposer__input" id="messageInput" placeholder="Digite uma mensagem..." autocomplete="off" />
+          <button class="btn btn--primary" type="submit" id="sendBtn" disabled>Enviar</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="chatQrModal" id="qrModal" hidden>
+      <div class="chatQrModal__backdrop" id="qrModalBackdrop"></div>
+      <div class="chatQrModal__card glass">
+        <div class="chatQrModal__head">
+          <div class="chatQrModal__title">QR Code do WhatsApp</div>
+          <button class="btn" type="button" id="qrModalClose">Fechar</button>
+        </div>
+        <div class="chatQrModal__body">
+          <img id="qrImage" alt="QR Code" />
+          <pre class="chatQrModal__raw" id="qrRaw" hidden></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/public/js/admin-atendimentos.js?v={{assetVersion}}" defer></script>

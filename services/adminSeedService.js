@@ -8,10 +8,15 @@ async function initAdminSeed() {
 
   const email = String(process.env.ADMIN_MASTER_EMAIL || "marciom1martins@gmail.com").trim().toLowerCase();
   const password = String(process.env.ADMIN_MASTER_PASSWORD || "admin123");
+  const name = String(process.env.ADMIN_MASTER_NAME || "Administrador").trim();
 
   const exists = await Admin.findOne({ where: { email } });
   if (exists) {
     let changed = false;
+    if (!exists.name && name) {
+      exists.name = name;
+      changed = true;
+    }
     if (exists.role !== "MASTER") {
       exists.role = "MASTER";
       changed = true;
@@ -28,7 +33,7 @@ async function initAdminSeed() {
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
-  await Admin.create({ email, passwordHash, role: "MASTER" });
+  await Admin.create({ name, email, passwordHash, role: "MASTER" });
 }
 
 module.exports = { initAdminSeed };

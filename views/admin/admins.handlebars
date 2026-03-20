@@ -19,16 +19,20 @@
           <table class="table">
             <thead>
               <tr>
+                <th>Nome</th>
                 <th>E-mail</th>
                 <th>Role</th>
+                <th>Status</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {{#each rows}}
                 <tr>
+                  <td>{{name}}</td>
                   <td>{{email}}</td>
                   <td class="muted">{{role}}</td>
+                  <td class="muted">{{presenceStatus}}</td>
                   <td class="tableActions">
                     <a class="btn" href="/admin/admins/{{id}}/edit">Editar</a>
                     <form method="post" action="/admin/admins/{{id}}/delete">

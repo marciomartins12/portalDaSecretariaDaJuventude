@@ -23,6 +23,11 @@
 
           <form class="form" method="post" action="/admin/admins/{{form.id}}">
             <div class="field">
+              <div class="label">Nome</div>
+              <input class="input" type="text" name="name" required value="{{form.name}}" />
+            </div>
+
+            <div class="field">
               <div class="label">E-mail</div>
               <input class="input" type="email" name="email" required value="{{form.email}}" />
             </div>

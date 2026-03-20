@@ -25,7 +25,7 @@ async function requireAdmin(req, res, next) {
     const admin = await Admin.findByPk(adminId);
     if (!admin) return res.redirect("/admin/login");
 
-    req.admin = { id: admin.id, email: admin.email, role: admin.role };
+    req.admin = { id: admin.id, name: admin.name || "", email: admin.email, role: admin.role };
     res.locals.admin = req.admin;
     next();
   } catch {
@@ -42,4 +42,3 @@ function requireRole(role) {
 }
 
 module.exports = { requireAdmin, requireRole };
-
