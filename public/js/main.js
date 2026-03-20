@@ -22,6 +22,40 @@
     if (svg) el.innerHTML = svg;
   });
 
+  const iconLink = document.querySelector("link[rel='icon']");
+  const appleIconLink = document.querySelector("link[rel='apple-touch-icon']");
+  const iconSrc = iconLink?.getAttribute("href") || appleIconLink?.getAttribute("href");
+  if (iconSrc) {
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    img.src = iconSrc;
+    img.onload = () => {
+      const size = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const scale = Math.max(size / img.width, size / img.height);
+      const dw = img.width * scale;
+      const dh = img.height * scale;
+      const dx = (size - dw) / 2;
+      const dy = (size - dh) / 2;
+      ctx.clearRect(0, 0, size, size);
+      ctx.drawImage(img, dx, dy, dw, dh);
+      const dataUrl = canvas.toDataURL("image/png");
+      if (iconLink) {
+        iconLink.setAttribute("href", dataUrl);
+        iconLink.setAttribute("sizes", `${size}x${size}`);
+      }
+      if (appleIconLink) {
+        appleIconLink.setAttribute("href", dataUrl);
+        appleIconLink.setAttribute("sizes", `${size}x${size}`);
+      }
+    };
+  }
+
   const parseCookies = () => {
     const raw = String(document.cookie || "");
     if (!raw) return {};
