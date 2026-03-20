@@ -60,3 +60,12 @@ CREATE TABLE IF NOT EXISTS corrida_inscricoes (
   UNIQUE KEY uq_corrida_phone (phone),
   UNIQUE KEY uq_corrida_cpf (cpf)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS devices (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  device_id VARCHAR(80) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_device_id (device_id),
+  KEY idx_created_at (created_at)
+) ENGINE=InnoDB;

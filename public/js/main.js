@@ -22,6 +22,112 @@
     if (svg) el.innerHTML = svg;
   });
 
+  const parseCookies = () => {
+    const raw = String(document.cookie || "");
+    if (!raw) return {};
+    const out = {};
+    raw.split(";").forEach((part) => {
+      const idx = part.indexOf("=");
+      if (idx === -1) return;
+      const k = part.slice(0, idx).trim();
+      const v = part.slice(idx + 1).trim();
+      if (!k) return;
+      try {
+        out[k] = decodeURIComponent(v);
+      } catch {
+        out[k] = v;
+      }
+    });
+    return out;
+  };
+
+  const setCookie = (name, value, maxAgeSeconds) => {
+    const encoded = encodeURIComponent(String(value || ""));
+    const age = maxAgeSeconds ? `; Max-Age=${Math.max(0, Math.trunc(maxAgeSeconds))}` : "";
+    document.cookie = `${name}=${encoded}${age}; Path=/; SameSite=Lax`;
+  };
+
+  const storageGet = (key) => {
+    try {
+      return window.localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  };
+
+  const storageSet = (key, value) => {
+    try {
+      window.localStorage.setItem(key, value);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const uuid = () => {
+    const c = window.crypto;
+    if (c && typeof c.randomUUID === "function") return c.randomUUID();
+    const bytes = c && typeof c.getRandomValues === "function" ? c.getRandomValues(new Uint8Array(16)) : null;
+    const rnd = bytes || Array.from({ length: 16 }, () => Math.floor(Math.random() * 256));
+    rnd[6] = (rnd[6] & 0x0f) | 0x40;
+    rnd[8] = (rnd[8] & 0x3f) | 0x80;
+    const hex = Array.from(rnd, (b) => b.toString(16).padStart(2, "0")).join("");
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  };
+
+  const deviceKey = "device_id";
+  const trackedKey = "device_tracked_v1";
+  const oneYear = 60 * 60 * 24 * 365;
+
+  const getDeviceId = () => {
+    const fromStorage = storageGet(deviceKey);
+    if (fromStorage) return fromStorage;
+    const cookies = parseCookies();
+    const fromCookie = cookies[deviceKey];
+    if (fromCookie) return fromCookie;
+    return null;
+  };
+
+  const getTracked = () => {
+    const fromStorage = storageGet(trackedKey);
+    if (fromStorage === "1") return true;
+    const cookies = parseCookies();
+    return cookies[trackedKey] === "1";
+  };
+
+  const setTracked = () => {
+    storageSet(trackedKey, "1");
+    setCookie(trackedKey, "1", oneYear);
+  };
+
+  const ensureDeviceId = () => {
+    let id = getDeviceId();
+    if (!id) id = uuid();
+    storageSet(deviceKey, id);
+    setCookie(deviceKey, id, oneYear);
+    return id;
+  };
+
+  const trackDeviceOnce = () => {
+    if (typeof fetch !== "function") return;
+    const id = ensureDeviceId();
+    if (getTracked()) return;
+    (async () => {
+      try {
+        const res = await fetch("/track-device", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ device_id: id }),
+          credentials: "same-origin",
+          keepalive: true
+        });
+        if (res.ok || res.status === 204) setTracked();
+      } catch {}
+    })();
+  };
+
+  trackDeviceOnce();
+
   const navToggle = document.querySelector(".navToggle");
   const navBackdrop = document.querySelector(".navBackdrop");
 

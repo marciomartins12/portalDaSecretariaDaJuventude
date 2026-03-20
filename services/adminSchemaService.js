@@ -13,6 +13,22 @@ async function ensureColumn(connection, { database, table, columnName, ddl }) {
   }
 }
 
+async function ensureIndex(connection, { database, table, indexName, ddl }) {
+  const [rows] = await connection.execute(
+    `SELECT 1
+     FROM information_schema.statistics
+     WHERE table_schema = ? AND table_name = ? AND index_name = ?
+     LIMIT 1`,
+    [database, table, indexName]
+  );
+  if (rows.length > 0) return;
+  try {
+    await connection.execute(ddl);
+  } catch (err) {
+    process.stderr.write(`Falha ao criar índice ${indexName} em ${table}: ${err?.message || String(err)}\n`);
+  }
+}
+
 async function ensureTable(connection, { database, table, ddl }) {
   const [rows] = await connection.execute(
     "SELECT 1 FROM information_schema.tables WHERE table_schema = ? AND table_name = ? LIMIT 1",
@@ -81,6 +97,27 @@ async function ensureAdminSchema() {
       table: "corrida_inscricoes",
       columnName: "age",
       ddl: "ALTER TABLE `corrida_inscricoes` ADD COLUMN `age` INT NOT NULL DEFAULT 0"
+    });
+
+    await ensureTable(connection, {
+      database,
+      table: "devices",
+      ddl: `
+        CREATE TABLE \`devices\` (
+          \`id\` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+          \`device_id\` VARCHAR(80) NOT NULL,
+          \`created_at\` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (\`id\`),
+          UNIQUE KEY \`uq_device_id\` (\`device_id\`),
+          KEY \`idx_created_at\` (\`created_at\`)
+        ) ENGINE=InnoDB
+      `
+    });
+    await ensureIndex(connection, {
+      database,
+      table: "devices",
+      indexName: "uq_device_id",
+      ddl: "ALTER TABLE `devices` ADD UNIQUE KEY `uq_device_id` (`device_id`)"
     });
   } finally {
     await connection.end();

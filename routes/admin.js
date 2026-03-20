@@ -12,6 +12,8 @@ router.post("/login", adminController.loginSubmit);
 router.post("/logout", adminController.logout);
 
 router.get("/", requireAdmin, adminController.dashboard);
+router.get("/device-count", requireAdmin, adminController.deviceCount);
+router.get("/device-count/daily", requireAdmin, adminController.deviceDailyCount);
 router.get("/inscricoes", requireAdmin, adminInscricoesController.listEvents);
 router.get("/inscricoes/corrida", requireAdmin, adminInscricoesController.listCorrida);
 router.get("/inscricoes/corrida/export.docx", requireAdmin, adminInscricoesController.exportCorridaDocx);
