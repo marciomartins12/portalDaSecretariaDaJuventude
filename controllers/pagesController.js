@@ -1,7 +1,8 @@
 const content = require("../services/contentService");
 const { trabalhoJovem } = require("../services/trabalhoJovemService");
-const PDFDocument = require("pdfkit");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
+const path = require("path");
+const fs = require("fs");
 
 function home(req, res) {
   res.render("home", {
@@ -30,68 +31,14 @@ function editais(req, res) {
 function edital(req, res) {
   res.render("edital", {
     title: "Edital — Gincana da Juventude",
-    gincana: content.gincana,
-    edital: content.edital
+    gincana: content.gincana
   });
 }
 
 function editalPdf(req, res) {
-  const filename = "edital-gincana-juventude-peri-mirim.pdf";
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
-
-  const doc = new PDFDocument({ size: "A4", margin: 50 });
-  doc.pipe(res);
-
-  doc.info.Title = "Edital — Gincana da Juventude de Peri Mirim";
-  doc.info.Author = "Secretaria Municipal da Juventude de Peri Mirim";
-
-  doc.fontSize(20).text("EDITAL", { align: "center" });
-  doc.moveDown(0.4);
-  doc.fontSize(14).text(content.gincana.title, { align: "center" });
-  doc.moveDown(0.6);
-  doc.fontSize(11).fillColor("#333333").text(
-    `${content.gincana.dateLabel} • ${content.gincana.location}`,
-    { align: "center" }
-  );
-  doc.moveDown(1.2);
-
-  doc.fillColor("#111111").fontSize(13).text("1. Objetivo", { continued: false });
-  doc.moveDown(0.3);
-  doc.fontSize(11).fillColor("#333333").text(content.edital.objective);
-  doc.moveDown(0.9);
-
-  doc.fillColor("#111111").fontSize(13).text("2. Regras", { continued: false });
-  doc.moveDown(0.3);
-  doc.fontSize(11).fillColor("#333333");
-  content.edital.rules.forEach((r) => doc.text(`• ${r}`));
-  doc.moveDown(0.9);
-
-  doc.fillColor("#111111").fontSize(13).text("3. Cronograma", { continued: false });
-  doc.moveDown(0.3);
-  doc.fontSize(11).fillColor("#333333");
-  content.edital.timeline.forEach((t) => doc.text(`• ${t.title}: ${t.desc}`));
-  doc.moveDown(0.9);
-
-  doc.fillColor("#111111").fontSize(13).text("4. Requisitos", { continued: false });
-  doc.moveDown(0.3);
-  doc.fontSize(11).fillColor("#333333");
-  content.edital.requirements.forEach((r) => doc.text(`• ${r}`));
-  doc.moveDown(0.9);
-
-  doc.fillColor("#111111").fontSize(13).text("5. Premiação", { continued: false });
-  doc.moveDown(0.3);
-  doc.fontSize(11).fillColor("#333333");
-  content.edital.prizes.forEach((p) => doc.text(`• ${p}`));
-  doc.moveDown(1.2);
-
-  doc.fillColor("#666666")
-    .fontSize(9)
-    .text("Secretaria Municipal da Juventude de Peri Mirim • Portal digital", {
-      align: "center"
-    });
-
-  doc.end();
+  const filePath = path.join(__dirname, "..", "public", "arquivos", "edital-da-gincana-2026.pdf");
+  if (!fs.existsSync(filePath)) return res.status(404).send("Arquivo não encontrado.");
+  return res.download(filePath, "edital-da-gincana-2026-secretaria-de-juventude.pdf");
 }
 
 function inscricao(req, res) {
