@@ -29,16 +29,13 @@
       <article class="card glass reveal">
           <div class="card__icon" aria-hidden="true" data-icon="shield"></div>
           <h2 class="card__title">Edital Gincana Celebra Peri Mirim</h2>
-          <p class="card__desc">Documento completo da Gincana Celebra Peri Mirim.</p>
-          <a class="btn btn--primary btn--wide" href="/editais/gincana">Abrir edital</a>
+          <p class="card__desc">{{gincana.title}} • {{gincana.dateLabel}}</p>
+          <div class="cardActions">
+            <a class="btn btn--primary" href="/editais/gincana/pdf">Baixar Edital (PDF)</a>
+            <a class="btn btn--ghost" href="/inscricoes/gincana">Fazer Inscrição</a>
+          </div>
         </article>
 
-      <article class="card glass reveal">
-        <div class="card__icon" aria-hidden="true" data-icon="target"></div>
-        <h2 class="card__title">Edital da Corrida Celebra Peri Mirim</h2>
-        <p class="card__desc">Saúde, superação e energia pelas ruas de Peri Mirim.</p>
-        <a class="btn btn--primary btn--wide" href="/editais/corrida">Abrir edital</a>
-      </article>
     </div>
   </div>
 </section>

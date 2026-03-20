@@ -3,7 +3,6 @@ const { trabalhoJovem } = require("../services/trabalhoJovemService");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
 const path = require("path");
 const fs = require("fs");
-const { getEditalGincanaFromPdf } = require("../services/editalPdfService");
 
 function home(req, res) {
   res.render("home", {
@@ -29,25 +28,30 @@ function editais(req, res) {
   });
 }
 
-async function edital(req, res) {
-  let editalPdf = null;
-  try {
-    editalPdf = await getEditalGincanaFromPdf();
-  } catch {
-    editalPdf = null;
+function editalPdf(req, res) {
+  const dir = path.join(__dirname, "..", "public", "arquivos");
+  const preferredNames = ["editaldagincana.pdf", "edital-da-gincana-2026.pdf", "editalGincana.pdf"];
+
+  for (const name of preferredNames) {
+    const p = path.join(dir, name);
+    if (fs.existsSync(p)) return res.download(p, name);
   }
 
-  res.render("edital", {
-    title: "Edital — Gincana da Juventude",
-    gincana: content.gincana,
-    editalPdf
-  });
-}
+  let entries = [];
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    entries = [];
+  }
 
-function editalPdf(req, res) {
-  const filePath = path.join(__dirname, "..", "public", "arquivos", "edital-da-gincana-2026.pdf");
-  if (!fs.existsSync(filePath)) return res.status(404).send("Arquivo não encontrado.");
-  return res.download(filePath, "edital-da-gincana-2026-secretaria-de-juventude.pdf");
+  const pdfs = entries.filter((f) => /\.pdf$/i.test(f));
+  const best =
+    pdfs.find((f) => /edital/i.test(f) && /gincana/i.test(f)) ||
+    pdfs.find((f) => /edital/i.test(f)) ||
+    pdfs[0];
+
+  if (!best) return res.status(404).send("Arquivo não encontrado.");
+  return res.download(path.join(dir, best), best);
 }
 
 function inscricao(req, res) {
@@ -120,7 +124,6 @@ module.exports = {
   home,
   inscricoes,
   editais,
-  edital,
   editalPdf,
   inscricao,
   inscricaoCorrida,
