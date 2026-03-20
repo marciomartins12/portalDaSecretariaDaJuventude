@@ -9,7 +9,7 @@
       <p class="pageHero__subtitle">{{gincana.title}} • {{gincana.dateLabel}}</p>
     </div>
 
-    <div class="pageHero__card glass">
+    <div class="pageHero__card pageHero__card--hideMobile glass">
       <div class="note">
         <span class="note__dot" aria-hidden="true"></span>
         Dados enviados com segurança. Confirme telefone e lista de membros.
@@ -41,7 +41,7 @@
       </div>
     {{/if}}
 
-    <form class="form glass reveal" method="post" action="/inscricoes/gincana/revisar" novalidate>
+    <form class="form glass" method="post" action="/inscricoes/gincana/revisar" novalidate>
       <div class="form__head">
         <h2 class="form__title">Formulário de inscrição</h2>
         <p class="form__desc">Preencha os dados abaixo para registrar sua equipe.</p>
