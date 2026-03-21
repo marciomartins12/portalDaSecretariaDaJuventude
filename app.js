@@ -115,7 +115,7 @@ app.use((req, res, next) => {
 
   res.locals.baseUrl = baseUrl;
   res.locals.canonicalUrl = canonicalUrl;
-  res.locals.metaDescription = res.locals.site?.tagline || "";
+  res.locals.metaDescription = res.locals.metaDescription || res.locals.site?.tagline || "";
   res.locals.metaImage = baseUrl ? `${baseUrl}/public/assets/SECJUVPRINCIPAL.png` : "/public/assets/SECJUVPRINCIPAL.png";
   res.locals.metaImageAlt = res.locals.site?.departmentName || "Secretaria da Juventude";
 

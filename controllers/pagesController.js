@@ -7,6 +7,8 @@ const fs = require("fs");
 function home(req, res) {
   res.render("home", {
     title: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
+    metaDescription:
+      "Portal oficial da Secretaria Municipal da Juventude de Peri Mirim (MA). Informações, editais, notícias e inscrições para eventos e oportunidades.",
     gincana: content.gincana,
     corrida: content.corrida,
     feirinha: content.feirinha,
@@ -17,6 +19,8 @@ function home(req, res) {
 function inscricoes(req, res) {
   res.render("inscricoes", {
     title: "Inscrições",
+    metaDescription:
+      "Página de inscrições da Secretaria Municipal da Juventude de Peri Mirim (MA). Acesse os eventos disponíveis e faça sua inscrição.",
     gincana: content.gincana
   });
 }
@@ -24,6 +28,8 @@ function inscricoes(req, res) {
 function editais(req, res) {
   res.render("editais", {
     title: "Editais",
+    metaDescription:
+      "Editais e documentos oficiais da Secretaria Municipal da Juventude de Peri Mirim (MA). Consulte regras, prazos e arquivos em PDF.",
     gincana: content.gincana
   });
 }
@@ -58,6 +64,8 @@ function inscricao(req, res) {
   const success = req.query?.success === "1";
   res.render("inscricao", {
     title: "Inscrição — Gincana Celebra Peri Mirim",
+    metaDescription:
+      "Formulário de inscrição da Gincana Celebra Peri Mirim. Cadastre sua equipe, informe os participantes e confirme os termos.",
     gincana: content.gincana,
     form: {
       teamName: "",
@@ -88,6 +96,8 @@ async function inscricaoCorrida(req, res) {
   }
   res.render("inscricao-corrida", {
     title: "Inscrição — Corrida Celebra Peri Mirim",
+    metaDescription:
+      "Formulário de inscrição da Corrida Celebra Peri Mirim. Preencha seus dados, aceite os termos e confirme sua inscrição.",
     corrida: content.corrida,
     form: {
       fullName: "",
@@ -108,6 +118,8 @@ async function inscricaoCorrida(req, res) {
 function noticias(req, res) {
   res.render("noticias", {
     title: "Notícias da Juventude",
+    metaDescription:
+      "Notícias, comunicados e atualizações da Secretaria Municipal da Juventude de Peri Mirim (MA).",
     news: content.news
   });
 }
@@ -115,6 +127,8 @@ function noticias(req, res) {
 function trabalhoJovemPage(req, res) {
   res.render("trabalho-jovem", {
     title: "Trabalho Jovem",
+    metaDescription:
+      "Recursos, avisos e links do Trabalho Jovem. Informações e orientações para jovens de Peri Mirim (MA).",
     pageScript: "/public/js/trabalho-jovem.js",
     trabalhoJovem
   });
