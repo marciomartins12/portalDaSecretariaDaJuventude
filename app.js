@@ -102,6 +102,62 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  const envBase = String(process.env.SITE_URL || "").trim().replace(/\/+$/, "");
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "").split(",")[0].trim();
+  const proto = forwardedProto || req.protocol;
+  const forwardedHost = String(req.headers["x-forwarded-host"] || "").split(",")[0].trim();
+  const host = forwardedHost || String(req.headers.host || "").trim();
+  const baseUrl = envBase || (host ? `${proto}://${host}` : "");
+
+  const pathOnly = String(req.originalUrl || "/").split("?")[0];
+  const canonicalUrl = baseUrl ? `${baseUrl}${pathOnly}` : pathOnly;
+
+  res.locals.baseUrl = baseUrl;
+  res.locals.canonicalUrl = canonicalUrl;
+  res.locals.metaDescription = res.locals.site?.tagline || "";
+  res.locals.metaImage = baseUrl ? `${baseUrl}/public/assets/SECJUVPRINCIPAL.png` : "/public/assets/SECJUVPRINCIPAL.png";
+  res.locals.metaImageAlt = res.locals.site?.departmentName || "Secretaria da Juventude";
+
+  res.locals.structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["GovernmentOrganization", "Organization"],
+        name: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
+        url: baseUrl || undefined,
+        logo: baseUrl ? `${baseUrl}/public/assets/SECJUVPNG.png` : undefined,
+        sameAs: res.locals.site?.instagramUrl ? [res.locals.site.instagramUrl] : undefined,
+        email: res.locals.site?.email || undefined,
+        telephone: res.locals.site?.phoneHref ? String(res.locals.site.phoneHref).replace(/^tel:/, "") : undefined,
+        address: res.locals.site?.address
+          ? {
+              "@type": "PostalAddress",
+              streetAddress: res.locals.site.address,
+              addressLocality: "Peri Mirim",
+              addressRegion: "MA",
+              addressCountry: "BR"
+            }
+          : undefined
+      },
+      {
+        "@type": "WebSite",
+        name: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
+        url: baseUrl || undefined,
+        inLanguage: "pt-BR"
+      },
+      {
+        "@type": "WebPage",
+        name: res.locals.title || undefined,
+        url: canonicalUrl || undefined,
+        inLanguage: "pt-BR"
+      }
+    ]
+  };
+
+  next();
+});
+
 app.use("/admin", adminRoutes);
 app.use(routes);
 

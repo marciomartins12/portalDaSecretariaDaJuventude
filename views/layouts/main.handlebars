@@ -3,7 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{title}}</title>
+    <title>
+      {{#if title}}
+        {{#if (eq title site.departmentName)}}
+          {{site.departmentName}}
+        {{else}}
+          {{title}} • {{site.departmentName}}
+        {{/if}}
+      {{else}}
+        {{site.departmentName}}
+      {{/if}}
+    </title>
+    <meta name="description" content="{{metaDescription}}" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="{{canonicalUrl}}" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{{site.departmentName}}" />
+    <meta property="og:title" content="{{#if title}}{{#if (eq title site.departmentName)}}{{site.departmentName}}{{else}}{{title}} • {{site.departmentName}}{{/if}}{{else}}{{site.departmentName}}{{/if}}" />
+    <meta property="og:description" content="{{metaDescription}}" />
+    <meta property="og:url" content="{{canonicalUrl}}" />
+    <meta property="og:image" content="{{metaImage}}" />
+    <meta property="og:image:alt" content="{{metaImageAlt}}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{#if title}}{{#if (eq title site.departmentName)}}{{site.departmentName}}{{else}}{{title}} • {{site.departmentName}}{{/if}}{{else}}{{site.departmentName}}{{/if}}" />
+    <meta name="twitter:description" content="{{metaDescription}}" />
+    <meta name="twitter:image" content="{{metaImage}}" />
     <link rel="icon" type="image/png" href="/public/assets/iconePNG.png?v={{assetVersion}}" />
     <link rel="apple-touch-icon" href="/public/assets/iconePNG.png?v={{assetVersion}}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,6 +38,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/public/css/styles.css?v={{assetVersion}}" />
+    {{#if structuredData}}
+      <script type="application/ld+json">{{{toJson structuredData}}}</script>
+    {{/if}}
   </head>
   <body>
     <div class="fishBg" aria-hidden="true">

@@ -8,6 +8,55 @@ const { validateInscricaoCorrida } = require("../middlewares/validateInscricaoCo
 
 const router = express.Router();
 
+router.get("/robots.txt", (req, res) => {
+  const envBase = String(process.env.SITE_URL || "").trim().replace(/\/+$/, "");
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "").split(",")[0].trim();
+  const proto = forwardedProto || req.protocol;
+  const forwardedHost = String(req.headers["x-forwarded-host"] || "").split(",")[0].trim();
+  const host = forwardedHost || String(req.headers.host || "").trim();
+  const baseUrl = envBase || (host ? `${proto}://${host}` : "");
+  const sitemapUrl = baseUrl ? `${baseUrl}/sitemap.xml` : "/sitemap.xml";
+
+  res.type("text/plain").send(`User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${sitemapUrl}\n`);
+});
+
+router.get("/sitemap.xml", (req, res) => {
+  const envBase = String(process.env.SITE_URL || "").trim().replace(/\/+$/, "");
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "").split(",")[0].trim();
+  const proto = forwardedProto || req.protocol;
+  const forwardedHost = String(req.headers["x-forwarded-host"] || "").split(",")[0].trim();
+  const host = forwardedHost || String(req.headers.host || "").trim();
+  const baseUrl = envBase || (host ? `${proto}://${host}` : "");
+  const now = new Date().toISOString();
+  const toUrl = (path) => (baseUrl ? `${baseUrl}${path}` : path);
+
+  const urls = [
+    "/",
+    "/inscricoes",
+    "/inscricoes/gincana",
+    "/inscricoes/corrida",
+    "/editais",
+    "/editais/gincana/pdf",
+    "/noticias",
+    "/trabalho-jovem"
+  ];
+
+  const body = urls
+    .map((p) => {
+      const loc = toUrl(p);
+      return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${now}</lastmod>\n  </url>`;
+    })
+    .join("\n");
+
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    `${body}\n` +
+    `</urlset>\n`;
+
+  res.type("application/xml").send(xml);
+});
+
 router.post("/track-device", async (req, res) => {
   const deviceId = String(req.body?.device_id || req.body?.deviceId || "").trim();
   if (!deviceId || deviceId.length > 80) return res.status(400).json({ ok: false });
