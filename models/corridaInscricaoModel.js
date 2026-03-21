@@ -59,8 +59,9 @@ async function createCorridaInscricao(data) {
   ];
 
   if (cols.has("neighborhood")) {
+    const neighborhood = String(data.neighborhood || "").trim();
     columns.splice(4, 0, "neighborhood");
-    values.splice(4, 0, data.neighborhood || null);
+    values.splice(4, 0, neighborhood);
   }
   if (cols.has("age")) {
     const age = data.age ? Number(data.age) : 0;
