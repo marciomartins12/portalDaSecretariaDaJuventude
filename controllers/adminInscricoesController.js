@@ -55,10 +55,12 @@ function bibFromId(id) {
 }
 
 async function listEvents(req, res) {
-  const [totalGincana, totalCorrida] = await Promise.all([
+  const [totalGincana, totalCorrida, [sorteioCountRows]] = await Promise.all([
     GincanaInscricao.count(),
-    CorridaInscricao.count()
+    CorridaInscricao.count(),
+    pool.execute("SELECT COUNT(*) AS c FROM sorteio_piscicultores_inscricoes")
   ]);
+  const totalSorteio = Number(sorteioCountRows?.[0]?.c || 0);
 
   res.render("admin/inscricoes", {
     layout: "admin",
@@ -77,6 +79,13 @@ async function listEvents(req, res) {
         total: totalCorrida,
         href: "/admin/inscricoes/corrida",
         exportHref: "/admin/inscricoes/corrida/export.docx"
+      },
+      {
+        key: "sorteio",
+        name: "Sorteio para Psiculutores",
+        total: totalSorteio,
+        href: "/admin/inscricoes/sorteio",
+        exportHref: "/admin/inscricoes/sorteio/export.csv"
       }
     ]
   });
@@ -279,3 +288,56 @@ module.exports = {
   exportCorridaDocx,
   exportGincanaDocx
 };
+
+async function listSorteio(req, res) {
+  const [rows] = await pool.execute(
+    "SELECT * FROM sorteio_piscicultores_inscricoes ORDER BY created_at DESC"
+  );
+
+  res.render("admin/inscricoes-sorteio", {
+    layout: "admin",
+    title: "Admin • Inscritos — Sorteio",
+    total: rows.length,
+    exportHref: "/admin/inscricoes/sorteio/export.csv",
+    rows: rows.map((r) => ({
+      id: Number(r.id),
+      ticket: bibFromId(r.id),
+      createdAt: formatDateTimeBr(r.created_at),
+      fullName: r.full_name,
+      email: r.email,
+      phone: r.phone,
+      address: r.address,
+      cpf: r.cpf,
+      caf: r.caf
+    }))
+  });
+}
+
+async function exportSorteioCsv(req, res) {
+  const [rows] = await pool.execute(
+    "SELECT * FROM sorteio_piscicultores_inscricoes ORDER BY created_at DESC"
+  );
+  const header = ["id", "ticket", "created_at", "full_name", "email", "phone", "address", "cpf", "caf"];
+  const lines = [header.join(",")];
+  for (const r of rows) {
+    const values = [
+      r.id,
+      bibFromId(r.id),
+      formatDateTimeBr(r.created_at),
+      `"${String(r.full_name || "").replace(/"/g, '""')}"`,
+      r.email,
+      r.phone,
+      `"${String(r.address || "").replace(/"/g, '""')}"`,
+      r.cpf,
+      r.caf || ""
+    ];
+    lines.push(values.join(","));
+  }
+  const csv = lines.join("\n");
+  res.setHeader("Content-Disposition", `attachment; filename="inscritos-sorteio.csv"`);
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.send("\uFEFF" + csv);
+}
+
+module.exports.listSorteio = listSorteio;
+module.exports.exportSorteioCsv = exportSorteioCsv;

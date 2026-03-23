@@ -22,7 +22,7 @@ const feirinha = {
 };
 
 const sorteio = {
-  title: "Sorteio para Piscicultores",
+  title: "Sorteio para Psiculutores",
   subtitle: "Feirinha do Povo • Sorteio de 10 mil alevinos",
   dateLabel: "30 de março de 2026",
   location: "Peri Mirim (MA)"

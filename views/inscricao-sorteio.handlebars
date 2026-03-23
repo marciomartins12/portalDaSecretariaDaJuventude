@@ -96,7 +96,7 @@
 
         <div class="field">
           <label class="label" for="caf">CAF</label>
-          <input class="input {{#if errors.caf}}input--error{{/if}}" id="caf" name="caf" type="text" value="{{form.caf}}" placeholder="Número do CAF (opcional)" />
+          <input class="input {{#if errors.caf}}input--error{{/if}}" id="caf" name="caf" type="text" value="{{form.caf}}" placeholder="Número do CAF" required />
           {{#if errors.caf}}<div class="errorMsg">{{errors.caf}}</div>{{/if}}
         </div>
       </div>

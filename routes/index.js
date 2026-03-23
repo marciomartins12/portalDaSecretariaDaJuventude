@@ -36,6 +36,7 @@ router.get("/sitemap.xml", (req, res) => {
     "/inscricoes",
     "/inscricoes/gincana",
     "/inscricoes/corrida",
+    "/inscricoes/piscicultores",
     "/editais",
     "/editais/gincana/pdf",
     "/noticias",

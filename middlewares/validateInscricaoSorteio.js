@@ -50,6 +50,7 @@ function validateInscricaoSorteio(req, res, next) {
   }
 
   const caf = String(data.caf || "").trim();
+  if (isBlank(caf)) errors.caf = "Informe seu número do CAF.";
 
   if (Object.keys(errors).length > 0) {
     return res.status(400).render("inscricao-sorteio", {
