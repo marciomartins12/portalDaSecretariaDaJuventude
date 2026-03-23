@@ -6,6 +6,7 @@ const inscricaoController = require("../controllers/inscricaoController");
 const { validateInscricaoGincana } = require("../middlewares/validateInscricaoGincana");
 const { validateInscricaoCorrida } = require("../middlewares/validateInscricaoCorrida");
 const { validateInscricaoSorteio } = require("../middlewares/validateInscricaoSorteio");
+const { validateInscricaoJogos } = require("../middlewares/validateInscricaoJogos");
 
 const router = express.Router();
 
@@ -97,6 +98,13 @@ router.post(
   "/inscricoes/piscicultores",
   validateInscricaoSorteio,
   inscricaoController.submitSorteio
+);
+
+router.get("/inscricoes/jogos", pagesController.inscricaoJogos);
+router.post(
+  "/inscricoes/jogos",
+  validateInscricaoJogos,
+  inscricaoController.submitJogos
 );
 
 router.get("/inscricao", (req, res) => res.redirect(302, "/inscricoes"));

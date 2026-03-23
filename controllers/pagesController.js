@@ -2,6 +2,7 @@ const content = require("../services/contentService");
 const { trabalhoJovem } = require("../services/trabalhoJovemService");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
 const { getSorteioInscricaoById } = require("../models/sorteioPiscicultoresModel");
+const { getJogosInscricaoById } = require("../models/jogosInscricaoModel");
 const path = require("path");
 const fs = require("fs");
 
@@ -165,6 +166,32 @@ function trabalhoJovemPage(req, res) {
   });
 }
 
+async function inscricaoJogos(req, res) {
+  const success = req.query?.success === "1";
+  const id = String(req.query?.id || "").trim();
+  let jogosSuccess = null;
+  if (success && /^\d+$/.test(id)) {
+    try {
+      jogosSuccess = await getJogosInscricaoById(Number(id));
+    } catch {
+      jogosSuccess = null;
+    }
+  }
+  res.render("inscricao-jogos", {
+    title: "Inscrição — Jogos Variados",
+    metaDescription: "Inscrição para Jogos Variados. Selecione os esportes e informe seus dados.",
+    form: {
+      fullName: "",
+      phone: "",
+      cpf: "",
+      sports: []
+    },
+    errors: {},
+    success,
+    jogosSuccess
+  });
+}
+
 module.exports = {
   home,
   inscricoes,
@@ -175,4 +202,5 @@ module.exports = {
   noticias,
   trabalhoJovem: trabalhoJovemPage
   , inscricaoSorteio
+  , inscricaoJogos
 };

@@ -3,6 +3,7 @@ const { createGincanaInscricao } = require("../models/gincanaInscricaoModel");
 const { createCorridaInscricao } = require("../models/corridaInscricaoModel");
 const { createSorteioInscricao } = require("../models/sorteioPiscicultoresModel");
 const { sendGincanaConfirmationEmail, sendCorridaConfirmationEmail, sendSorteioConfirmationEmail } = require("../services/mailService");
+const { createJogosInscricao } = require("../models/jogosInscricaoModel");
 
 async function reviewGincana(req, res) {
   res.render("inscricao-gincana-revisar", {
@@ -240,4 +241,43 @@ async function submitSorteio(req, res) {
   }
 }
 
-module.exports = { reviewGincana, editGincana, submitGincana, submitCorrida, submitSorteio };
+async function submitJogos(req, res) {
+  try {
+    const payload = req.inscricaoJogos;
+    const { id } = await createJogosInscricao(payload);
+    res.redirect(`/inscricoes/jogos?success=1&id=${encodeURIComponent(String(id))}`);
+  } catch (err) {
+    const errors = {};
+    if (err?.code === "DUPLICATE_PHONE") errors.phone = "Este telefone já está cadastrado.";
+    if (err?.code === "DUPLICATE_CPF") errors.cpf = "Este CPF já está cadastrado.";
+    if (err?.code === "ER_DUP_ENTRY") errors.form = "Já existe uma inscrição com este telefone ou CPF.";
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).render("inscricao-jogos", {
+        title: "Inscrição — Jogos Variados",
+        success: false,
+        form: {
+          fullName: String(req.body?.fullName || ""),
+          phone: String(req.body?.phone || ""),
+          cpf: String(req.body?.cpf || ""),
+          sports: Array.isArray(req.body?.sports) ? req.body.sports : req.body?.sports ? [req.body.sports] : []
+        },
+        errors
+      });
+    }
+    res.status(500).render("inscricao-jogos", {
+      title: "Inscrição — Jogos Variados",
+      success: false,
+      form: {
+        fullName: String(req.body?.fullName || ""),
+        phone: String(req.body?.phone || ""),
+        cpf: String(req.body?.cpf || ""),
+        sports: Array.isArray(req.body?.sports) ? req.body.sports : req.body?.sports ? [req.body.sports] : []
+      },
+      errors: {
+        form: "Tente novamente. Se o problema continuar, entre em contato com a Secretaria."
+      }
+    });
+  }
+}
+
+module.exports = { reviewGincana, editGincana, submitGincana, submitCorrida, submitSorteio, submitJogos };

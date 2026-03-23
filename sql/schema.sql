@@ -85,3 +85,16 @@ CREATE TABLE IF NOT EXISTS sorteio_piscicultores_inscricoes (
   UNIQUE KEY uq_sorteio_phone (phone),
   UNIQUE KEY uq_sorteio_cpf (cpf)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS jogos_inscricoes (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  full_name VARCHAR(160) NOT NULL,
+  phone VARCHAR(40) NOT NULL,
+  cpf VARCHAR(11) NOT NULL,
+  sports TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_created_at (created_at),
+  UNIQUE KEY uq_jogos_phone (phone),
+  UNIQUE KEY uq_jogos_cpf (cpf)
+) ENGINE=InnoDB;

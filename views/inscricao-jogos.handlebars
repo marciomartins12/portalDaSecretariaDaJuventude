@@ -1,0 +1,106 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Inscrições abertas
+      </div>
+      <h1 class="pageHero__title">Inscrição — Jogos Variados</h1>
+      <p class="pageHero__subtitle">Selecione os esportes e preencha seus dados.</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Você pode escolher mais de um esporte.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {{#if errors.form}}
+      <div class="alert alert--error glass reveal" role="alert">
+        <div class="alert__title">Não foi possível enviar</div>
+        <div class="alert__desc">{{errors.form}}</div>
+      </div>
+    {{/if}}
+
+    {{#if success}}
+      <div class="alert alert--success glass reveal" role="status">
+        <div class="alert__title">Inscrição enviada com sucesso!</div>
+        <div class="alert__desc">Recebemos sua inscrição. Obrigado por participar.</div>
+      </div>
+    {{/if}}
+
+    <form class="form glass reveal" method="post" action="/inscricoes/jogos" novalidate>
+      <div class="form__head">
+        <h2 class="form__title">Formulário de inscrição</h2>
+        <p class="form__desc">Preencha os dados abaixo e selecione os esportes desejados.</p>
+      </div>
+
+      <div class="formGrid">
+        <div class="field">
+          <label class="label" for="fullName">Nome completo</label>
+          <input class="input {{#if errors.fullName}}input--error{{/if}}" id="fullName" name="fullName" type="text" value="{{form.fullName}}" placeholder="Ex.: Maria Silva" required />
+          {{#if errors.fullName}}<div class="errorMsg">{{errors.fullName}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="phone">Celular</label>
+          <input class="input {{#if errors.phone}}input--error{{/if}}" id="phone" name="phone" type="text" value="{{form.phone}}" placeholder="(98) 9XXXX-XXXX" inputmode="tel" />
+          {{#if errors.phone}}<div class="errorMsg">{{errors.phone}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="cpf">CPF</label>
+          <input class="input {{#if errors.cpf}}input--error{{/if}}" id="cpf" name="cpf" type="text" value="{{form.cpf}}" placeholder="Somente números" inputmode="numeric" autocomplete="off" required />
+          {{#if errors.cpf}}<div class="errorMsg">{{errors.cpf}}</div>{{/if}}
+        </div>
+      </div>
+
+      <div class="termsBox glass">
+        <div class="termsBox__title">Quais esportes você vai participar?</div>
+        <div class="termsBox__list">
+          <label class="checkRow">
+            <input class="checkRow__input" type="checkbox" name="sports" value="domino" {{#if (includes form.sports "domino")}}checked{{/if}} />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Dominó</span>
+            </span>
+          </label>
+          <label class="checkRow">
+            <input class="checkRow__input" type="checkbox" name="sports" value="sinuca" {{#if (includes form.sports "sinuca")}}checked{{/if}} />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Sinuca</span>
+            </span>
+          </label>
+          <label class="checkRow">
+            <input class="checkRow__input" type="checkbox" name="sports" value="travinho" {{#if (includes form.sports "travinho")}}checked{{/if}} />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Travinho</span>
+            </span>
+          </label>
+          <label class="checkRow">
+            <input class="checkRow__input" type="checkbox" name="sports" value="videogame_ps2" {{#if (includes form.sports "videogame_ps2")}}checked{{/if}} />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Videogame (PES PS2)</span>
+            </span>
+          </label>
+          <label class="checkRow">
+            <input class="checkRow__input" type="checkbox" name="sports" value="dama" {{#if (includes form.sports "dama")}}checked{{/if}} />
+            <span class="checkRow__content">
+              <span class="checkRow__title">Dama</span>
+            </span>
+          </label>
+        </div>
+        {{#if errors.sports}}<div class="errorMsg">{{errors.sports}}</div>{{/if}}
+      </div>
+
+      <div class="form__actions">
+        <button class="btn btn--primary btn--wide" type="submit">Enviar Inscrição</button>
+      </div>
+    </form>
+  </div>
+</section>
+

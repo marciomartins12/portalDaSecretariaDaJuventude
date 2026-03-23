@@ -19,6 +19,16 @@ function configureViewEngine(app) {
         eq(a, b) {
           return a === b;
         },
+        includes(arr, val) {
+          if (!arr) return false;
+          try {
+            if (typeof arr === "string") return arr.split(",").includes(val);
+            if (Array.isArray(arr)) return arr.includes(val);
+            return false;
+          } catch {
+            return false;
+          }
+        },
         addOne(n) {
           return Number(n) + 1;
         },
