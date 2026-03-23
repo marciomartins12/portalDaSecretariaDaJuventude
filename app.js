@@ -165,6 +165,23 @@ app.use((req, res, next) => {
         }
       },
       {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
+            item: baseUrl || undefined
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: res.locals.title || undefined,
+            item: canonicalUrl || undefined
+          }
+        ]
+      },
+      {
         "@type": "WebSite",
         name: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
         url: baseUrl || undefined,
