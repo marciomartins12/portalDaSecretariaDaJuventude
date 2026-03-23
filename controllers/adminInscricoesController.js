@@ -106,21 +106,44 @@ async function listEvents(req, res) {
 
 async function listCorrida(req, res) {
   const q = String(req.query?.q || "").trim();
+  const email = String(req.query?.email || "").trim();
+  const phone = String(req.query?.phone || "").trim();
   let sql = "SELECT * FROM corrida_inscricoes";
+  const wheres = [];
   const params = [];
   if (q) {
-    sql += " WHERE full_name LIKE ?";
+    wheres.push("full_name LIKE ?");
     params.push(`%${q}%`);
+  }
+  if (email) {
+    wheres.push("email LIKE ?");
+    params.push(`%${email}%`);
+  }
+  if (phone) {
+    wheres.push("phone LIKE ?");
+    params.push(`%${phone}%`);
+  }
+  if (wheres.length > 0) {
+    sql += " WHERE " + wheres.join(" AND ");
   }
   sql += " ORDER BY created_at DESC";
   const [rows] = await pool.execute(sql, params);
+
+  const queryPairs = [];
+  if (q) queryPairs.push(`q=${encodeURIComponent(q)}`);
+  if (email) queryPairs.push(`email=${encodeURIComponent(email)}`);
+  if (phone) queryPairs.push(`phone=${encodeURIComponent(phone)}`);
+  const exportHref =
+    "/admin/inscricoes/corrida/export.docx" + (queryPairs.length ? `?${queryPairs.join("&")}` : "");
 
   res.render("admin/inscricoes-corrida", {
     layout: "admin",
     title: "Admin • Inscritos — Corrida",
     total: rows.length,
-    exportHref: "/admin/inscricoes/corrida/export.docx",
+    exportHref,
     q,
+    email,
+    phone,
     rows: rows.map((r) => ({
       id: Number(r.id),
       bib: bibFromId(r.id),
@@ -195,20 +218,43 @@ async function listGincana(req, res) {
     });
   }
 
+  const exportHref =
+    "/admin/inscricoes/gincana/export.docx" + (q ? `?q=${encodeURIComponent(q)}` : "");
+
   res.render("admin/inscricoes-gincana", {
     layout: "admin",
     title: "Admin • Inscritos — Gincana",
     total: teams.length,
-    exportHref: "/admin/inscricoes/gincana/export.docx",
+    exportHref,
     q,
     teams
   });
 }
 
 async function exportCorridaDocx(req, res) {
-  const [rows] = await pool.execute(
-    "SELECT * FROM corrida_inscricoes ORDER BY created_at DESC"
-  );
+  const q = String(req.query?.q || "").trim();
+  const email = String(req.query?.email || "").trim();
+  const phone = String(req.query?.phone || "").trim();
+  let sql = "SELECT * FROM corrida_inscricoes";
+  const wheres = [];
+  const params = [];
+  if (q) {
+    wheres.push("full_name LIKE ?");
+    params.push(`%${q}%`);
+  }
+  if (email) {
+    wheres.push("email LIKE ?");
+    params.push(`%${email}%`);
+  }
+  if (phone) {
+    wheres.push("phone LIKE ?");
+    params.push(`%${phone}%`);
+  }
+  if (wheres.length > 0) {
+    sql += " WHERE " + wheres.join(" AND ");
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
 
   const mapped = rows.map((r) => ({
     id: Number(r.id),
@@ -250,7 +296,15 @@ async function exportCorridaDocx(req, res) {
 }
 
 async function exportGincanaDocx(req, res) {
-  const [rows] = await pool.execute("SELECT * FROM gincana_inscricoes ORDER BY created_at DESC");
+  const q = String(req.query?.q || "").trim();
+  let sql = "SELECT * FROM gincana_inscricoes";
+  const params = [];
+  if (q) {
+    sql += " WHERE team_name LIKE ?";
+    params.push(`%${q}%`);
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
   const teams = [];
   for (const r of rows) {
     const [pRows] = await pool.execute(
@@ -430,7 +484,25 @@ async function listJogos(req, res) {
 }
 
 async function exportJogosCsv(req, res) {
-  const [rows] = await pool.execute("SELECT * FROM jogos_inscricoes ORDER BY created_at DESC");
+  const q = String(req.query?.q || "").trim();
+  const sport = String(req.query?.sport || "").trim().toLowerCase();
+  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_ps2", "dama"]);
+  let sql = "SELECT * FROM jogos_inscricoes";
+  const wheres = [];
+  const params = [];
+  if (q) {
+    wheres.push("full_name LIKE ?");
+    params.push(`%${q}%`);
+  }
+  if (sport && allowed.has(sport)) {
+    wheres.push("sports LIKE ?");
+    params.push(`%"${sport}"%`);
+  }
+  if (wheres.length > 0) {
+    sql += " WHERE " + wheres.join(" AND ");
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
   const header = ["id", "created_at", "full_name", "phone", "cpf", "sports"];
   const lines = [header.join(",")];
   for (const r of rows) {
