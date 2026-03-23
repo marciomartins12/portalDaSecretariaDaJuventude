@@ -299,4 +299,97 @@ async function sendCorridaConfirmationEmail({ to, data, corrida, bibNumber, site
   return { skipped: false };
 }
 
-module.exports = { sendGincanaConfirmationEmail, sendCorridaConfirmationEmail };
+function buildSorteioConfirmationEmail({ data, sorteio, ticketNumber }, site) {
+  const subject = `Inscrição confirmada — Sorteio para Piscicultores (#${escapeHtml(ticketNumber)})`;
+
+  const html = `
+    <div style="margin:0;padding:0;background:#0b1020;color:rgba(248,250,252,0.96);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;">
+      <div style="max-width:720px;margin:0 auto;padding:26px 18px;">
+        <div style="padding:18px;border-radius:24px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);">
+          <div style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;font-weight:800;color:rgba(148,163,184,0.95);">
+            ${escapeHtml(site?.departmentName || "Secretaria Municipal da Juventude")}
+          </div>
+          <h1 style="margin:10px 0 0;font-size:22px;letter-spacing:-0.01em;">
+            Inscrição confirmada
+          </h1>
+          <p style="margin:10px 0 0;color:rgba(148,163,184,0.95);line-height:1.7;font-weight:650;">
+            Olá, ${escapeHtml(data.fullName)}. Este é o comprovante da inscrição no Sorteio para Piscicultores.
+          </p>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div style="padding:18px;border-radius:24px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);">
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;">
+            <div style="flex:1 1 260px;min-width:240px;padding:14px;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Seu número</div>
+              <div style="margin-top:6px;font-weight:900;font-size:28px;letter-spacing:0.06em;">${escapeHtml(ticketNumber)}</div>
+            </div>
+            <div style="flex:2 1 340px;min-width:260px;padding:14px;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Evento</div>
+              <div style="margin-top:6px;font-weight:900;">${escapeHtml(sorteio?.title || "Sorteio para Piscicultores")}</div>
+              <div style="margin-top:8px;color:rgba(148,163,184,0.95);font-weight:650;line-height:1.6;">
+                ${escapeHtml(sorteio?.subtitle || "")}${sorteio?.dateLabel ? ` • ${escapeHtml(sorteio.dateLabel)}` : ""}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div style="padding:18px;border-radius:24px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div>
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">E-mail</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.email)}</div>
+            </div>
+            <div>
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Telefone</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.phone)}</div>
+            </div>
+            <div style="grid-column:1/-1;">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:900;color:rgba(148,163,184,0.95);">Endereço</div>
+              <div style="margin-top:6px;font-weight:800;">${escapeHtml(data.address)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div style="padding:14px 18px;border-radius:24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);color:rgba(148,163,184,0.95);font-weight:650;line-height:1.7;">
+          <div style="font-weight:900;color:rgba(248,250,252,0.92);">
+            ${escapeHtml(site?.municipalityName || "Prefeitura Municipal")}
+          </div>
+          <div style="margin-top:10px;font-size:12px;">
+            Este e-mail foi enviado automaticamente. Não compartilhe informações sensíveis.
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  return { subject, html };
+}
+
+async function sendSorteioConfirmationEmail({ to, data, sorteio, ticketNumber, site }) {
+  const transport = createTransportFromEnv();
+  if (!transport) return { skipped: true };
+
+  const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
+  const fromName = process.env.SMTP_FROM_NAME || site?.departmentName || "Secretaria Municipal da Juventude";
+  const replyTo = process.env.SMTP_REPLY_TO || fromEmail;
+
+  const { subject, html } = buildSorteioConfirmationEmail({ data, sorteio, ticketNumber }, site);
+
+  await transport.sendMail({
+    from: `${fromName} <${fromEmail}>`,
+    to,
+    replyTo,
+    subject,
+    html
+  });
+
+  return { skipped: false };
+}
+
+module.exports = { sendGincanaConfirmationEmail, sendCorridaConfirmationEmail, sendSorteioConfirmationEmail };

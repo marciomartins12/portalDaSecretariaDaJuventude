@@ -69,3 +69,19 @@ CREATE TABLE IF NOT EXISTS devices (
   UNIQUE KEY uq_device_id (device_id),
   KEY idx_created_at (created_at)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS sorteio_piscicultores_inscricoes (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  full_name VARCHAR(160) NOT NULL,
+  email VARCHAR(160) NOT NULL,
+  phone VARCHAR(40) NOT NULL,
+  address VARCHAR(220) NOT NULL,
+  cpf VARCHAR(11) NOT NULL,
+  caf VARCHAR(30) NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_created_at (created_at),
+  UNIQUE KEY uq_sorteio_email (email),
+  UNIQUE KEY uq_sorteio_phone (phone),
+  UNIQUE KEY uq_sorteio_cpf (cpf)
+) ENGINE=InnoDB;

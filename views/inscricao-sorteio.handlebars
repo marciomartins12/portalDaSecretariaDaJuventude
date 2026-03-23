@@ -1,0 +1,110 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Inscrições abertas
+      </div>
+      <h1 class="pageHero__title">Inscrição — Sorteio para Piscicultores</h1>
+      <p class="pageHero__subtitle">{{sorteio.subtitle}} • {{sorteio.dateLabel}}</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        Evento destinado ao pequeno empreendedor. Número é gerado ao enviar.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--ghost" href="/inscricoes">Voltar</a>
+      </div>
+    </div>
+  </div>
+  </section>
+
+<section class="section">
+  <div class="container">
+    {{#if errors.form}}
+      <div class="alert alert--error glass reveal" role="alert">
+        <div class="alert__title">Não foi possível enviar</div>
+        <div class="alert__desc">{{errors.form}}</div>
+      </div>
+    {{/if}}
+
+    {{#if success}}
+      <div class="alert alert--success glass reveal" role="status">
+        <div class="alert__title">Inscrição enviada com sucesso!</div>
+        <div class="alert__desc">Você receberá um e-mail com o seu número para o sorteio.</div>
+      </div>
+    {{/if}}
+
+    {{#if sorteioSuccess}}
+      <div data-auto-open-modal="#sorteioSuccessModal"></div>
+      <div class="modal" id="sorteioSuccessModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Inscrição confirmada">
+        <button class="modal__backdrop" type="button" data-modal-close aria-label="Fechar"></button>
+        <div class="modal__panel glass">
+          <div class="modal__head">
+            <div class="modal__title">Inscrição confirmada</div>
+            <button class="btn btn--ghost" type="button" data-modal-close>Fechar</button>
+          </div>
+          <div class="modal__body">
+            <div class="successPopup">
+              <div class="successPopup__k">Seu número</div>
+              <div class="successPopup__v">{{sorteioSuccess.ticketNumber}}</div>
+              <div class="successPopup__hint">Guarde este número. Também enviamos a confirmação por e-mail.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
+    <form class="form glass reveal" method="post" action="/inscricoes/piscicultores" novalidate>
+      <div class="form__head">
+        <h2 class="form__title">Formulário de inscrição</h2>
+        <p class="form__desc">Preencha seus dados para participar do sorteio de 10 mil alevinos.</p>
+      </div>
+
+      <div class="formGrid">
+        <div class="field">
+          <label class="label" for="fullName">Nome completo</label>
+          <input class="input {{#if errors.fullName}}input--error{{/if}}" id="fullName" name="fullName" type="text" value="{{form.fullName}}" placeholder="Ex.: Maria Silva" required />
+          {{#if errors.fullName}}<div class="errorMsg">{{errors.fullName}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="email">E-mail</label>
+          <input class="input {{#if errors.email}}input--error{{/if}}" id="email" name="email" type="email" value="{{form.email}}" placeholder="email@exemplo.com" required />
+          {{#if errors.email}}<div class="errorMsg">{{errors.email}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="phone">Telefone</label>
+          <input class="input {{#if errors.phone}}input--error{{/if}}" id="phone" name="phone" type="text" value="{{form.phone}}" placeholder="(98) 9XXXX-XXXX" required />
+          {{#if errors.phone}}<div class="errorMsg">{{errors.phone}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="address">Endereço</label>
+          <input class="input {{#if errors.address}}input--error{{/if}}" id="address" name="address" type="text" value="{{form.address}}" placeholder="Ex.: Rua, nº, referência" required />
+          {{#if errors.address}}<div class="errorMsg">{{errors.address}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="cpf">CPF</label>
+          <input class="input {{#if errors.cpf}}input--error{{/if}}" id="cpf" name="cpf" type="text" value="{{form.cpf}}" placeholder="Somente números" inputmode="numeric" autocomplete="off" required />
+          {{#if errors.cpf}}<div class="errorMsg">{{errors.cpf}}</div>{{/if}}
+        </div>
+
+        <div class="field">
+          <label class="label" for="caf">CAF</label>
+          <input class="input {{#if errors.caf}}input--error{{/if}}" id="caf" name="caf" type="text" value="{{form.caf}}" placeholder="Número do CAF (opcional)" />
+          {{#if errors.caf}}<div class="errorMsg">{{errors.caf}}</div>{{/if}}
+        </div>
+      </div>
+
+      <div class="form__actions">
+        <button class="btn btn--primary btn--wide" type="submit">Enviar Inscrição</button>
+        <a class="btn btn--ghost btn--wide" href="/inscricoes">Voltar</a>
+      </div>
+    </form>
+  </div>
+</section>

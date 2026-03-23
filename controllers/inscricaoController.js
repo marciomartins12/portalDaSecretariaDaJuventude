@@ -1,7 +1,8 @@
 const { normalizeInscricaoCorrida } = require("../services/inscricaoService");
 const { createGincanaInscricao } = require("../models/gincanaInscricaoModel");
 const { createCorridaInscricao } = require("../models/corridaInscricaoModel");
-const { sendGincanaConfirmationEmail, sendCorridaConfirmationEmail } = require("../services/mailService");
+const { createSorteioInscricao } = require("../models/sorteioPiscicultoresModel");
+const { sendGincanaConfirmationEmail, sendCorridaConfirmationEmail, sendSorteioConfirmationEmail } = require("../services/mailService");
 
 async function reviewGincana(req, res) {
   res.render("inscricao-gincana-revisar", {
@@ -166,4 +167,71 @@ async function submitCorrida(req, res) {
   }
 }
 
-module.exports = { reviewGincana, editGincana, submitGincana, submitCorrida };
+async function submitSorteio(req, res) {
+  try {
+    const payload = req.inscricaoSorteio;
+    const { id, ticketNumber } = await createSorteioInscricao(payload);
+
+    try {
+      await sendSorteioConfirmationEmail({
+        to: payload.email,
+        data: payload,
+        sorteio: require("../services/contentService").sorteio,
+        ticketNumber,
+        site: res.locals?.site
+      });
+    } catch (err) {
+      process.stderr.write(`Falha ao enviar e-mail de confirmação (sorteio): ${err?.message || String(err)}\n`);
+    }
+
+    res.redirect(`/inscricoes/piscicultores?success=1&id=${encodeURIComponent(String(id))}`);
+  } catch (err) {
+    process.stderr.write(`Falha ao enviar inscrição do sorteio: ${err?.message || String(err)}\n`);
+    if (
+      err?.code === "DUPLICATE_EMAIL" ||
+      err?.code === "DUPLICATE_PHONE" ||
+      err?.code === "DUPLICATE_CPF" ||
+      err?.code === "ER_DUP_ENTRY"
+    ) {
+      const errors = {};
+      if (err?.code === "DUPLICATE_EMAIL") errors.email = "Este e-mail já está cadastrado.";
+      if (err?.code === "DUPLICATE_PHONE") errors.phone = "Este telefone já está cadastrado.";
+      if (err?.code === "DUPLICATE_CPF") errors.cpf = "Este CPF já está cadastrado.";
+      if (err?.code === "ER_DUP_ENTRY") errors.form = "Já existe uma inscrição com este e-mail, telefone ou CPF.";
+
+      return res.status(400).render("inscricao-sorteio", {
+        title: "Inscrição — Sorteio para Piscicultores",
+        success: false,
+        sorteio: require("../services/contentService").sorteio,
+        form: {
+          fullName: String(req.body?.fullName || ""),
+          email: String(req.body?.email || ""),
+          phone: String(req.body?.phone || ""),
+          address: String(req.body?.address || ""),
+          cpf: String(req.body?.cpf || ""),
+          caf: String(req.body?.caf || "")
+        },
+        errors
+      });
+    }
+
+    res.status(500).render("inscricao-sorteio", {
+      title: "Inscrição — Sorteio para Piscicultores",
+      success: false,
+      sorteio: require("../services/contentService").sorteio,
+      form: {
+        fullName: String(req.body?.fullName || ""),
+        email: String(req.body?.email || ""),
+        phone: String(req.body?.phone || ""),
+        address: String(req.body?.address || ""),
+        cpf: String(req.body?.cpf || ""),
+        caf: String(req.body?.caf || "")
+      },
+      errors: {
+        form: "Tente novamente. Se o problema continuar, entre em contato com a Secretaria."
+      }
+    });
+  }
+}
+
+module.exports = { reviewGincana, editGincana, submitGincana, submitCorrida, submitSorteio };

@@ -1,6 +1,7 @@
 const content = require("../services/contentService");
 const { trabalhoJovem } = require("../services/trabalhoJovemService");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
+const { getSorteioInscricaoById } = require("../models/sorteioPiscicultoresModel");
 const path = require("path");
 const fs = require("fs");
 
@@ -115,6 +116,36 @@ async function inscricaoCorrida(req, res) {
   });
 }
 
+async function inscricaoSorteio(req, res) {
+  const success = req.query?.success === "1";
+  const id = String(req.query?.id || "").trim();
+  let sorteioSuccess = null;
+  if (success && /^\d+$/.test(id)) {
+    try {
+      sorteioSuccess = await getSorteioInscricaoById(Number(id));
+    } catch {
+      sorteioSuccess = null;
+    }
+  }
+  res.render("inscricao-sorteio", {
+    title: "Inscrição — Sorteio para Piscicultores",
+    metaDescription:
+      "Inscrição para o Sorteio de 10 mil alevinos durante a Feirinha do Povo.",
+    sorteio: content.sorteio,
+    form: {
+      fullName: "",
+      email: "",
+      phone: "",
+      address: "",
+      cpf: "",
+      caf: ""
+    },
+    errors: {},
+    success,
+    sorteioSuccess
+  });
+}
+
 function noticias(req, res) {
   res.render("noticias", {
     title: "Notícias da Juventude",
@@ -143,4 +174,5 @@ module.exports = {
   inscricaoCorrida,
   noticias,
   trabalhoJovem: trabalhoJovemPage
+  , inscricaoSorteio
 };

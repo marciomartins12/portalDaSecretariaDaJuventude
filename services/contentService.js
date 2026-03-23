@@ -21,6 +21,13 @@ const feirinha = {
   location: "Peri Mirim (MA)"
 };
 
+const sorteio = {
+  title: "Sorteio para Piscicultores",
+  subtitle: "Feirinha do Povo • Sorteio de 10 mil alevinos",
+  dateLabel: "30 de março de 2026",
+  location: "Peri Mirim (MA)"
+};
+
 const news = [
  
   {
@@ -60,4 +67,4 @@ const edital = {
   ]
 };
 
-module.exports = { gincana, corrida, feirinha, news, edital };
+module.exports = { gincana, corrida, feirinha, sorteio, news, edital };
