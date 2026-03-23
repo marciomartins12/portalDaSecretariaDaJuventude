@@ -72,28 +72,37 @@ async function createGincanaInscricao(data) {
       }))
     ];
 
-    const cols = await getTableColumns(connection, "gincana_participantes");
-    const hasCpf = cols.has("cpf");
-    const hasAddress = cols.has("address");
-
     for (const p of participants) {
-      const columns = ["inscricao_id", "full_name", "dob", "is_captain"];
-      const values = [inscricaoId, p.name, p.dob, p.isCaptain];
+      const baseColumns = ["inscricao_id", "full_name", "dob", "is_captain"];
+      const baseValues = [inscricaoId, p.name, p.dob, p.isCaptain];
 
-      if (hasCpf) {
-        columns.push("cpf");
-        values.push(p.cpf || null);
-      }
-      if (hasAddress) {
-        columns.push("address");
-        values.push(p.address || null);
-      }
+      const candidates = [
+        { columns: [...baseColumns, "cpf", "address"], values: [...baseValues, p.cpf || null, p.address || null] },
+        { columns: [...baseColumns, "cpf"], values: [...baseValues, p.cpf || null] },
+        { columns: [...baseColumns, "address"], values: [...baseValues, p.address || null] },
+        { columns: baseColumns, values: baseValues }
+      ];
 
-      const placeholders = columns.map(() => "?").join(", ");
-      await connection.execute(
-        `INSERT INTO gincana_participantes (${columns.join(", ")}) VALUES (${placeholders})`,
-        values
-      );
+      let lastErr = null;
+      for (const c of candidates) {
+        try {
+          const placeholders = c.columns.map(() => "?").join(", ");
+          await connection.execute(
+            `INSERT INTO gincana_participantes (${c.columns.join(", ")}) VALUES (${placeholders})`,
+            c.values
+          );
+          lastErr = null;
+          break;
+        } catch (err) {
+          const msg = String(err?.message || "");
+          if (err?.code === "ER_BAD_FIELD_ERROR" || /Unknown column/i.test(msg)) {
+            lastErr = err;
+            continue;
+          }
+          throw err;
+        }
+      }
+      if (lastErr) throw lastErr;
     }
 
     await connection.commit();
