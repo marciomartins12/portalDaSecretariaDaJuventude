@@ -20,21 +20,28 @@ function mockRes() {
 }
 
 function run() {
+  const members = [];
+  for (let i = 1; i <= 9; i++) {
+    members.push({
+      name: `Membro ${i}`,
+      dob: i % 2 === 0 ? "2002-05-01" : "2004-03-20",
+      cpf: i % 2 === 0 ? "529.982.247-25" : "153.509.460-56",
+      address: `Rua ${String.fromCharCode(64 + i)}, ${i * 10}`
+    });
+  }
+
   const req = mockReq({
     teamName: "Equipe Piaba",
     captainName: "João Silva",
     captainEmail: "joao@example.com",
-    captainCpf: "123.456.789-09",
+    captainCpf: "111.444.777-35",
     captainAddress: "Rua A, 123",
     captainDob: "2000-01-10",
     phone: "(98) 98888-7777",
     neighborhood: "Centro",
     termsImageRelease: "1",
     termsResponsibility: "1",
-    membersJson: JSON.stringify([
-      { name: "Maria Souza", dob: "2002-05-01", cpf: "987.654.321-00", address: "Rua B, 200" },
-      { name: "Carlos Lima", dob: "2004-03-20", cpf: "321.654.987-00", address: "Rua C, 50" }
-    ])
+    membersJson: JSON.stringify(members)
   });
   const res = mockRes();
   validateInscricaoGincana(req, res, () => {
@@ -43,7 +50,7 @@ function run() {
       console.error("Missing req.inscricaoGincana");
       process.exit(1);
     }
-    if (!Array.isArray(data.members) || data.members.length !== 2) {
+    if (!Array.isArray(data.members) || data.members.length !== 9) {
       console.error("Members not parsed:", data.members);
       process.exit(1);
     }
@@ -63,4 +70,3 @@ function run() {
 }
 
 run();
-
