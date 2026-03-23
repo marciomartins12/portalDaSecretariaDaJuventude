@@ -19,7 +19,7 @@
           <div class="panel__title">Lista</div>
         </div>
         <div class="panel__body">
-          <form class="form" method="get" action="/admin/inscricoes/corrida" style="margin-bottom:10px">
+          <form class="form formFilters" method="get" action="/admin/inscricoes/corrida" style="margin-bottom:10px">
             <div class="field">
               <label class="label" for="q">Filtrar por nome</label>
               <input class="input" id="q" name="q" type="text" value="{{q}}" placeholder="Ex.: Maria Silva" />
@@ -32,7 +32,7 @@
               <label class="label" for="phone">Telefone</label>
               <input class="input" id="phone" name="phone" type="text" value="{{phone}}" placeholder="(98) 9xxxx-xxxx" />
             </div>
-            <div>
+            <div class="actions">
               <button class="btn btn--primary" type="submit">Filtrar</button>
               <a class="btn" href="/admin/inscricoes/corrida">Limpar</a>
             </div>

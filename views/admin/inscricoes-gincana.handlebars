@@ -19,12 +19,12 @@
           <div class="panel__title">Filtrar equipes</div>
         </div>
         <div class="panel__body">
-          <form class="form" method="get" action="/admin/inscricoes/gincana">
+          <form class="form formFilters" method="get" action="/admin/inscricoes/gincana">
             <div class="field">
               <label class="label" for="q">Nome da equipe</label>
               <input class="input" id="q" name="q" type="text" value="{{q}}" placeholder="Ex.: Piaba Ativa" />
             </div>
-            <div>
+            <div class="actions">
               <button class="btn btn--primary" type="submit">Filtrar</button>
               <a class="btn" href="/admin/inscricoes/gincana">Limpar</a>
             </div>

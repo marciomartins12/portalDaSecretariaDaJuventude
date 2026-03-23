@@ -19,7 +19,7 @@
           <div class="panel__title">Filtros</div>
         </div>
         <div class="panel__body">
-          <form class="form" method="get" action="/admin/inscricoes/jogos">
+          <form class="form formFilters" method="get" action="/admin/inscricoes/jogos">
             <div class="field">
               <label class="label" for="q">Nome do participante</label>
               <input class="input" id="q" name="q" type="text" value="{{q}}" placeholder="Ex.: Maria Silva" />
@@ -35,7 +35,7 @@
                 <option value="dama" {{#if (eq sport "dama")}}selected{{/if}}>Dama</option>
               </select>
             </div>
-            <div>
+            <div class="actions">
               <button class="btn btn--primary" type="submit">Filtrar</button>
               <a class="btn" href="/admin/inscricoes/jogos">Limpar</a>
             </div>
