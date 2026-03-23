@@ -3,9 +3,11 @@ const { Admin } = require("../models/indexSequelize");
 
 async function listAdmins(req, res) {
   const rows = await Admin.findAll({ order: [["created_at", "DESC"]] });
+  const masterCount = await Admin.count({ where: { role: "MASTER" } });
   res.render("admin/admins", {
     layout: "admin",
     title: "Admin • Administradores",
+    masterCount,
     rows: rows.map((r) => ({
       id: r.id,
       name: r.name || "",

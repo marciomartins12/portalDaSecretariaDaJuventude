@@ -28,6 +28,16 @@
       <script src="/public/js/main.js?v={{assetVersion}}" defer></script>
     {{else}}
       {{{body}}}
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        (function () {
+          try {
+            if (window.io) {
+              window.io({ withCredentials: true });
+            }
+          } catch {}
+        })();
+      </script>
     {{/if}}
   </body>
 </html>

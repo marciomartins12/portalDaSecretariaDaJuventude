@@ -35,9 +35,21 @@
                   <td class="muted">{{presenceStatus}}</td>
                   <td class="tableActions">
                     <a class="btn" href="/admin/admins/{{id}}/edit">Editar</a>
-                    <form method="post" action="/admin/admins/{{id}}/delete">
-                      <button class="btn btn--danger" type="submit">Remover</button>
-                    </form>
+                    {{#if (eq ../admin.role 'MASTER')}}
+                      {{#if (eq ../admin.id id)}}
+                        <span class="btn" aria-disabled="true" title="Você não pode remover a si mesmo">Remover</span>
+                      {{else}}
+                        {{#if (and (eq role 'MASTER') (eq ../masterCount 1))}}
+                          <span class="btn" aria-disabled="true" title="Não é possível remover o último MASTER">Último MASTER</span>
+                        {{else}}
+                          <form method="post" action="/admin/admins/{{id}}/delete">
+                            <button class="btn btn--danger" type="submit">Remover</button>
+                          </form>
+                        {{/if}}
+                      {{/if}}
+                    {{else}}
+                      <span class="btn" aria-disabled="true" title="Apenas MASTER pode remover">Remover</span>
+                    {{/if}}
                   </td>
                 </tr>
               {{/each}}
