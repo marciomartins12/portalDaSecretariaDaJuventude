@@ -16,6 +16,34 @@
     <div class="adminPage">
       <div class="panel">
         <div class="panel__head">
+          <div class="panel__title">Filtros</div>
+        </div>
+        <div class="panel__body">
+          <form class="form" method="get" action="/admin/inscricoes/jogos">
+            <div class="field">
+              <label class="label" for="q">Nome do participante</label>
+              <input class="input" id="q" name="q" type="text" value="{{q}}" placeholder="Ex.: Maria Silva" />
+            </div>
+            <div class="field">
+              <label class="label" for="sport">Esporte</label>
+              <select class="input" id="sport" name="sport">
+                <option value="">Todos</option>
+                <option value="domino" {{#if (eq sport "domino")}}selected{{/if}}>Dominó</option>
+                <option value="sinuca" {{#if (eq sport "sinuca")}}selected{{/if}}>Sinuca</option>
+                <option value="travinho" {{#if (eq sport "travinho")}}selected{{/if}}>Travinho</option>
+                <option value="videogame_ps2" {{#if (eq sport "videogame_ps2")}}selected{{/if}}>Videogame (PES PS2)</option>
+                <option value="dama" {{#if (eq sport "dama")}}selected{{/if}}>Dama</option>
+              </select>
+            </div>
+            <div>
+              <button class="btn btn--primary" type="submit">Filtrar</button>
+              <a class="btn" href="/admin/inscricoes/jogos">Limpar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel__head">
           <div class="panel__title">Lista</div>
         </div>
         <div class="panel__body tableWrap">
@@ -48,4 +76,3 @@
     </div>
   </main>
 </div>
-

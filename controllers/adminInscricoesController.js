@@ -105,15 +105,22 @@ async function listEvents(req, res) {
 }
 
 async function listCorrida(req, res) {
-  const [rows] = await pool.execute(
-    "SELECT * FROM corrida_inscricoes ORDER BY created_at DESC"
-  );
+  const q = String(req.query?.q || "").trim();
+  let sql = "SELECT * FROM corrida_inscricoes";
+  const params = [];
+  if (q) {
+    sql += " WHERE full_name LIKE ?";
+    params.push(`%${q}%`);
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
 
   res.render("admin/inscricoes-corrida", {
     layout: "admin",
     title: "Admin • Inscritos — Corrida",
     total: rows.length,
     exportHref: "/admin/inscricoes/corrida/export.docx",
+    q,
     rows: rows.map((r) => ({
       id: Number(r.id),
       bib: bibFromId(r.id),
@@ -142,7 +149,15 @@ async function deleteCorrida(req, res) {
 }
 
 async function listGincana(req, res) {
-  const [rows] = await pool.execute("SELECT * FROM gincana_inscricoes ORDER BY created_at DESC");
+  const q = String(req.query?.q || "").trim();
+  let sql = "SELECT * FROM gincana_inscricoes";
+  const params = [];
+  if (q) {
+    sql += " WHERE team_name LIKE ?";
+    params.push(`%${q}%`);
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
 
   const teams = [];
   for (const r of rows) {
@@ -185,6 +200,7 @@ async function listGincana(req, res) {
     title: "Admin • Inscritos — Gincana",
     total: teams.length,
     exportHref: "/admin/inscricoes/gincana/export.docx",
+    q,
     teams
   });
 }
@@ -376,12 +392,32 @@ function formatJogosSports(raw) {
 }
 
 async function listJogos(req, res) {
-  const [rows] = await pool.execute("SELECT * FROM jogos_inscricoes ORDER BY created_at DESC");
+  const q = String(req.query?.q || "").trim();
+  const sport = String(req.query?.sport || "").trim().toLowerCase();
+  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_ps2", "dama"]);
+  let sql = "SELECT * FROM jogos_inscricoes";
+  const wheres = [];
+  const params = [];
+  if (q) {
+    wheres.push("full_name LIKE ?");
+    params.push(`%${q}%`);
+  }
+  if (sport && allowed.has(sport)) {
+    wheres.push("sports LIKE ?");
+    params.push(`%"${sport}"%`);
+  }
+  if (wheres.length > 0) {
+    sql += " WHERE " + wheres.join(" AND ");
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
   res.render("admin/inscricoes-jogos", {
     layout: "admin",
     title: "Admin • Inscritos — Jogos Variados",
     total: rows.length,
     exportHref: "/admin/inscricoes/jogos/export.csv",
+    q,
+    sport,
     rows: rows.map((r) => ({
       id: Number(r.id),
       createdAt: formatDateTimeBr(r.created_at),
