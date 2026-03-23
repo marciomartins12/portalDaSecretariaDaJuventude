@@ -192,6 +192,17 @@ async function inscricaoJogos(req, res) {
   });
 }
 
+function periMirim(req, res) {
+  res.render("peri-mirim", {
+    title: "Peri Mirim (MA)",
+    metaDescription:
+      "Peri Mirim (MA) — Informações e serviços da Secretaria da Juventude. Acompanhe notícias, editais e inscrições.",
+    gincana: content.gincana,
+    corrida: content.corrida,
+    feirinha: content.feirinha
+  });
+}
+
 module.exports = {
   home,
   inscricoes,
@@ -203,4 +214,5 @@ module.exports = {
   trabalhoJovem: trabalhoJovemPage
   , inscricaoSorteio
   , inscricaoJogos
+  , periMirim
 };

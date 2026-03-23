@@ -38,6 +38,8 @@ router.get("/sitemap.xml", (req, res) => {
     "/inscricoes/gincana",
     "/inscricoes/corrida",
     "/inscricoes/piscicultores",
+    "/inscricoes/jogos",
+    "/peri-mirim",
     "/editais",
     "/editais/gincana/pdf",
     "/noticias",
@@ -106,6 +108,8 @@ router.post(
   validateInscricaoJogos,
   inscricaoController.submitJogos
 );
+
+router.get("/peri-mirim", pagesController.periMirim);
 
 router.get("/inscricao", (req, res) => res.redirect(302, "/inscricoes"));
 router.post("/inscricao", (req, res) => res.redirect(302, "/inscricoes"));

@@ -125,11 +125,25 @@ app.use((req, res, next) => {
       {
         "@type": ["GovernmentOrganization", "Organization"],
         name: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
+        alternateName: [
+          "Secretaria da Juventude de Peri Mirim",
+          "Juventude Peri Mirim"
+        ],
         url: baseUrl || undefined,
         logo: baseUrl ? `${baseUrl}/public/assets/SECJUVPNG.png` : undefined,
         sameAs: res.locals.site?.instagramUrl ? [res.locals.site.instagramUrl] : undefined,
         email: res.locals.site?.email || undefined,
         telephone: res.locals.site?.phoneHref ? String(res.locals.site.phoneHref).replace(/^tel:/, "") : undefined,
+        areaServed: {
+          "@type": "AdministrativeArea",
+          name: "Peri Mirim",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Peri Mirim",
+            addressRegion: "MA",
+            addressCountry: "BR"
+          }
+        },
         address: res.locals.site?.address
           ? {
               "@type": "PostalAddress",
@@ -139,6 +153,16 @@ app.use((req, res, next) => {
               addressCountry: "BR"
             }
           : undefined
+      },
+      {
+        "@type": "Place",
+        name: "Peri Mirim",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Peri Mirim",
+          addressRegion: "MA",
+          addressCountry: "BR"
+        }
       },
       {
         "@type": "WebSite",
