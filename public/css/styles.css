@@ -3257,7 +3257,7 @@ body.nav-open {
   .brand__logo {
     margin-left: 0;
     height: 50px;
-    margin-left: -55px;
+    margin-left: 5px;
     max-width: 300px;
   }
   .hero {
