@@ -31,7 +31,7 @@
                   <td>{{total}}</td>
                   <td style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;">
                     <a class="btn" href="{{href}}">Abrir</a>
-                    <a class="btn btn--primary" href="{{exportHref}}">Exportar DOCX</a>
+                    <a class="btn btn--primary" href="{{exportHref}}">{{#if exportLabel}}{{exportLabel}}{{else}}Exportar{{/if}}</a>
                   </td>
                 </tr>
               {{/each}}

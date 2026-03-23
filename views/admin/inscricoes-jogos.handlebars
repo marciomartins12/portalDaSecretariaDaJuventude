@@ -1,0 +1,51 @@
+<div class="adminShell">
+  {{> adminSidebar active="inscricoes"}}
+
+  <main class="adminMain">
+    <div class="adminTop">
+      <div>
+        <div class="adminTop__title">Inscritos — Jogos Variados</div>
+        <div class="adminTop__meta">{{total}} inscrição(ões)</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+        <a class="btn btn--primary" href="{{exportHref}}">Exportar CSV</a>
+        <a class="btn" href="/admin/inscricoes">Voltar</a>
+      </div>
+    </div>
+
+    <div class="adminPage">
+      <div class="panel">
+        <div class="panel__head">
+          <div class="panel__title">Lista</div>
+        </div>
+        <div class="panel__body tableWrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>CPF</th>
+                <th>Esportes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each rows}}
+                <tr>
+                  <td class="muted">{{id}}</td>
+                  <td class="muted">{{createdAt}}</td>
+                  <td>{{fullName}}</td>
+                  <td class="muted">{{phone}}</td>
+                  <td class="muted">{{cpf}}</td>
+                  <td class="muted">{{sports}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+

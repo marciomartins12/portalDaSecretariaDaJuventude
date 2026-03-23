@@ -55,12 +55,14 @@ function bibFromId(id) {
 }
 
 async function listEvents(req, res) {
-  const [totalGincana, totalCorrida, [sorteioCountRows]] = await Promise.all([
+  const [totalGincana, totalCorrida, [sorteioCountRows], [jogosCountRows]] = await Promise.all([
     GincanaInscricao.count(),
     CorridaInscricao.count(),
-    pool.execute("SELECT COUNT(*) AS c FROM sorteio_piscicultores_inscricoes")
+    pool.execute("SELECT COUNT(*) AS c FROM sorteio_piscicultores_inscricoes"),
+    pool.execute("SELECT COUNT(*) AS c FROM jogos_inscricoes")
   ]);
   const totalSorteio = Number(sorteioCountRows?.[0]?.c || 0);
+  const totalJogos = Number(jogosCountRows?.[0]?.c || 0);
 
   res.render("admin/inscricoes", {
     layout: "admin",
@@ -71,21 +73,32 @@ async function listEvents(req, res) {
         name: content.gincana.title,
         total: totalGincana,
         href: "/admin/inscricoes/gincana",
-        exportHref: "/admin/inscricoes/gincana/export.docx"
+        exportHref: "/admin/inscricoes/gincana/export.docx",
+        exportLabel: "Exportar DOCX"
       },
       {
         key: "corrida",
         name: content.corrida.title,
         total: totalCorrida,
         href: "/admin/inscricoes/corrida",
-        exportHref: "/admin/inscricoes/corrida/export.docx"
+        exportHref: "/admin/inscricoes/corrida/export.docx",
+        exportLabel: "Exportar DOCX"
       },
       {
         key: "sorteio",
         name: "Sorteio para Psiculutores",
         total: totalSorteio,
         href: "/admin/inscricoes/sorteio",
-        exportHref: "/admin/inscricoes/sorteio/export.csv"
+        exportHref: "/admin/inscricoes/sorteio/export.csv",
+        exportLabel: "Exportar CSV"
+      },
+      {
+        key: "jogos",
+        name: "Jogos Variados",
+        total: totalJogos,
+        href: "/admin/inscricoes/jogos",
+        exportHref: "/admin/inscricoes/jogos/export.csv",
+        exportLabel: "Exportar CSV"
       }
     ]
   });
@@ -341,3 +354,65 @@ async function exportSorteioCsv(req, res) {
 
 module.exports.listSorteio = listSorteio;
 module.exports.exportSorteioCsv = exportSorteioCsv;
+
+function formatJogosSports(raw) {
+  let keys = [];
+  try {
+    keys = JSON.parse(String(raw || "[]"));
+  } catch {
+    keys = [];
+  }
+  const map = {
+    domino: "Dominó",
+    sinuca: "Sinuca",
+    travinho: "Travinho",
+    videogame_ps2: "Videogame (PES PS2)",
+    dama: "Dama"
+  };
+  return (Array.isArray(keys) ? keys : [])
+    .map((k) => map[String(k || "").trim()] || String(k || "").trim())
+    .filter(Boolean)
+    .join(", ");
+}
+
+async function listJogos(req, res) {
+  const [rows] = await pool.execute("SELECT * FROM jogos_inscricoes ORDER BY created_at DESC");
+  res.render("admin/inscricoes-jogos", {
+    layout: "admin",
+    title: "Admin • Inscritos — Jogos Variados",
+    total: rows.length,
+    exportHref: "/admin/inscricoes/jogos/export.csv",
+    rows: rows.map((r) => ({
+      id: Number(r.id),
+      createdAt: formatDateTimeBr(r.created_at),
+      fullName: r.full_name,
+      phone: r.phone,
+      cpf: r.cpf,
+      sports: formatJogosSports(r.sports)
+    }))
+  });
+}
+
+async function exportJogosCsv(req, res) {
+  const [rows] = await pool.execute("SELECT * FROM jogos_inscricoes ORDER BY created_at DESC");
+  const header = ["id", "created_at", "full_name", "phone", "cpf", "sports"];
+  const lines = [header.join(",")];
+  for (const r of rows) {
+    const values = [
+      r.id,
+      formatDateTimeBr(r.created_at),
+      `"${String(r.full_name || "").replace(/"/g, '""')}"`,
+      r.phone,
+      r.cpf,
+      `"${String(formatJogosSports(r.sports) || "").replace(/"/g, '""')}"`
+    ];
+    lines.push(values.join(","));
+  }
+  const csv = lines.join("\n");
+  res.setHeader("Content-Disposition", `attachment; filename="inscritos-jogos-variados.csv"`);
+  res.setHeader("Content-Type", "text/csv; charset=utf-8");
+  res.send("\uFEFF" + csv);
+}
+
+module.exports.listJogos = listJogos;
+module.exports.exportJogosCsv = exportJogosCsv;

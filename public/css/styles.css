@@ -2438,7 +2438,8 @@ body.nav-open {
 .tableWrap {
   padding: 18px;
   border-radius: 28px;
-  overflow: hidden;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .table {
@@ -3296,5 +3297,19 @@ body.nav-open {
 
   .eventRow__actions .btn {
     flex: 1 1 160px;
+  }
+
+  .tableWrap {
+    padding: 14px;
+  }
+
+  .tableWrap .table {
+    min-width: 720px;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px 10px;
+    font-size: 13px;
   }
 }
