@@ -160,6 +160,82 @@
     if (!isMobileNav() && document.body.classList.contains("nav-open")) setNavOpen(false);
   });
 
+  const logoImg = document.querySelector(".brand__logo");
+  const logoLink = document.querySelector(".brand");
+  if (logoImg && logoLink) {
+    let cache = null;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+    const refreshCache = () => {
+      const nw = logoImg.naturalWidth;
+      const nh = logoImg.naturalHeight;
+      if (!nw || !nh || !ctx) return false;
+      canvas.width = nw;
+      canvas.height = nh;
+      ctx.clearRect(0, 0, nw, nh);
+      try {
+        ctx.drawImage(logoImg, 0, 0, nw, nh);
+        cache = ctx.getImageData(0, 0, nw, nh);
+        return true;
+      } catch {
+        cache = null;
+        return false;
+      }
+    };
+
+    const ensureCache = () => {
+      if (!cache) return refreshCache();
+      return true;
+    };
+
+    const alphaAtClientPoint = (clientX, clientY) => {
+      const rect = logoImg.getBoundingClientRect();
+      if (!rect.width || !rect.height) return 255;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      if (x < 0 || y < 0 || x > rect.width || y > rect.height) return 0;
+      if (!ensureCache() || !cache) return 255;
+      const scaleX = logoImg.naturalWidth / rect.width;
+      const scaleY = logoImg.naturalHeight / rect.height;
+      const ix = Math.floor(x * scaleX);
+      const iy = Math.floor(y * scaleY);
+      const idx = (iy * logoImg.naturalWidth + ix) * 4 + 3;
+      return cache.data[idx] || 0;
+    };
+
+    const passThroughIfTransparent = (e) => {
+      const a = alphaAtClientPoint(e.clientX, e.clientY);
+      if (a <= 8) {
+        e.preventDefault();
+        e.stopPropagation();
+        const prev = logoLink.style.pointerEvents;
+        logoLink.style.pointerEvents = "none";
+        const below = document.elementFromPoint(e.clientX, e.clientY);
+        logoLink.style.pointerEvents = prev || "";
+        if (below && below !== logoImg && below !== logoLink) {
+          try {
+            below.dispatchEvent(
+              new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+                clientX: e.clientX,
+                clientY: e.clientY
+              })
+            );
+          } catch {}
+        }
+        return false;
+      }
+      return true;
+    };
+
+    if (logoImg.complete) refreshCache();
+    logoImg.addEventListener("load", refreshCache, { passive: true });
+    logoLink.addEventListener("click", passThroughIfTransparent, true);
+  }
+
   const closeModal = () => {
     const open = document.querySelector(".modal.is-open");
     if (!open) return;
