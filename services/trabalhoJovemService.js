@@ -44,6 +44,10 @@ const trabalhoJovem = {
     title: "Links Úteis",
     items: [
       {
+        label: "Valide sua inscrição no Trabalho Jovem",
+        href: "https://estagiosocial.trabalhojovem.ma.gov.br/sorteados/confirmacao.php"
+      }
+      {
         label: "Página oficial do Trabalho Jovem",
         href: "https://trabalhojovem.ma.gov.br/"
       }
