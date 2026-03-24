@@ -436,7 +436,8 @@ function formatJogosSports(raw) {
     domino: "Dominó",
     sinuca: "Sinuca",
     travinho: "Travinho",
-    videogame_ps2: "Videogame (PES PS2)",
+    videogame_bomba_patch: "Videogame (Bomba Patch)",
+    videogame_ps2: "Videogame (Bomba Patch)",
     dama: "Dama"
   };
   return (Array.isArray(keys) ? keys : [])
@@ -448,7 +449,7 @@ function formatJogosSports(raw) {
 async function listJogos(req, res) {
   const q = String(req.query?.q || "").trim();
   const sport = String(req.query?.sport || "").trim().toLowerCase();
-  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_ps2", "dama"]);
+  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_bomba_patch", "videogame_ps2", "dama"]);
   let sql = "SELECT * FROM jogos_inscricoes";
   const wheres = [];
   const params = [];
@@ -457,8 +458,13 @@ async function listJogos(req, res) {
     params.push(`%${q}%`);
   }
   if (sport && allowed.has(sport)) {
-    wheres.push("sports LIKE ?");
-    params.push(`%"${sport}"%`);
+    if (sport === "videogame_bomba_patch" || sport === "videogame_ps2") {
+      wheres.push("(sports LIKE ? OR sports LIKE ?)");
+      params.push(`%\"videogame_bomba_patch\"%`, `%\"videogame_ps2\"%`);
+    } else {
+      wheres.push("sports LIKE ?");
+      params.push(`%\"${sport}\"%`);
+    }
   }
   if (wheres.length > 0) {
     sql += " WHERE " + wheres.join(" AND ");
@@ -486,7 +492,7 @@ async function listJogos(req, res) {
 async function exportJogosCsv(req, res) {
   const q = String(req.query?.q || "").trim();
   const sport = String(req.query?.sport || "").trim().toLowerCase();
-  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_ps2", "dama"]);
+  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_bomba_patch", "videogame_ps2", "dama"]);
   let sql = "SELECT * FROM jogos_inscricoes";
   const wheres = [];
   const params = [];
@@ -495,8 +501,13 @@ async function exportJogosCsv(req, res) {
     params.push(`%${q}%`);
   }
   if (sport && allowed.has(sport)) {
-    wheres.push("sports LIKE ?");
-    params.push(`%"${sport}"%`);
+    if (sport === "videogame_bomba_patch" || sport === "videogame_ps2") {
+      wheres.push("(sports LIKE ? OR sports LIKE ?)");
+      params.push(`%\"videogame_bomba_patch\"%`, `%\"videogame_ps2\"%`);
+    } else {
+      wheres.push("sports LIKE ?");
+      params.push(`%\"${sport}\"%`);
+    }
   }
   if (wheres.length > 0) {
     sql += " WHERE " + wheres.join(" AND ");

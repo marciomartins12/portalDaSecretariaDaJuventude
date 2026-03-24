@@ -22,14 +22,15 @@ function normalizeSports(input) {
     ["domino", "Dominó"],
     ["sinuca", "Sinuca"],
     ["travinho", "Travinho"],
-    ["videogame_ps2", "Videogame (PES PS2)"],
+    ["videogame_bomba_patch", "Videogame (Bomba Patch)"],
+    ["videogame_ps2", "Videogame (Bomba Patch)"],
     ["dama", "Dama"]
   ]);
   const arr = Array.isArray(input) ? input : input ? [input] : [];
   const out = [];
   for (const raw of arr) {
     const k = String(raw || "").trim().toLowerCase();
-    if (allowed.has(k)) out.push(k);
+    if (allowed.has(k)) out.push(k === "videogame_ps2" ? "videogame_bomba_patch" : k);
   }
   return Array.from(new Set(out));
 }
@@ -70,4 +71,3 @@ function validateInscricaoJogos(req, res, next) {
 }
 
 module.exports = { validateInscricaoJogos };
-
