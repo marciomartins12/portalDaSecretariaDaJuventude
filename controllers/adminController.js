@@ -71,10 +71,10 @@ async function dashboard(req, res) {
   }
 
   const ranking = [
-    { key: "gincana", emoji: "🏆", name: content.gincana.title, total: totalGincana },
-    { key: "corrida", emoji: "🏃", name: content.corrida.title, total: totalCorrida },
-    { key: "sorteio", emoji: "🐟", name: "Sorteio (Alevinos)", total: totalSorteio },
-    { key: "jogos", emoji: "🎮", name: "Jogos Variados", total: totalJogos }
+    { key: "gincana", emoji: "🏆", name: content.gincana.title, total: totalGincana, href: "/admin/inscricoes/gincana" },
+    { key: "corrida", emoji: "🏃", name: content.corrida.title, total: totalCorrida, href: "/admin/inscricoes/corrida" },
+    { key: "sorteio", emoji: "🐟", name: "Sorteio (Alevinos)", total: totalSorteio, href: "/admin/inscricoes/sorteio" },
+    { key: "jogos", emoji: "🎮", name: "Jogos Variados", total: totalJogos, href: "/admin/inscricoes/jogos" }
   ].sort((a, b) => b.total - a.total);
 
   res.render("admin/dashboard", {

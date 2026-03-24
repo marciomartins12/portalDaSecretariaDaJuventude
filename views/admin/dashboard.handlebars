@@ -12,34 +12,34 @@
 
     <div class="adminPage">
       <div class="gridCards">
-        <div class="card">
+        <a class="card cardLink" href="/admin/inscricoes">
           <div class="card__k">🎉 Total de eventos</div>
           <div class="card__v">{{stats.totalEventos}}</div>
-        </div>
+        </a>
         <div class="card">
           <div class="card__k">📱 Dispositivos únicos</div>
           <div class="card__v">{{stats.totalDispositivos}}</div>
         </div>
-        <div class="card">
+        <a class="card cardLink" href="/admin/inscricoes">
           <div class="card__k">🧾 Total de inscrições</div>
           <div class="card__v">{{stats.totalInscricoes}}</div>
-        </div>
-        <div class="card">
+        </a>
+        <a class="card cardLink" href="/admin/inscricoes/gincana">
           <div class="card__k">🏆 Gincana</div>
           <div class="card__v">{{stats.totalGincana}}</div>
-        </div>
-        <div class="card">
+        </a>
+        <a class="card cardLink" href="/admin/inscricoes/corrida">
           <div class="card__k">🏃 Corrida</div>
           <div class="card__v">{{stats.totalCorrida}}</div>
-        </div>
-        <div class="card">
+        </a>
+        <a class="card cardLink" href="/admin/inscricoes/sorteio">
           <div class="card__k">🐟 Sorteio</div>
           <div class="card__v">{{stats.totalSorteio}}</div>
-        </div>
-        <div class="card">
+        </a>
+        <a class="card cardLink" href="/admin/inscricoes/jogos">
           <div class="card__k">🎮 Jogos</div>
           <div class="card__v">{{stats.totalJogos}}</div>
-        </div>
+        </a>
       </div>
 
       <div class="panel">
@@ -57,7 +57,7 @@
             <tbody>
               {{#each stats.ranking}}
                 <tr>
-                  <td>{{emoji}} {{name}}</td>
+                  <td><a class="tableLink" href="{{href}}">{{emoji}} {{name}}</a></td>
                   <td>{{total}}</td>
                 </tr>
               {{/each}}
