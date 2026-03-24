@@ -118,8 +118,13 @@
           {{#if trabalhoJovem.links.items.length}}
             {{#each trabalhoJovem.links.items}}
               <a class="tjLink" href="{{href}}" target="_blank" rel="noreferrer">
-                <div class="tjLink__label">{{label}}</div>
-                <div class="tjLink__desc">{{href}}</div>
+                <div class="tjLink__row">
+                  <div class="tjLink__emoji" aria-hidden="true">{{tjLinkEmoji href label}}</div>
+                  <div class="tjLink__meta">
+                    <div class="tjLink__label">{{label}}</div>
+                    <div class="tjLink__desc">{{href}}</div>
+                  </div>
+                </div>
               </a>
             {{/each}}
           {{else}}

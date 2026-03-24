@@ -1507,6 +1507,31 @@ body.nav-open {
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
+.tjLink__row {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.tjLink__emoji {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.tjLink__meta {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+}
+
 .tjLink:hover {
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.04);
@@ -1662,6 +1687,26 @@ body.nav-open {
   .tjDoc {
     grid-template-columns: 1fr;
     align-items: start;
+  }
+
+  .tjLink {
+    padding: 12px;
+  }
+
+  .tjLink__row {
+    grid-template-columns: 40px 1fr;
+  }
+
+  .tjLink__emoji {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .tjLink__desc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .tjTableWrap--fixed {
