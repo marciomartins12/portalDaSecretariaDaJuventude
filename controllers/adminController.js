@@ -44,10 +44,23 @@ function logout(req, res) {
 }
 
 async function dashboard(req, res) {
-  const [totalGincana, totalCorrida] = await Promise.all([
-    GincanaInscricao.count(),
-    CorridaInscricao.count()
-  ]);
+  const [totalGincana, totalCorrida] = await Promise.all([GincanaInscricao.count(), CorridaInscricao.count()]);
+
+  let totalSorteio = 0;
+  try {
+    const [rows] = await pool.execute("SELECT COUNT(*) AS total FROM sorteio_piscicultores_inscricoes");
+    totalSorteio = Number(rows?.[0]?.total || 0);
+  } catch {
+    totalSorteio = 0;
+  }
+
+  let totalJogos = 0;
+  try {
+    const [rows] = await pool.execute("SELECT COUNT(*) AS total FROM jogos_inscricoes");
+    totalJogos = Number(rows?.[0]?.total || 0);
+  } catch {
+    totalJogos = 0;
+  }
 
   let totalDispositivos = 0;
   try {
@@ -58,18 +71,22 @@ async function dashboard(req, res) {
   }
 
   const ranking = [
-    { key: "gincana", name: content.gincana.title, total: totalGincana },
-    { key: "corrida", name: content.corrida.title, total: totalCorrida }
+    { key: "gincana", emoji: "🏆", name: content.gincana.title, total: totalGincana },
+    { key: "corrida", emoji: "🏃", name: content.corrida.title, total: totalCorrida },
+    { key: "sorteio", emoji: "🐟", name: "Sorteio (Alevinos)", total: totalSorteio },
+    { key: "jogos", emoji: "🎮", name: "Jogos Variados", total: totalJogos }
   ].sort((a, b) => b.total - a.total);
 
   res.render("admin/dashboard", {
     layout: "admin",
     title: "Admin • Dashboard",
     stats: {
-      totalEventos: 3,
-      totalInscricoes: totalGincana + totalCorrida,
+      totalEventos: ranking.length,
+      totalInscricoes: totalGincana + totalCorrida + totalSorteio + totalJogos,
       totalGincana,
       totalCorrida,
+      totalSorteio,
+      totalJogos,
       totalDispositivos,
       ranking
     }

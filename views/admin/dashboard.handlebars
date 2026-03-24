@@ -13,24 +13,32 @@
     <div class="adminPage">
       <div class="gridCards">
         <div class="card">
-          <div class="card__k">Total de eventos</div>
+          <div class="card__k">🎉 Total de eventos</div>
           <div class="card__v">{{stats.totalEventos}}</div>
         </div>
         <div class="card">
-          <div class="card__k">Dispositivos únicos</div>
+          <div class="card__k">📱 Dispositivos únicos</div>
           <div class="card__v">{{stats.totalDispositivos}}</div>
         </div>
         <div class="card">
-          <div class="card__k">Total de inscrições</div>
+          <div class="card__k">🧾 Total de inscrições</div>
           <div class="card__v">{{stats.totalInscricoes}}</div>
         </div>
         <div class="card">
-          <div class="card__k">Gincana</div>
+          <div class="card__k">🏆 Gincana</div>
           <div class="card__v">{{stats.totalGincana}}</div>
         </div>
         <div class="card">
-          <div class="card__k">Corrida</div>
+          <div class="card__k">🏃 Corrida</div>
           <div class="card__v">{{stats.totalCorrida}}</div>
+        </div>
+        <div class="card">
+          <div class="card__k">🐟 Sorteio</div>
+          <div class="card__v">{{stats.totalSorteio}}</div>
+        </div>
+        <div class="card">
+          <div class="card__k">🎮 Jogos</div>
+          <div class="card__v">{{stats.totalJogos}}</div>
         </div>
       </div>
 
@@ -49,7 +57,7 @@
             <tbody>
               {{#each stats.ranking}}
                 <tr>
-                  <td>{{name}}</td>
+                  <td>{{emoji}} {{name}}</td>
                   <td>{{total}}</td>
                 </tr>
               {{/each}}
