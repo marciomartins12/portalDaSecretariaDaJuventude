@@ -2939,7 +2939,7 @@ body.nav-open {
 
 .teamModalList {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   max-height: none;
   overflow: visible;
   padding-right: 0;
@@ -2948,9 +2948,9 @@ body.nav-open {
 .teamMemberRow {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 10px;
-  padding: 12px 12px;
-  border-radius: 16px;
+  gap: 8px;
+  padding: 10px 10px;
+  border-radius: 14px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
@@ -2970,6 +2970,7 @@ body.nav-open {
 
 .teamMemberRow__name {
   font-weight: 900;
+  font-size: 15px;
   color: rgba(248, 250, 252, 0.94);
   min-width: 0;
 }
@@ -2978,9 +2979,9 @@ body.nav-open {
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 10px;
   color: rgba(248, 250, 252, 0.78);
-  padding: 8px 10px;
+  padding: 6px 8px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -3835,6 +3836,7 @@ body.nav-open {
   line-height: 1.8;
   overflow: auto;
   min-height: 0;
+  max-height: calc(100dvh - 160px);
 }
 
 @media (max-width: 720px) {
@@ -3846,6 +3848,10 @@ body.nav-open {
 
   .modal__panel {
     max-height: calc(100dvh - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .modal__body {
+    max-height: calc(100dvh - 190px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 }
 
