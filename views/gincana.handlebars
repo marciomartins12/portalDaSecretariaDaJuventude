@@ -9,7 +9,8 @@
         <p class="hero__subtitle">Acompanhe as novidades, as equipes inscritas e os arquivos do evento.</p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#equipes">Ver equipes</a>
-          <a class="btn btn--ghost" href="#arquivos">Baixar arquivos</a>
+          <a class="btn btn--soft" href="/editais/gincana/pdf">Baixar edital</a>
+          <a class="btn btn--ghost" href="#provas">Ver provas</a>
         </div>
       </div>
 
@@ -72,7 +73,8 @@
 
           <div class="heroCard__actions">
             <a class="btn btn--primary btn--wide" href="#equipes">Ver equipes</a>
-            <a class="btn btn--ghost btn--wide" href="#arquivos">Baixar arquivos</a>
+            <a class="btn btn--soft btn--wide" href="/editais/gincana/pdf">Baixar edital</a>
+            <a class="btn btn--ghost btn--wide" href="#provas">Ver provas</a>
           </div>
         </div>
       </div>
@@ -177,7 +179,7 @@
   <div class="container">
     <div class="section__head">
       <h2 class="section__title" id="arquivos">Arquivos</h2>
-      <p class="section__desc">Baixe o edital e o arquivo das provas.</p>
+      <p class="section__desc">Baixe o edital oficial.</p>
     </div>
 
     <div class="grid2">
@@ -189,14 +191,36 @@
           <a class="btn btn--primary" href="/editais/gincana/pdf">Baixar edital (PDF)</a>
         </div>
       </article>
-      <article class="card glass reveal">
-        <div class="card__icon" aria-hidden="true" data-icon="target"></div>
-        <h3 class="card__title">🧩 Provas</h3>
-        <p class="card__desc">Arquivo com as provas e instruções.</p>
-        <div class="cardActions">
-          <a class="btn btn--primary" href="/gincana/provas/pdf">Baixar provas (PDF)</a>
-        </div>
-      </article>
     </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title" id="provas">Provas</h2>
+      <p class="section__desc">Baixe os PDFs das provas em ordem.</p>
+    </div>
+
+    {{#if provas.length}}
+      <div class="provasList">
+        {{#each provas}}
+          <div class="provasItem glass reveal">
+            <div class="provasItem__left">
+              <div class="provasItem__num">{{addOne @index}}</div>
+              <div class="provasItem__name">{{name}}</div>
+            </div>
+            <div class="provasItem__actions">
+              <a class="btn btn--primary" href="{{href}}">Baixar PDF</a>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="alert glass reveal" role="status">
+        <div class="alert__title">Sem provas disponíveis</div>
+        <div class="alert__desc">Assim que os PDFs forem adicionados, eles aparecerão nesta lista.</div>
+      </div>
+    {{/if}}
   </div>
 </section>

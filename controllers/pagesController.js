@@ -48,8 +48,39 @@ function eventos(req, res) {
   });
 }
 
+function prettifyProvaName(filename) {
+  const base = String(filename || "").replace(/\.pdf$/i, "");
+  const noPrefix = base.replace(/^\s*\d+\s*[-_. ]\s*/i, "");
+  const words = noPrefix
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
+  return words.join(" ").trim() || base;
+}
+
+function listGincanaProvas() {
+  const dir = path.join(__dirname, "..", "public", "arquivos", "provas");
+  let entries = [];
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    entries = [];
+  }
+  const pdfs = entries.filter((f) => /\.pdf$/i.test(f));
+  pdfs.sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true, sensitivity: "base" }));
+  return pdfs.map((f) => ({
+    file: f,
+    name: prettifyProvaName(f),
+    href: `/gincana/provas/${encodeURIComponent(f)}`
+  }));
+}
+
 async function gincanaPage(req, res) {
   let teams = [];
+  let provas = [];
   try {
     const [teamRows] = await pool.execute(
       "SELECT id, team_name, neighborhood, created_at FROM gincana_inscricoes ORDER BY created_at ASC, id ASC"
@@ -88,15 +119,18 @@ async function gincanaPage(req, res) {
         members
       };
     });
+    provas = listGincanaProvas();
   } catch {
     teams = [];
+    provas = [];
   }
 
   res.render("gincana", {
     title: "Gincana",
     metaDescription: "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
     gincana: content.gincana,
-    teams
+    teams,
+    provas
   });
 }
 
@@ -150,6 +184,16 @@ function gincanaProvasPdf(req, res) {
 
   if (!best) return res.status(404).send("Arquivo não encontrado.");
   return res.download(path.join(dir, best), best);
+}
+
+function gincanaProvaDownload(req, res) {
+  const dir = path.join(__dirname, "..", "public", "arquivos", "provas");
+  const raw = String(req.params?.file || "");
+  const file = path.basename(raw);
+  if (!/\.pdf$/i.test(file)) return res.status(404).send("Arquivo não encontrado.");
+  const full = path.join(dir, file);
+  if (!fs.existsSync(full)) return res.status(404).send("Arquivo não encontrado.");
+  return res.download(full, file);
 }
 
 function inscricao(req, res) {
@@ -301,6 +345,7 @@ module.exports = {
   editais,
   editalPdf,
   gincanaProvasPdf,
+  gincanaProvaDownload,
   inscricao,
   inscricaoCorrida,
   noticias,
