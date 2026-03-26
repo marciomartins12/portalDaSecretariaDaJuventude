@@ -269,6 +269,28 @@
     if (target) openModal(target);
   }
 
+  const teamMembersModal = document.querySelector("#teamMembersModal");
+  if (teamMembersModal) {
+    const modalPanel = teamMembersModal.querySelector(".modal__panel");
+    const titleEl = teamMembersModal.querySelector("[data-team-modal-title]");
+    const listEl = teamMembersModal.querySelector("[data-team-modal-list]");
+
+    document.querySelectorAll("[data-team-open]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const nameEl = btn.querySelector(".teamCard__name");
+        const teamName = nameEl ? nameEl.textContent.trim() : "Equipe";
+        const membersTpl = btn.querySelector("[data-team-members]");
+        if (titleEl) titleEl.textContent = teamName;
+        if (listEl) listEl.innerHTML = membersTpl ? membersTpl.innerHTML : "";
+        if (modalPanel) {
+          const color = getComputedStyle(btn).getPropertyValue("--team-color").trim();
+          if (color) modalPanel.style.setProperty("--team-color", color);
+        }
+        openModal("#teamMembersModal");
+      });
+    });
+  }
+
   const calcAge = (dateString) => {
       const d = new Date(dateString);
       if (!Number.isFinite(d.getTime())) return null;

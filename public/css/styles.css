@@ -2835,6 +2835,17 @@ body.nav-open {
   display: none;
 }
 
+.teamCardButton {
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.teamCardButton:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--team-color) 55%, rgba(255, 255, 255, 0.3));
+  outline-offset: 2px;
+}
+
 .teamCard__name {
   font-weight: 950;
   letter-spacing: -0.01em;
@@ -2912,6 +2923,61 @@ body.nav-open {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(248, 250, 252, 0.9);
+}
+
+.teamModalPanel {
+  border: 1px solid color-mix(in srgb, var(--team-color, rgba(255,255,255,0.14)) 45%, rgba(255, 255, 255, 0.12));
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.45);
+}
+
+.teamModalHint {
+  margin-bottom: 12px;
+  color: rgba(148, 163, 184, 0.95);
+  font-weight: 750;
+}
+
+.teamModalList {
+  display: grid;
+  gap: 10px;
+}
+
+.teamMemberRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.teamMemberRow__name {
+  font-weight: 900;
+  color: rgba(248, 250, 252, 0.94);
+  min-width: 0;
+}
+
+.teamMemberRow__role {
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: rgba(248, 250, 252, 0.78);
+}
+
+.teamMemberRow--captain {
+  border-color: color-mix(in srgb, var(--team-color, #fbbf24) 55%, rgba(255, 255, 255, 0.12));
+  background: color-mix(in srgb, var(--team-color, #fbbf24) 10%, rgba(255, 255, 255, 0.02));
+}
+
+.teamMemberRow--captain .teamMemberRow__role {
+  color: rgba(248, 250, 252, 0.92);
+}
+
+@media (max-width: 720px) {
+  .teamMemberRow {
+    grid-template-columns: 1fr;
+  }
 }
 
 .provasList {

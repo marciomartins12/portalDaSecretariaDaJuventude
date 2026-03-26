@@ -86,7 +86,7 @@
   <div class="container">
     <div class="section__head">
       <h2 class="section__title" id="equipes">Equipes</h2>
-      <p class="section__desc">Clique em uma equipe para ver os integrantes.</p>
+      <p class="section__desc">Clique em uma equipe para abrir um pop-up com os membros.</p>
     </div>
 
     <div class="gincanaBody">
@@ -103,8 +103,8 @@
           </div>
           <div class="teamsGrid">
             {{#each teams}}
-              <details class="teamCard glass reveal" style="--team-color: {{colorHex}};">
-                <summary class="teamCard__summary">
+              <button class="teamCard teamCardButton glass reveal" type="button" style="--team-color: {{colorHex}};" data-team-open>
+                <div class="teamCard__summary">
                   <div class="teamCard__name">
                     <span class="teamCard__badge" aria-hidden="true">ID {{order}}</span>
                     {{teamName}}
@@ -113,18 +113,16 @@
                     <span class="chip">{{membersCount}} integrante(s)</span>
                     <span class="chip chip--color">{{colorLabel}}</span>
                   </div>
-                </summary>
-                <div class="teamCard__body">
-                  <div class="teamList">
-                    {{#each members}}
-                      <div class="teamList__row">
-                        <div class="teamList__name">{{fullName}}</div>
-                        <div class="teamList__role"><span class="roleBadge">{{role}}</span></div>
-                      </div>
-                    {{/each}}
-                  </div>
                 </div>
-              </details>
+                <div class="teamMembersTpl" hidden data-team-members>
+                  {{#each members}}
+                    <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                      <div class="teamMemberRow__name">{{fullName}}</div>
+                      <div class="teamMemberRow__role">{{role}}</div>
+                    </div>
+                  {{/each}}
+                </div>
+              </button>
             {{/each}}
           </div>
         {{else}}
@@ -177,6 +175,20 @@
     </div>
   </div>
 </section>
+
+<div class="modal" id="teamMembersModal" aria-hidden="true">
+  <button class="modal__backdrop" type="button" data-modal-close aria-label="Fechar"></button>
+  <div class="modal__panel glass teamModalPanel">
+    <div class="modal__head">
+      <div class="modal__title" data-team-modal-title>Equipe</div>
+      <button class="btn btn--ghost" type="button" data-modal-close>Fechar</button>
+    </div>
+    <div class="modal__body">
+      <div class="teamModalHint">Capitão aparece destacado.</div>
+      <div class="teamModalList" data-team-modal-list></div>
+    </div>
+  </div>
+</div>
 
 <section class="section">
   <div class="container">

@@ -94,7 +94,8 @@ async function gincanaPage(req, res) {
       if (!byTeam.has(k)) byTeam.set(k, []);
       byTeam.get(k).push({
         fullName: p.full_name,
-        role: p.is_captain ? "Líder" : "Participante"
+        isCaptain: Boolean(p.is_captain),
+        role: p.is_captain ? "Capitão" : "Integrante"
       });
     }
     const palette = [
