@@ -4,10 +4,7 @@ const gincana = {
   dateISO: "2026-03-28T18:00:00-03:00",
   dateLabel: "28 de março de 2026",
   location: "Praça da Matriz — Peri Mirim (MA)",
-  prize: "Premiação para as 3 melhores equipes + reconhecimentos especiais",
-  provas: [
-    { title: "Provas da Gincana", file: "provas-gincana.pdf" }
-  ]
+  prize: "Premiação para as 3 melhores equipes + reconhecimentos especiais"
 };
 
 const corrida = {

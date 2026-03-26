@@ -100,8 +100,8 @@
           </div>
           <div class="teamsGrid">
             {{#each teams}}
-              <div class="teamCard glass reveal" style="--team-color: {{colorHex}};">
-                <button class="teamCard__summary teamCard__summaryButton" type="button" data-modal-open="#teamModal{{id}}">
+              <details class="teamCard glass reveal" style="--team-color: {{colorHex}};">
+                <summary class="teamCard__summary">
                   <div class="teamCard__name">
                     <span class="teamCard__badge" aria-hidden="true">{{order}}ª</span>
                     {{teamName}}
@@ -110,39 +110,20 @@
                     <span class="chip">{{membersCount}} integrante(s)</span>
                     <span class="chip chip--color">{{colorLabel}}</span>
                   </div>
-                </button>
-              </div>
-            {{/each}}
-          </div>
-
-          {{#each teams}}
-            <div class="modal" id="teamModal{{id}}" aria-hidden="true">
-              <button class="modal__backdrop" type="button" data-modal-close aria-label="Fechar"></button>
-              <div class="modal__panel glass" role="dialog" aria-modal="true" aria-labelledby="teamModal{{id}}Title" style="--team-color: {{colorHex}};">
-                <div class="modal__head">
-                  <div class="modal__title" id="teamModal{{id}}Title">
-                    <span class="teamCard__badge" aria-hidden="true">{{order}}ª</span>
-                    {{teamName}}
-                  </div>
-                  <button class="modal__close btn btn--ghost" type="button" data-modal-close>Fechar</button>
-                </div>
-                <div class="modal__body">
-                  <div class="teamModal__meta">
-                    <span class="chip">{{membersCount}} integrante(s)</span>
-                    <span class="chip chip--color">{{colorLabel}}</span>
-                  </div>
-                  <div class="teamModal__members">
+                </summary>
+                <div class="teamCard__body">
+                  <div class="teamList">
                     {{#each members}}
-                      <div class="teamModal__row">
-                        <div class="teamModal__name">{{fullName}}</div>
-                        <div class="teamModal__role"><span class="roleBadge">{{role}}</span></div>
+                      <div class="teamList__row">
+                        <div class="teamList__name">{{fullName}}</div>
+                        <div class="teamList__role"><span class="roleBadge">{{role}}</span></div>
                       </div>
                     {{/each}}
                   </div>
                 </div>
-              </div>
-            </div>
-          {{/each}}
+              </details>
+            {{/each}}
+          </div>
         {{else}}
           <div class="alert glass reveal" role="status">
             <div class="alert__title">Sem equipes para exibir</div>
@@ -154,31 +135,28 @@
       <aside class="gincanaBody__podium">
         <div class="podium glass reveal">
           <div class="podium__title">Pódio</div>
-          <div class="podium__stageWrap" aria-hidden="true">
-            <div class="podium__stage">
-              <div class="podium__col podium__col--2">
-                <div class="podium__block">
-                  <div class="podium__place">🥈 2º</div>
-                  <div class="podium__name">—</div>
-                </div>
-              </div>
-              <div class="podium__col podium__col--1">
-                <div class="podium__block">
-                  <div class="podium__crown" aria-hidden="true">👑</div>
-                  <div class="podium__place">🥇 1º</div>
-                  <div class="podium__name">—</div>
-                </div>
-              </div>
-              <div class="podium__col podium__col--3">
-                <div class="podium__block">
-                  <div class="podium__place">🥉 3º</div>
-                  <div class="podium__name">—</div>
-                </div>
+          <div class="podium__stage">
+            <div class="podium__col podium__col--2">
+              <div class="podium__block">
+                <div class="podium__place">🥈 2º</div>
+                <div class="podium__name">—</div>
               </div>
             </div>
-            <div class="podium__floor"></div>
+            <div class="podium__col podium__col--1">
+              <div class="podium__block">
+                <div class="podium__crown" aria-hidden="true">👑</div>
+                <div class="podium__place">🥇 1º</div>
+                <div class="podium__name">—</div>
+              </div>
+            </div>
+            <div class="podium__col podium__col--3">
+              <div class="podium__block">
+                <div class="podium__place">🥉 3º</div>
+                <div class="podium__name">—</div>
+              </div>
+            </div>
           </div>
-          <div class="podium__desc">Resultados em breve</div>
+          <div class="podium__desc">Em breve</div>
         </div>
       </aside>
     </div>
@@ -189,7 +167,7 @@
   <div class="container">
     <div class="section__head">
       <h2 class="section__title" id="arquivos">Arquivos</h2>
-      <p class="section__desc">Arquivos oficiais do evento.</p>
+      <p class="section__desc">Baixe o edital e o arquivo das provas.</p>
     </div>
 
     <div class="grid2">
@@ -202,43 +180,13 @@
         </div>
       </article>
       <article class="card glass reveal">
-        <div class="card__icon" aria-hidden="true" data-icon="users"></div>
-        <h3 class="card__title">🗓️ Cronograma</h3>
-        <p class="card__desc">Data, local e informações gerais.</p>
+        <div class="card__icon" aria-hidden="true" data-icon="target"></div>
+        <h3 class="card__title">🧩 Provas</h3>
+        <p class="card__desc">Arquivo com as provas e instruções.</p>
         <div class="cardActions">
-          <a class="btn btn--ghost" href="#equipes">Ver equipes</a>
+          <a class="btn btn--primary" href="/gincana/provas/pdf">Baixar provas (PDF)</a>
         </div>
       </article>
     </div>
-  </div>
-</section>
-
-<section class="section provasSection">
-  <div class="container">
-    <div class="section__head">
-      <h2 class="section__title" id="provas">Provas</h2>
-      <p class="section__desc">Baixe os PDFs das provas. Novas provas serão adicionadas aqui.</p>
-    </div>
-
-    {{#if provas.length}}
-      <div class="provasList">
-        {{#each provas}}
-          <div class="provaItem glass reveal">
-            <div class="provaItem__main">
-              <div class="provaItem__title">🧩 {{title}}</div>
-              <div class="provaItem__meta">PDF</div>
-            </div>
-            <div class="provaItem__actions">
-              <a class="btn btn--primary" href="{{href}}">Baixar PDF</a>
-            </div>
-          </div>
-        {{/each}}
-      </div>
-    {{else}}
-      <div class="alert glass reveal" role="status">
-        <div class="alert__title">Nenhuma prova disponível</div>
-        <div class="alert__desc">Adicione os PDFs em public/arquivos/provas para exibir aqui.</div>
-      </div>
-    {{/if}}
   </div>
 </section>
