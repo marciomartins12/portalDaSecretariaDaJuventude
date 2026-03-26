@@ -2847,6 +2847,7 @@ body.nav-open {
   padding: 18px;
   display: grid;
   gap: 12px;
+  background: radial-gradient(700px 420px at 50% 0%, rgba(251, 191, 36, 0.14), rgba(255, 255, 255, 0.02));
 }
 
 .podium__title {
@@ -2862,31 +2863,79 @@ body.nav-open {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
   align-items: end;
-  height: 180px;
+  height: 220px;
 }
 
 .podium__col--1 .podium__block {
-  height: 100%;
+  height: 220px;
 }
 .podium__col--2 .podium__block {
-  height: 140px;
+  height: 170px;
 }
 .podium__col--3 .podium__block {
-  height: 120px;
+  height: 150px;
 }
 
 .podium__block {
   border-radius: 14px 14px 6px 6px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.06));
+  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
   border: 1px solid rgba(255, 255, 255, 0.14);
   display: grid;
   place-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+}
+
+.podium__col--1 .podium__block {
+  border-color: rgba(251, 191, 36, 0.35);
+}
+.podium__col--2 .podium__block {
+  border-color: rgba(148, 163, 184, 0.28);
+}
+.podium__col--3 .podium__block {
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+.podium__block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(220px 120px at 50% 20%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 100%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.podium__crown {
+  z-index: 1;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 22px;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
 }
 
 .podium__place {
   font-weight: 950;
   letter-spacing: -0.01em;
   font-size: 24px;
+  z-index: 1;
+}
+
+.podium__col--1 .podium__place {
+  font-size: 26px;
+}
+
+.podium__name {
+  z-index: 1;
+  margin-top: 8px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  color: rgba(248, 250, 252, 0.86);
 }
 
 .podium__desc {
