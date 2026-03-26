@@ -131,7 +131,8 @@ async function gincanaPage(req, res) {
     metaDescription: "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
     gincana: content.gincana,
     teams,
-    provas
+    provas,
+    preloadImages: ["/public/assets/fotoPrincipalDaGinacana.png"]
   });
 }
 
