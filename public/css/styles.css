@@ -2814,6 +2814,25 @@ body.nav-open {
   position: relative;
 }
 
+.teamCard__summaryButton {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.teamCard__summaryButton:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.teamCard__summaryButton:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--team-color) 55%, rgba(37, 99, 235, 0.45));
+  outline-offset: 2px;
+  border-radius: 16px;
+}
+
 .teamCard__summary::before {
   content: "";
   position: absolute;
@@ -2905,6 +2924,46 @@ body.nav-open {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(248, 250, 252, 0.9);
+}
+
+.teamModal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.teamModal__members {
+  display: grid;
+  gap: 10px;
+}
+
+.teamModal__row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.teamModal__name {
+  font-weight: 850;
+  color: rgba(248, 250, 252, 0.94);
+}
+
+.teamModal__role {
+  align-self: center;
+}
+
+@media (max-width: 720px) {
+  .teamModal__row {
+    grid-template-columns: 1fr;
+  }
+  .teamModal__role {
+    justify-self: start;
+  }
 }
 
 .gincanaHero__grid {

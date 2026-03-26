@@ -100,8 +100,8 @@
           </div>
           <div class="teamsGrid">
             {{#each teams}}
-              <details class="teamCard glass reveal" style="--team-color: {{colorHex}};">
-                <summary class="teamCard__summary">
+              <div class="teamCard glass reveal" style="--team-color: {{colorHex}};">
+                <button class="teamCard__summary teamCard__summaryButton" type="button" data-modal-open="#teamModal{{id}}">
                   <div class="teamCard__name">
                     <span class="teamCard__badge" aria-hidden="true">{{order}}ª</span>
                     {{teamName}}
@@ -110,20 +110,39 @@
                     <span class="chip">{{membersCount}} integrante(s)</span>
                     <span class="chip chip--color">{{colorLabel}}</span>
                   </div>
-                </summary>
-                <div class="teamCard__body">
-                  <div class="teamList">
+                </button>
+              </div>
+            {{/each}}
+          </div>
+
+          {{#each teams}}
+            <div class="modal" id="teamModal{{id}}" aria-hidden="true">
+              <button class="modal__backdrop" type="button" data-modal-close aria-label="Fechar"></button>
+              <div class="modal__panel glass" role="dialog" aria-modal="true" aria-labelledby="teamModal{{id}}Title" style="--team-color: {{colorHex}};">
+                <div class="modal__head">
+                  <div class="modal__title" id="teamModal{{id}}Title">
+                    <span class="teamCard__badge" aria-hidden="true">{{order}}ª</span>
+                    {{teamName}}
+                  </div>
+                  <button class="modal__close btn btn--ghost" type="button" data-modal-close>Fechar</button>
+                </div>
+                <div class="modal__body">
+                  <div class="teamModal__meta">
+                    <span class="chip">{{membersCount}} integrante(s)</span>
+                    <span class="chip chip--color">{{colorLabel}}</span>
+                  </div>
+                  <div class="teamModal__members">
                     {{#each members}}
-                      <div class="teamList__row">
-                        <div class="teamList__name">{{fullName}}</div>
-                        <div class="teamList__role"><span class="roleBadge">{{role}}</span></div>
+                      <div class="teamModal__row">
+                        <div class="teamModal__name">{{fullName}}</div>
+                        <div class="teamModal__role"><span class="roleBadge">{{role}}</span></div>
                       </div>
                     {{/each}}
                   </div>
                 </div>
-              </details>
-            {{/each}}
-          </div>
+              </div>
+            </div>
+          {{/each}}
         {{else}}
           <div class="alert glass reveal" role="status">
             <div class="alert__title">Sem equipes para exibir</div>
