@@ -97,14 +97,14 @@
               <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--red"></span> 2ª equipe • Vermelho</div>
               <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--blue"></span> 3ª equipe • Azul</div>
             </div>
-            <div class="teamLegend__note">O número da equipe é definido pela ordem de inscrição.</div>
+            <div class="teamLegend__note">O ID da equipe é definido pela ordem de inscrição.</div>
           </div>
           <div class="teamsGrid">
             {{#each teams}}
               <details class="teamCard glass reveal" style="--team-color: {{colorHex}};">
                 <summary class="teamCard__summary">
                   <div class="teamCard__name">
-                    <span class="teamCard__badge" aria-hidden="true">{{order}}ª</span>
+                    <span class="teamCard__badge" aria-hidden="true">ID {{order}}</span>
                     {{teamName}}
                   </div>
                   <div class="teamCard__meta">
