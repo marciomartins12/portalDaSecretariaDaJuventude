@@ -581,10 +581,11 @@
 
   const gincanaSplash = document.querySelector(".gincanaSplash");
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (gincanaSplash && !reduceMotion) {
+  const isCoarsePointer =
+    window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  if (gincanaSplash && !reduceMotion && !isCoarsePointer) {
     let pan = 0;
     let raf = 0;
-    let touchY = null;
 
     const applyPan = () => {
       raf = 0;
@@ -618,35 +619,8 @@
       updateFromDelta(dy);
     };
 
-    const onTouchStart = (e) => {
-      if (window.scrollY > 0) return;
-      const t = e.touches && e.touches[0];
-      if (!t) return;
-      touchY = t.clientY;
-    };
-
-    const onTouchMove = (e) => {
-      if (touchY === null) return;
-      const t = e.touches && e.touches[0];
-      if (!t) return;
-      const dy = touchY - t.clientY;
-      if (!dy) return;
-      if (!canIntercept(dy)) return;
-      e.preventDefault();
-      updateFromDelta(dy);
-      touchY = t.clientY;
-    };
-
-    const onTouchEnd = () => {
-      touchY = null;
-    };
-
     applyPan();
     window.addEventListener("wheel", onWheel, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
-    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
   }
 
   const lightboxRoot = document.querySelector("[data-lightbox-root]");
