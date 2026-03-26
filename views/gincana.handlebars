@@ -80,14 +80,19 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section section--highlight gincanaTeamsSection">
   <div class="container">
     <div class="section__head">
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Equipes inscritas
+      </div>
       <h2 class="section__title" id="equipes">Equipes</h2>
       <p class="section__desc">Clique em uma equipe para ver os integrantes.</p>
     </div>
 
-    <div class="gincanaBody">
+    <div class="gincanaTeamsWrap glass">
+      <div class="gincanaBody">
       <div class="gincanaBody__teams">
         {{#if teams.length}}
           <div class="teamLegend glass">
@@ -160,6 +165,7 @@
           <div class="podium__desc">Em breve</div>
         </div>
       </aside>
+    </div>
     </div>
   </div>
 </section>

@@ -2719,6 +2719,35 @@ body.nav-open {
   gap: 10px;
 }
 
+.gincanaTeamsSection {
+  position: relative;
+  overflow: hidden;
+}
+
+.gincanaTeamsSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 420px at 15% 15%, rgba(96, 165, 250, 0.16), rgba(255, 255, 255, 0) 55%),
+    radial-gradient(900px 420px at 85% 20%, rgba(251, 191, 36, 0.14), rgba(255, 255, 255, 0) 55%),
+    radial-gradient(900px 420px at 45% 95%, rgba(251, 113, 133, 0.12), rgba(255, 255, 255, 0) 60%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.gincanaTeamsSection .container {
+  position: relative;
+}
+
+.gincanaTeamsWrap {
+  padding: 18px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
+
 .teamsGrid {
   display: grid;
   gap: 12px;
