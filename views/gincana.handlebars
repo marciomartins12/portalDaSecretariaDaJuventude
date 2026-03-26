@@ -189,7 +189,7 @@
   <div class="container">
     <div class="section__head">
       <h2 class="section__title" id="arquivos">Arquivos</h2>
-      <p class="section__desc">Baixe o edital e o arquivo das provas.</p>
+      <p class="section__desc">Arquivos oficiais do evento.</p>
     </div>
 
     <div class="grid2">
@@ -202,13 +202,43 @@
         </div>
       </article>
       <article class="card glass reveal">
-        <div class="card__icon" aria-hidden="true" data-icon="target"></div>
-        <h3 class="card__title">🧩 Provas</h3>
-        <p class="card__desc">Arquivo com as provas e instruções.</p>
+        <div class="card__icon" aria-hidden="true" data-icon="users"></div>
+        <h3 class="card__title">🗓️ Cronograma</h3>
+        <p class="card__desc">Data, local e informações gerais.</p>
         <div class="cardActions">
-          <a class="btn btn--primary" href="/gincana/provas/pdf">Baixar provas (PDF)</a>
+          <a class="btn btn--ghost" href="#equipes">Ver equipes</a>
         </div>
       </article>
     </div>
+  </div>
+</section>
+
+<section class="section provasSection">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title" id="provas">Provas</h2>
+      <p class="section__desc">Baixe os PDFs das provas. Novas provas serão adicionadas aqui.</p>
+    </div>
+
+    {{#if provas.length}}
+      <div class="provasList">
+        {{#each provas}}
+          <div class="provaItem glass reveal">
+            <div class="provaItem__main">
+              <div class="provaItem__title">🧩 {{title}}</div>
+              <div class="provaItem__meta">PDF</div>
+            </div>
+            <div class="provaItem__actions">
+              <a class="btn btn--primary" href="{{href}}">Baixar PDF</a>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="alert glass reveal" role="status">
+        <div class="alert__title">Nenhuma prova disponível</div>
+        <div class="alert__desc">Adicione os PDFs em public/arquivos/provas para exibir aqui.</div>
+      </div>
+    {{/if}}
   </div>
 </section>

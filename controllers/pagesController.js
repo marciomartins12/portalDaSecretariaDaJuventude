@@ -92,11 +92,38 @@ async function gincanaPage(req, res) {
     teams = [];
   }
 
+  const provasDir = path.join(__dirname, "..", "public", "arquivos", "provas");
+  const provasBase = "/gincana/provas";
+  let provas = [];
+  try {
+    const list = Array.isArray(content.gincana?.provas) ? content.gincana.provas : [];
+    provas = list
+      .map((p) => ({
+        title: String(p?.title || "").trim(),
+        file: String(p?.file || "").trim()
+      }))
+      .filter((p) => p.title && p.file && /\.pdf$/i.test(p.file))
+      .filter((p) => {
+        try {
+          return fs.existsSync(path.join(provasDir, p.file));
+        } catch {
+          return false;
+        }
+      })
+      .map((p) => ({
+        title: p.title,
+        href: `${provasBase}/${encodeURIComponent(p.file)}`
+      }));
+  } catch {
+    provas = [];
+  }
+
   res.render("gincana", {
     title: "Gincana",
     metaDescription: "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
     gincana: content.gincana,
-    teams
+    teams,
+    provas
   });
 }
 
@@ -150,6 +177,19 @@ function gincanaProvasPdf(req, res) {
 
   if (!best) return res.status(404).send("Arquivo não encontrado.");
   return res.download(path.join(dir, best), best);
+}
+
+function gincanaProvaFile(req, res) {
+  const file = String(req.params?.file || "").trim();
+  const safe = path.basename(file);
+  if (!safe || safe !== file) return res.status(400).send("Arquivo inválido.");
+  if (!/\.pdf$/i.test(safe)) return res.status(400).send("Arquivo inválido.");
+
+  const dir = path.join(__dirname, "..", "public", "arquivos", "provas");
+  const abs = path.join(dir, safe);
+  if (!abs.startsWith(dir)) return res.status(400).send("Arquivo inválido.");
+  if (!fs.existsSync(abs)) return res.status(404).send("Arquivo não encontrado.");
+  return res.download(abs, safe);
 }
 
 function inscricao(req, res) {
@@ -301,6 +341,7 @@ module.exports = {
   editais,
   editalPdf,
   gincanaProvasPdf,
+  gincanaProvaFile,
   inscricao,
   inscricaoCorrida,
   noticias,
