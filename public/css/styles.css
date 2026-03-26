@@ -2974,8 +2974,37 @@ body.nav-open {
 .podium {
   padding: 18px;
   display: grid;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    radial-gradient(680px 420px at 50% 0%, rgba(251, 191, 36, 0.16), rgba(255, 255, 255, 0) 55%),
+    radial-gradient(680px 420px at 10% 20%, rgba(96, 165, 250, 0.12), rgba(255, 255, 255, 0) 55%),
+    radial-gradient(680px 420px at 90% 20%, rgba(251, 113, 133, 0.10), rgba(255, 255, 255, 0) 55%),
+    rgba(255, 255, 255, 0.02);
+  box-shadow: 0 22px 80px rgba(0, 0, 0, 0.34);
+}
+
+.podium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(900px 500px at 50% -10%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+
+.podium__head {
+  position: relative;
+  display: grid;
+  gap: 8px;
+}
+
+.podium__titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  background: radial-gradient(700px 420px at 50% 0%, rgba(251, 191, 36, 0.14), rgba(255, 255, 255, 0.02));
 }
 
 .podium__title {
@@ -2986,6 +3015,26 @@ body.nav-open {
   color: rgba(248, 250, 252, 0.9);
 }
 
+.podium__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(248, 250, 252, 0.88);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.podium__subtitle {
+  color: rgba(248, 250, 252, 0.74);
+  font-weight: 750;
+  font-size: 13px;
+}
+
 .podium__stage {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -2994,6 +3043,7 @@ body.nav-open {
   height: 200px;
   position: relative;
   padding-bottom: 10px;
+  z-index: 1;
 }
 
 .podium__stage::before {
@@ -3018,26 +3068,22 @@ body.nav-open {
   height: 140px;
 }
 
+.podium__col--1 { --pcolor: #fbbf24; }
+.podium__col--2 { --pcolor: #94a3b8; }
+.podium__col--3 { --pcolor: #fb923c; }
+
 .podium__block {
   border-radius: 14px 14px 6px 6px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(260px 160px at 50% 0%, color-mix(in srgb, var(--pcolor) 22%, rgba(255,255,255,0)) 0%, rgba(255,255,255,0) 70%),
+    linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+  border: 1px solid color-mix(in srgb, var(--pcolor) 38%, rgba(255, 255, 255, 0.12));
   display: grid;
   place-items: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.30), 0 0 40px rgba(0, 0, 0, 0.12);
   transform: translateZ(0);
-}
-
-.podium__col--1 .podium__block {
-  border-color: rgba(251, 191, 36, 0.35);
-}
-.podium__col--2 .podium__block {
-  border-color: rgba(148, 163, 184, 0.28);
-}
-.podium__col--3 .podium__block {
-  border-color: rgba(251, 146, 60, 0.3);
 }
 
 .podium__block::after {
@@ -3049,6 +3095,17 @@ body.nav-open {
     linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 100%);
   opacity: 0.55;
   pointer-events: none;
+}
+
+.podium__medal {
+  z-index: 1;
+  font-size: 22px;
+  line-height: 1;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+}
+
+.podium__col--1 .podium__medal {
+  font-size: 26px;
 }
 
 .podium__crown {
@@ -3064,12 +3121,12 @@ body.nav-open {
 .podium__place {
   font-weight: 950;
   letter-spacing: -0.01em;
-  font-size: 24px;
+  font-size: 22px;
   z-index: 1;
 }
 
 .podium__col--1 .podium__place {
-  font-size: 26px;
+  font-size: 24px;
 }
 
 .podium__name {
@@ -3089,29 +3146,29 @@ body.nav-open {
 
 @media (min-width: 980px) {
   .podium {
-    padding: 22px;
+    padding: 26px;
   }
 
   .podium__stage {
-    height: 280px;
+    height: 320px;
   }
 
   .podium__col--1 .podium__block {
-    height: 280px;
+    height: 320px;
   }
   .podium__col--2 .podium__block {
-    height: 215px;
+    height: 250px;
   }
   .podium__col--3 .podium__block {
-    height: 195px;
+    height: 230px;
   }
 
   .podium__place {
-    font-size: 26px;
+    font-size: 24px;
   }
 
   .podium__col--1 .podium__place {
-    font-size: 30px;
+    font-size: 28px;
   }
 
   .podium__name {
