@@ -2929,7 +2929,7 @@ body.nav-open {
 .teamModalPanel {
   border: 1px solid color-mix(in srgb, var(--team-color, rgba(255,255,255,0.14)) 45%, rgba(255, 255, 255, 0.12));
   box-shadow: 0 18px 70px rgba(0, 0, 0, 0.45);
-  margin-top: 16px;
+  margin-top: 40px;
 }
 
 .teamModalHint {
