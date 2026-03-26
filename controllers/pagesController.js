@@ -52,7 +52,7 @@ async function gincanaPage(req, res) {
   let teams = [];
   try {
     const [teamRows] = await pool.execute(
-      "SELECT id, team_name, neighborhood, created_at FROM gincana_inscricoes ORDER BY team_name ASC"
+      "SELECT id, team_name, neighborhood, created_at FROM gincana_inscricoes ORDER BY created_at ASC, id ASC"
     );
     const [pRows] = await pool.execute(
       "SELECT inscricao_id, full_name, is_captain FROM gincana_participantes ORDER BY is_captain DESC, full_name ASC"
@@ -66,13 +66,24 @@ async function gincanaPage(req, res) {
         role: p.is_captain ? "Líder" : "Participante"
       });
     }
-    teams = teamRows.map((t) => {
+    const palette = [
+      { key: "yellow", label: "Amarelo", color: "#fbbf24" },
+      { key: "red", label: "Vermelho", color: "#fb7185" },
+      { key: "blue", label: "Azul", color: "#60a5fa" }
+    ];
+
+    teams = teamRows.map((t, idx) => {
       const id = Number(t.id);
       const members = byTeam.get(id) || [];
+      const p = palette[idx % palette.length];
       return {
         id,
+        order: idx + 1,
         teamName: t.team_name,
         neighborhood: t.neighborhood || "",
+        colorKey: p.key,
+        colorLabel: p.label,
+        colorHex: p.color,
         membersCount: members.length,
         members
       };

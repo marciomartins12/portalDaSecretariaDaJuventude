@@ -90,14 +90,26 @@
     <div class="gincanaBody">
       <div class="gincanaBody__teams">
         {{#if teams.length}}
+          <div class="teamLegend glass">
+            <div class="teamLegend__title">Cores por ordem de inscrição</div>
+            <div class="teamLegend__items">
+              <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--yellow"></span> 1ª equipe • Amarelo</div>
+              <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--red"></span> 2ª equipe • Vermelho</div>
+              <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--blue"></span> 3ª equipe • Azul</div>
+            </div>
+          </div>
           <div class="teamsGrid">
             {{#each teams}}
-              <details class="teamCard glass reveal">
+              <details class="teamCard glass reveal" style="--team-color: {{colorHex}};">
                 <summary class="teamCard__summary">
-                  <div class="teamCard__name">{{teamName}}</div>
+                  <div class="teamCard__name">
+                    <span class="teamCard__badge" aria-hidden="true">{{order}}ª</span>
+                    {{teamName}}
+                  </div>
                   <div class="teamCard__meta">
                     {{#if neighborhood}}<span class="chip">{{neighborhood}}</span>{{/if}}
                     <span class="chip">{{membersCount}} integrante(s)</span>
+                    <span class="chip chip--color">{{colorLabel}}</span>
                   </div>
                 </summary>
                 <div class="teamCard__body">
@@ -105,7 +117,7 @@
                     {{#each members}}
                       <div class="teamList__row">
                         <div class="teamList__name">{{fullName}}</div>
-                        <div class="teamList__role">{{role}}</div>
+                        <div class="teamList__role"><span class="roleBadge">{{role}}</span></div>
                       </div>
                     {{/each}}
                   </div>
