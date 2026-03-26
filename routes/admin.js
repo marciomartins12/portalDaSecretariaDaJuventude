@@ -20,6 +20,17 @@ router.get("/inscricoes/corrida/export.docx", requireAdmin, adminInscricoesContr
 router.post("/inscricoes/corrida/:id/delete", requireAdmin, adminInscricoesController.deleteCorrida);
 router.get("/inscricoes/gincana", requireAdmin, adminInscricoesController.listGincana);
 router.get("/inscricoes/gincana/export.docx", requireAdmin, adminInscricoesController.exportGincanaDocx);
+router.post("/inscricoes/gincana/:id/participants/add", requireAdmin, adminInscricoesController.addGincanaParticipant);
+router.post(
+  "/inscricoes/gincana/participants/:participantId/update",
+  requireAdmin,
+  adminInscricoesController.updateGincanaParticipant
+);
+router.post(
+  "/inscricoes/gincana/participants/:participantId/delete",
+  requireAdmin,
+  adminInscricoesController.deleteGincanaParticipant
+);
 router.get("/inscricoes/sorteio", requireAdmin, adminInscricoesController.listSorteio);
 router.get("/inscricoes/sorteio/export.csv", requireAdmin, adminInscricoesController.exportSorteioCsv);
 router.get("/inscricoes/jogos", requireAdmin, adminInscricoesController.listJogos);

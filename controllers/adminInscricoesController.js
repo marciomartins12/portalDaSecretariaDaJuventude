@@ -27,6 +27,38 @@ function formatDateBr(value) {
   return `${dd}/${mm}/${yyyy}`;
 }
 
+function formatDateIso(value) {
+  const p = dateOnlyParts(value);
+  if (!p) return "";
+  const dd = String(p.dd).padStart(2, "0");
+  const mm = String(p.mm).padStart(2, "0");
+  const yyyy = String(p.yyyy);
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function digitsOnly(value) {
+  return String(value || "").replace(/\D/g, "");
+}
+
+function isValidCpf(cpfDigits) {
+  const cpf = digitsOnly(cpfDigits);
+  if (!/^\d{11}$/.test(cpf)) return false;
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+  const calc = (base, factor) => {
+    let sum = 0;
+    for (let i = 0; i < base.length; i += 1) {
+      sum += Number(base[i]) * (factor - i);
+    }
+    const mod = sum % 11;
+    return mod < 2 ? 0 : 11 - mod;
+  };
+
+  const d1 = calc(cpf.slice(0, 9), 10);
+  const d2 = calc(cpf.slice(0, 9) + String(d1), 11);
+  return cpf.endsWith(`${d1}${d2}`);
+}
+
 function formatDateTimeBr(value) {
   if (!value) return "";
   const d = new Date(value);
@@ -190,12 +222,15 @@ async function listGincana(req, res) {
     );
     const captainRow = pRows.find((x) => Boolean(x.is_captain)) || null;
     const participants = pRows.map((p) => ({
+      id: Number(p.id),
       fullName: p.full_name,
       dob: p.dob ? formatDateBr(p.dob) : "",
+      dobValue: p.dob ? formatDateIso(p.dob) : "",
       age: calcAge(p.dob),
       cpf: p.cpf ?? "",
       address: p.address ?? "",
-      role: p.is_captain ? "Líder" : "Participante"
+      role: p.is_captain ? "Líder" : "Participante",
+      roleValue: p.is_captain ? "captain" : "member"
     }));
 
     teams.push({
@@ -227,8 +262,160 @@ async function listGincana(req, res) {
     total: teams.length,
     exportHref,
     q,
-    teams
+    teams,
+    error: String(req.query?.error || "").trim(),
+    success: String(req.query?.success || "").trim()
   });
+}
+
+async function syncGincanaTeamCounts(teamId) {
+  const [countRows] = await pool.execute("SELECT COUNT(*) AS c FROM gincana_participantes WHERE inscricao_id = ?", [
+    teamId
+  ]);
+  const total = Number(countRows?.[0]?.c || 0);
+  await pool.execute("UPDATE gincana_inscricoes SET participants_total = ? WHERE id = ? LIMIT 1", [total, teamId]);
+  return total;
+}
+
+async function syncGincanaCaptainFromParticipant(participantId) {
+  const [rows] = await pool.execute(
+    "SELECT id, inscricao_id, full_name, dob FROM gincana_participantes WHERE id = ? LIMIT 1",
+    [participantId]
+  );
+  if (rows.length === 0) return null;
+  const p = rows[0];
+  await pool.execute("UPDATE gincana_inscricoes SET captain_name = ?, captain_dob = ? WHERE id = ? LIMIT 1", [
+    p.full_name,
+    p.dob || null,
+    p.inscricao_id
+  ]);
+  return Number(p.inscricao_id);
+}
+
+async function addGincanaParticipant(req, res) {
+  const teamId = Number(req.params?.id);
+  if (!teamId) return res.redirect("/admin/inscricoes/gincana?error=Equipe inválida");
+
+  const fullName = String(req.body?.fullName || "").trim();
+  const dobRaw = String(req.body?.dob || "").trim();
+  const dobParts = dateOnlyParts(dobRaw);
+  const cpfRaw = String(req.body?.cpf || "").trim();
+  const cpf = digitsOnly(cpfRaw);
+  const address = String(req.body?.address || "").trim();
+  const role = String(req.body?.role || "member").trim();
+  const isCaptain = role === "captain";
+
+  if (!fullName) return res.redirect(`/admin/inscricoes/gincana?error=Informe o nome do participante#team-${teamId}`);
+  if (!dobParts) return res.redirect(`/admin/inscricoes/gincana?error=Informe a data de nascimento#team-${teamId}`);
+  if (!cpf || !isValidCpf(cpf)) return res.redirect(`/admin/inscricoes/gincana?error=Informe um CPF válido#team-${teamId}`);
+  if (!address) return res.redirect(`/admin/inscricoes/gincana?error=Informe o endereço#team-${teamId}`);
+
+  const [countRows] = await pool.execute("SELECT COUNT(*) AS c FROM gincana_participantes WHERE inscricao_id = ?", [
+    teamId
+  ]);
+  const currentTotal = Number(countRows?.[0]?.c || 0);
+  if (currentTotal >= 15) {
+    return res.redirect(`/admin/inscricoes/gincana?error=Esta equipe já possui 15 participantes#team-${teamId}`);
+  }
+
+  const [result] = await pool.execute(
+    "INSERT INTO gincana_participantes (inscricao_id, full_name, dob, is_captain, cpf, address) VALUES (?, ?, ?, ?, ?, ?)",
+    [teamId, fullName, formatDateIso(dobRaw), isCaptain ? 1 : 0, cpf, address]
+  );
+  const newId = Number(result.insertId);
+
+  if (isCaptain) {
+    await pool.execute("UPDATE gincana_participantes SET is_captain = 0 WHERE inscricao_id = ? AND id <> ?", [
+      teamId,
+      newId
+    ]);
+    await pool.execute("UPDATE gincana_participantes SET is_captain = 1 WHERE id = ? LIMIT 1", [newId]);
+    await syncGincanaCaptainFromParticipant(newId);
+  }
+
+  await syncGincanaTeamCounts(teamId);
+  return res.redirect(`/admin/inscricoes/gincana?success=Participante adicionado#team-${teamId}`);
+}
+
+async function updateGincanaParticipant(req, res) {
+  const participantId = Number(req.params?.participantId);
+  if (!participantId) return res.redirect("/admin/inscricoes/gincana?error=Participante inválido");
+
+  const [pRows] = await pool.execute("SELECT id, inscricao_id FROM gincana_participantes WHERE id = ? LIMIT 1", [
+    participantId
+  ]);
+  if (pRows.length === 0) return res.redirect("/admin/inscricoes/gincana?error=Participante não encontrado");
+  const teamId = Number(pRows[0].inscricao_id);
+
+  const fullName = String(req.body?.fullName || "").trim();
+  const dobRaw = String(req.body?.dob || "").trim();
+  const dobParts = dateOnlyParts(dobRaw);
+  const cpfRaw = String(req.body?.cpf || "").trim();
+  const cpf = digitsOnly(cpfRaw);
+  const address = String(req.body?.address || "").trim();
+  const role = String(req.body?.role || "member").trim();
+  const isCaptain = role === "captain";
+
+  if (!fullName) return res.redirect(`/admin/inscricoes/gincana?error=Informe o nome do participante#team-${teamId}`);
+  if (!dobParts) return res.redirect(`/admin/inscricoes/gincana?error=Informe a data de nascimento#team-${teamId}`);
+  if (!cpf || !isValidCpf(cpf)) return res.redirect(`/admin/inscricoes/gincana?error=Informe um CPF válido#team-${teamId}`);
+  if (!address) return res.redirect(`/admin/inscricoes/gincana?error=Informe o endereço#team-${teamId}`);
+
+  await pool.execute(
+    "UPDATE gincana_participantes SET full_name = ?, dob = ?, cpf = ?, address = ?, is_captain = ? WHERE id = ? LIMIT 1",
+    [fullName, formatDateIso(dobRaw), cpf, address, isCaptain ? 1 : 0, participantId]
+  );
+
+  if (isCaptain) {
+    await pool.execute("UPDATE gincana_participantes SET is_captain = 0 WHERE inscricao_id = ? AND id <> ?", [
+      teamId,
+      participantId
+    ]);
+    await syncGincanaCaptainFromParticipant(participantId);
+  } else {
+    const [capRows] = await pool.execute(
+      "SELECT id FROM gincana_participantes WHERE inscricao_id = ? AND is_captain = 1 LIMIT 1",
+      [teamId]
+    );
+    if (capRows.length === 0) {
+      await pool.execute("UPDATE gincana_participantes SET is_captain = 1 WHERE id = ? LIMIT 1", [participantId]);
+      await syncGincanaCaptainFromParticipant(participantId);
+    }
+  }
+
+  await syncGincanaTeamCounts(teamId);
+  return res.redirect(`/admin/inscricoes/gincana?success=Participante atualizado#team-${teamId}`);
+}
+
+async function deleteGincanaParticipant(req, res) {
+  const participantId = Number(req.params?.participantId);
+  if (!participantId) return res.redirect("/admin/inscricoes/gincana?error=Participante inválido");
+
+  const [pRows] = await pool.execute(
+    "SELECT id, inscricao_id, is_captain FROM gincana_participantes WHERE id = ? LIMIT 1",
+    [participantId]
+  );
+  if (pRows.length === 0) return res.redirect("/admin/inscricoes/gincana?error=Participante não encontrado");
+  const teamId = Number(pRows[0].inscricao_id);
+  const wasCaptain = Boolean(pRows[0].is_captain);
+
+  await pool.execute("DELETE FROM gincana_participantes WHERE id = ? LIMIT 1", [participantId]);
+
+  if (wasCaptain) {
+    const [nextRows] = await pool.execute(
+      "SELECT id FROM gincana_participantes WHERE inscricao_id = ? ORDER BY id ASC LIMIT 1",
+      [teamId]
+    );
+    if (nextRows.length > 0) {
+      const nextId = Number(nextRows[0].id);
+      await pool.execute("UPDATE gincana_participantes SET is_captain = 0 WHERE inscricao_id = ?", [teamId]);
+      await pool.execute("UPDATE gincana_participantes SET is_captain = 1 WHERE id = ? LIMIT 1", [nextId]);
+      await syncGincanaCaptainFromParticipant(nextId);
+    }
+  }
+
+  await syncGincanaTeamCounts(teamId);
+  return res.redirect(`/admin/inscricoes/gincana?success=Participante removido#team-${teamId}`);
 }
 
 async function exportCorridaDocx(req, res) {
@@ -368,6 +555,9 @@ module.exports = {
   listCorrida,
   deleteCorrida,
   listGincana,
+  addGincanaParticipant,
+  updateGincanaParticipant,
+  deleteGincanaParticipant,
   exportCorridaDocx,
   exportGincanaDocx
 };

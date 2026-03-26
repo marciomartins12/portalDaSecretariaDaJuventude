@@ -558,4 +558,48 @@ a {
   .tableWrap .table {
     min-width: 760px;
   }
+
+  .table--stack {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  .table--stack thead {
+    display: none;
+  }
+
+  .table--stack tbody,
+  .table--stack tr,
+  .table--stack td {
+    display: block;
+    width: 100%;
+  }
+
+  .table--stack tr {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .table--stack td {
+    border: 0;
+    padding: 8px 0;
+  }
+
+  .table--stack td::before {
+    content: attr(data-label);
+    display: block;
+    color: var(--muted);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .table--stack .tableActions {
+    justify-content: flex-start;
+  }
 }

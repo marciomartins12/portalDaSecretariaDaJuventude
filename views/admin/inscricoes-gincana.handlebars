@@ -31,8 +31,15 @@
           </form>
         </div>
       </div>
+
+      {{#if error}}
+        <div class="alert alert--error">{{error}}</div>
+      {{/if}}
+      {{#if success}}
+        <div class="alert alert--success">{{success}}</div>
+      {{/if}}
       {{#each teams}}
-        <div class="panel">
+        <div class="panel" id="team-{{id}}">
           <div class="panel__head">
             <div class="panel__title">{{teamName}}</div>
             <div class="muted">Criado em {{createdAt}}</div>
@@ -72,30 +79,81 @@
               </div>
             </div>
 
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Nascimento</th>
-                  <th>Idade</th>
-                  <th>CPF</th>
-                  <th>Endereço</th>
-                  <th>Papel</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each participants}}
+            <div class="tableWrap">
+              <table class="table table--stack">
+                <thead>
                   <tr>
-                    <td>{{fullName}}</td>
-                    <td class="muted">{{dob}}</td>
-                    <td class="muted">{{age}}</td>
-                    <td class="muted">{{cpf}}</td>
-                    <td class="muted">{{address}}</td>
-                    <td>{{role}}</td>
+                    <th>Nome</th>
+                    <th>Nascimento</th>
+                    <th>CPF</th>
+                    <th>Endereço</th>
+                    <th>Papel</th>
+                    <th></th>
                   </tr>
-                {{/each}}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {{#each participants}}
+                    <tr>
+                      <td data-label="Nome">
+                        <input class="input" form="p-{{id}}-update" name="fullName" type="text" value="{{fullName}}" />
+                      </td>
+                      <td data-label="Nascimento">
+                        <input class="input" form="p-{{id}}-update" name="dob" type="date" value="{{dobValue}}" />
+                      </td>
+                      <td data-label="CPF">
+                        <input class="input" form="p-{{id}}-update" name="cpf" type="text" value="{{cpf}}" />
+                      </td>
+                      <td data-label="Endereço">
+                        <input class="input" form="p-{{id}}-update" name="address" type="text" value="{{address}}" />
+                      </td>
+                      <td data-label="Papel">
+                        <select class="input" form="p-{{id}}-update" name="role">
+                          <option value="captain" {{#if (eq roleValue "captain")}}selected{{/if}}>Líder</option>
+                          <option value="member" {{#if (eq roleValue "member")}}selected{{/if}}>Participante</option>
+                        </select>
+                      </td>
+                      <td class="tableActions" data-label="Ações">
+                        <form id="p-{{id}}-update" method="post" action="/admin/inscricoes/gincana/participants/{{id}}/update"></form>
+                        <button class="btn btn--primary" type="submit" form="p-{{id}}-update">Salvar</button>
+                        <form method="post" action="/admin/inscricoes/gincana/participants/{{id}}/delete" onsubmit="return confirm('Excluir este participante?');">
+                          <button class="btn btn--danger" type="submit">Excluir</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+
+            <div style="height:12px"></div>
+            <form class="form formFilters" method="post" action="/admin/inscricoes/gincana/{{id}}/participants/add">
+              <div class="field">
+                <label class="label">Adicionar participante</label>
+                <input class="input" name="fullName" type="text" placeholder="Nome completo" required />
+              </div>
+              <div class="field">
+                <label class="label">Nascimento</label>
+                <input class="input" name="dob" type="date" required />
+              </div>
+              <div class="field">
+                <label class="label">CPF</label>
+                <input class="input" name="cpf" type="text" placeholder="Somente números" required />
+              </div>
+              <div class="field">
+                <label class="label">Endereço</label>
+                <input class="input" name="address" type="text" placeholder="Rua, nº, bairro..." required />
+              </div>
+              <div class="field">
+                <label class="label">Papel</label>
+                <select class="input" name="role">
+                  <option value="member">Participante</option>
+                  <option value="captain">Líder</option>
+                </select>
+              </div>
+              <div class="actions">
+                <button class="btn btn--primary" type="submit">Adicionar</button>
+              </div>
+            </form>
           </div>
         </div>
       {{/each}}
