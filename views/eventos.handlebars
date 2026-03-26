@@ -1,0 +1,112 @@
+<section class="pageHero">
+  <div class="container pageHero__grid">
+    <div>
+      {{> pageCrumb current="Eventos"}}
+      <div class="badge">
+        <span class="badge__dot"></span>
+        Próximos eventos
+      </div>
+      <h1 class="pageHero__title">Eventos</h1>
+      <p class="pageHero__subtitle">Confira os eventos e participe das inscrições disponíveis.</p>
+    </div>
+
+    <div class="pageHero__card glass">
+      <div class="note">
+        <span class="note__dot" aria-hidden="true"></span>
+        As inscrições ficam dentro de cada evento quando estiverem abertas.
+      </div>
+      <div class="pageHero__actions">
+        <a class="btn btn--soft" href="/inscricoes">Ver inscrições</a>
+        <a class="btn btn--ghost" href="/editais">Ver editais</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--highlight">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Eventos</h2>
+      <p class="section__desc">Confira os próximos eventos e participe.</p>
+    </div>
+
+    <div class="eventsGrid">
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="target"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Jogos</div>
+            <h3 class="eventCard__title">Jogos Variados</h3>
+            <p class="eventCard__desc">Dominó, Sinuca, Travinho, Videogame (Bomba Patch) e Dama</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">Inscrições abertas</div>
+            </div>
+          </div>
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/inscricoes/jogos">Inscrever-se</a>
+            <a class="btn btn--ghost" href="/inscricoes">Ver inscrições</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="bolt"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Corrida</div>
+            <h3 class="eventCard__title">{{corrida.title}}</h3>
+            <p class="eventCard__desc">{{corrida.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{corrida.dateLabel}}</div>
+              <div class="metaPill">{{corrida.location}}</div>
+            </div>
+          </div>
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/inscricoes/corrida">Inscrever-se</a>
+            <a class="btn btn--ghost" href="/editais">Ver editais</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="eventCard eventCard--main glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="spark"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Evento principal</div>
+            <h3 class="eventCard__title">{{gincana.title}}</h3>
+            <p class="eventCard__desc">{{gincana.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{gincana.dateLabel}}</div>
+              <div class="metaPill">{{gincana.location}}</div>
+              <div class="metaPill metaPill--accent">{{gincana.prize}}</div>
+            </div>
+          </div>
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/gincana">Acompanhar gincana</a>
+            <a class="btn btn--ghost" href="/editais">Ver edital</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="users"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Feirinha</div>
+            <h3 class="eventCard__title">{{feirinha.title}}</h3>
+            <p class="eventCard__desc">{{feirinha.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{feirinha.dateLabel}}</div>
+              <div class="metaPill">{{feirinha.location}}</div>
+            </div>
+            <p class="eventCard__desc">Eventos da Feirinha: Sorteio de alevinos</p>
+          </div>
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/inscricoes/piscicultores">Fazer inscrição</a>
+            <a class="btn btn--ghost" href="/inscricoes">Ver inscrições</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

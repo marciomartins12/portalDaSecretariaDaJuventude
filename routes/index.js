@@ -35,7 +35,8 @@ router.get("/sitemap.xml", (req, res) => {
   const urls = [
     "/",
     "/inscricoes",
-    "/inscricoes/gincana",
+    "/eventos",
+    "/gincana",
     "/inscricoes/corrida",
     "/inscricoes/piscicultores",
     "/inscricoes/jogos",
@@ -45,6 +46,9 @@ router.get("/sitemap.xml", (req, res) => {
     "/noticias",
     "/trabalho-jovem"
   ];
+  if (String(process.env.GINCANA_INSCRICOES_ABERTAS || "0").trim() === "1") {
+    urls.splice(4, 0, "/inscricoes/gincana");
+  }
 
   const body = urls
     .map((p) => {
@@ -81,12 +85,22 @@ router.post("/track-device", async (req, res) => {
 
 router.get("/", pagesController.home);
 router.get("/inscricoes", pagesController.inscricoes);
+router.get("/eventos", pagesController.eventos);
+router.get("/gincana", pagesController.gincana);
 router.get("/editais", pagesController.editais);
 
-router.get("/inscricoes/gincana", pagesController.inscricao);
-router.post("/inscricoes/gincana/revisar", validateInscricaoGincana, inscricaoController.reviewGincana);
-router.post("/inscricoes/gincana/enviar", validateInscricaoGincana, inscricaoController.submitGincana);
-router.post("/inscricoes/gincana/editar", validateInscricaoGincana, inscricaoController.editGincana);
+const gincanaInscricoesAbertas = String(process.env.GINCANA_INSCRICOES_ABERTAS || "0").trim() === "1";
+if (gincanaInscricoesAbertas) {
+  router.get("/inscricoes/gincana", pagesController.inscricao);
+  router.post("/inscricoes/gincana/revisar", validateInscricaoGincana, inscricaoController.reviewGincana);
+  router.post("/inscricoes/gincana/enviar", validateInscricaoGincana, inscricaoController.submitGincana);
+  router.post("/inscricoes/gincana/editar", validateInscricaoGincana, inscricaoController.editGincana);
+} else {
+  router.get("/inscricoes/gincana", (req, res) => res.redirect(302, "/gincana"));
+  router.post("/inscricoes/gincana/revisar", (req, res) => res.status(410).redirect(302, "/gincana"));
+  router.post("/inscricoes/gincana/enviar", (req, res) => res.status(410).redirect(302, "/gincana"));
+  router.post("/inscricoes/gincana/editar", (req, res) => res.status(410).redirect(302, "/gincana"));
+}
 
 router.get("/inscricoes/corrida", pagesController.inscricaoCorrida);
 router.post(

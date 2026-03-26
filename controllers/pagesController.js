@@ -36,6 +36,26 @@ function editais(req, res) {
   });
 }
 
+function eventos(req, res) {
+  res.render("eventos", {
+    title: "Eventos",
+    metaDescription:
+      "Eventos e inscrições da Secretaria Municipal da Juventude de Peri Mirim (MA). Confira os próximos eventos e participe.",
+    gincana: content.gincana,
+    corrida: content.corrida,
+    feirinha: content.feirinha
+  });
+}
+
+function gincanaPage(req, res) {
+  res.render("gincana", {
+    title: "Gincana",
+    metaDescription:
+      "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
+    gincana: content.gincana
+  });
+}
+
 function editalPdf(req, res) {
   const dir = path.join(__dirname, "..", "public", "arquivos");
   const preferredNames = ["editaldagincana.pdf", "edital-da-gincana-2026.pdf", "editalGincana.pdf"];
@@ -206,6 +226,8 @@ function periMirim(req, res) {
 module.exports = {
   home,
   inscricoes,
+  eventos,
+  gincana: gincanaPage,
   editais,
   editalPdf,
   inscricao,
