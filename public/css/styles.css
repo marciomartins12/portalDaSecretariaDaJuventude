@@ -3027,7 +3027,9 @@ body.nav-open {
   padding: 18px;
   display: grid;
   gap: 12px;
-  background: radial-gradient(700px 420px at 50% 0%, rgba(251, 191, 36, 0.14), rgba(255, 255, 255, 0.02));
+  background:
+    radial-gradient(700px 420px at 50% 0%, rgba(251, 191, 36, 0.16), rgba(255, 255, 255, 0.02)),
+    radial-gradient(700px 420px at 10% 90%, rgba(96, 165, 250, 0.12), rgba(255, 255, 255, 0) 60%);
 }
 
 .podium__title {
@@ -3038,12 +3040,38 @@ body.nav-open {
   color: rgba(248, 250, 252, 0.9);
 }
 
+.podium__stageWrap {
+  position: relative;
+  padding: 12px 12px 0;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
 .podium__stage {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 12px;
   align-items: end;
   height: 220px;
+  position: relative;
+  z-index: 1;
+}
+
+.podium__floor {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -22px;
+  height: 70px;
+  border-radius: 999px;
+  background:
+    radial-gradient(60% 90% at 50% 20%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(60% 90% at 50% 120%, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 70%);
+  filter: blur(0px);
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 .podium__col--1 .podium__block {
@@ -3058,23 +3086,32 @@ body.nav-open {
 
 .podium__block {
   border-radius: 14px 14px 6px 6px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.03));
   border: 1px solid rgba(255, 255, 255, 0.14);
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
+  transform: perspective(800px) rotateX(6deg);
+  transform-origin: center bottom;
+  padding: 18px 14px 16px;
+  gap: 10px;
 }
 
 .podium__col--1 .podium__block {
   border-color: rgba(251, 191, 36, 0.35);
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.22), rgba(255,255,255,0.03));
 }
 .podium__col--2 .podium__block {
   border-color: rgba(148, 163, 184, 0.28);
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.18), rgba(255,255,255,0.03));
 }
 .podium__col--3 .podium__block {
   border-color: rgba(251, 146, 60, 0.3);
+  background: linear-gradient(180deg, rgba(251, 146, 60, 0.2), rgba(255,255,255,0.03));
 }
 
 .podium__block::after {
@@ -3091,7 +3128,7 @@ body.nav-open {
 .podium__crown {
   z-index: 1;
   position: absolute;
-  top: 10px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 22px;
@@ -3103,6 +3140,10 @@ body.nav-open {
   letter-spacing: -0.01em;
   font-size: 24px;
   z-index: 1;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .podium__col--1 .podium__place {
@@ -3111,11 +3152,15 @@ body.nav-open {
 
 .podium__name {
   z-index: 1;
-  margin-top: 8px;
+  margin-top: 0;
   font-weight: 900;
   letter-spacing: 0.02em;
   font-size: 12px;
   color: rgba(248, 250, 252, 0.86);
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
 }
 
 .podium__desc {
