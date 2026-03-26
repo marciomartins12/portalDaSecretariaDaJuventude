@@ -2853,6 +2853,7 @@ body.nav-open {
   display: flex;
   align-items: center;
   gap: 10px;
+  color: rgba(248, 250, 252, 0.96);
 }
 
 .teamCard__badge {
@@ -2939,6 +2940,9 @@ body.nav-open {
 .teamModalList {
   display: grid;
   gap: 10px;
+  max-height: calc(100vh - 240px);
+  overflow: auto;
+  padding-right: 4px;
 }
 
 .teamMemberRow {
@@ -3784,6 +3788,7 @@ body.nav-open {
   padding: 16px;
   display: grid;
   gap: 12px;
+  max-height: calc(100vh - 36px);
 }
 
 .modal__head {
