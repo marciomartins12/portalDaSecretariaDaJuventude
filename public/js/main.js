@@ -579,6 +579,27 @@
     window.setInterval(tick, 1000);
   }
 
+  const gincanaSplash = document.querySelector(".gincanaSplash");
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (gincanaSplash && !reduceMotion) {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const rect = gincanaSplash.getBoundingClientRect();
+      const height = Math.max(1, rect.height || 1);
+      const progress = Math.min(1, Math.max(0, -rect.top / height));
+      const y = Math.round(progress * 100);
+      gincanaSplash.style.setProperty("--gincana-bg-y", `${y}%`);
+    };
+    const onScroll = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+  }
+
   const lightboxRoot = document.querySelector("[data-lightbox-root]");
   const lightboxImg = document.querySelector("[data-lightbox-img]");
 

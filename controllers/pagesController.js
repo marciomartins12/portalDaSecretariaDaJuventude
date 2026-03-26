@@ -3,6 +3,7 @@ const { trabalhoJovem } = require("../services/trabalhoJovemService");
 const { getCorridaInscricaoById } = require("../models/corridaInscricaoModel");
 const { getSorteioInscricaoById } = require("../models/sorteioPiscicultoresModel");
 const { getJogosInscricaoById } = require("../models/jogosInscricaoModel");
+const { pool } = require("../config/db");
 const path = require("path");
 const fs = require("fs");
 
@@ -47,12 +48,44 @@ function eventos(req, res) {
   });
 }
 
-function gincanaPage(req, res) {
+async function gincanaPage(req, res) {
+  let teams = [];
+  try {
+    const [teamRows] = await pool.execute(
+      "SELECT id, team_name, neighborhood, created_at FROM gincana_inscricoes ORDER BY team_name ASC"
+    );
+    const [pRows] = await pool.execute(
+      "SELECT inscricao_id, full_name, is_captain FROM gincana_participantes ORDER BY is_captain DESC, full_name ASC"
+    );
+    const byTeam = new Map();
+    for (const p of pRows) {
+      const k = Number(p.inscricao_id);
+      if (!byTeam.has(k)) byTeam.set(k, []);
+      byTeam.get(k).push({
+        fullName: p.full_name,
+        role: p.is_captain ? "Líder" : "Participante"
+      });
+    }
+    teams = teamRows.map((t) => {
+      const id = Number(t.id);
+      const members = byTeam.get(id) || [];
+      return {
+        id,
+        teamName: t.team_name,
+        neighborhood: t.neighborhood || "",
+        membersCount: members.length,
+        members
+      };
+    });
+  } catch {
+    teams = [];
+  }
+
   res.render("gincana", {
     title: "Gincana",
-    metaDescription:
-      "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
-    gincana: content.gincana
+    metaDescription: "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
+    gincana: content.gincana,
+    teams
   });
 }
 
@@ -77,6 +110,32 @@ function editalPdf(req, res) {
     pdfs.find((f) => /edital/i.test(f) && /gincana/i.test(f)) ||
     pdfs.find((f) => /edital/i.test(f)) ||
     pdfs[0];
+
+  if (!best) return res.status(404).send("Arquivo não encontrado.");
+  return res.download(path.join(dir, best), best);
+}
+
+function gincanaProvasPdf(req, res) {
+  const dir = path.join(__dirname, "..", "public", "arquivos");
+  const preferredNames = ["provasdagincana.pdf", "provas-gincana.pdf", "provasGincana.pdf", "provas-da-gincana.pdf"];
+
+  for (const name of preferredNames) {
+    const p = path.join(dir, name);
+    if (fs.existsSync(p)) return res.download(p, name);
+  }
+
+  let entries = [];
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    entries = [];
+  }
+
+  const pdfs = entries.filter((f) => /\.pdf$/i.test(f));
+  const best =
+    pdfs.find((f) => /provas/i.test(f) && /gincana/i.test(f)) ||
+    pdfs.find((f) => /provas/i.test(f)) ||
+    null;
 
   if (!best) return res.status(404).send("Arquivo não encontrado.");
   return res.download(path.join(dir, best), best);
@@ -230,6 +289,7 @@ module.exports = {
   gincana: gincanaPage,
   editais,
   editalPdf,
+  gincanaProvasPdf,
   inscricao,
   inscricaoCorrida,
   noticias,

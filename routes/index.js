@@ -37,6 +37,7 @@ router.get("/sitemap.xml", (req, res) => {
     "/inscricoes",
     "/eventos",
     "/gincana",
+    "/gincana/provas/pdf",
     "/inscricoes/corrida",
     "/inscricoes/piscicultores",
     "/inscricoes/jogos",
@@ -132,6 +133,7 @@ router.get("/edital", (req, res) => res.redirect(302, "/editais"));
 router.get("/edital/pdf", (req, res) => res.redirect(302, "/editais/gincana/pdf"));
 
 router.get("/editais/gincana/pdf", pagesController.editalPdf);
+router.get("/gincana/provas/pdf", pagesController.gincanaProvasPdf);
 router.get("/noticias", pagesController.noticias);
 router.get("/trabalho-jovem", pagesController.trabalhoJovem);
 
