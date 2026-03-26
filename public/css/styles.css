@@ -3856,7 +3856,7 @@ body.nav-open {
   }
 
   .teamModalPanel {
-    margin-top: calc(26px + env(safe-area-inset-top));
+    margin-top: calc(50px + env(safe-area-inset-top));
   }
 }
 
