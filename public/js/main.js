@@ -582,22 +582,71 @@
   const gincanaSplash = document.querySelector(".gincanaSplash");
   const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (gincanaSplash && !reduceMotion) {
+    let pan = 0;
     let raf = 0;
-    const update = () => {
+    let touchY = null;
+
+    const applyPan = () => {
       raf = 0;
-      const rect = gincanaSplash.getBoundingClientRect();
-      const height = Math.max(1, rect.height || 1);
-      const progress = Math.min(1, Math.max(0, -rect.top / height));
-      const y = Math.round(progress * 100);
+      const y = Math.round(Math.min(1, Math.max(0, pan)) * 100);
       gincanaSplash.style.setProperty("--gincana-bg-y", `${y}%`);
     };
-    const onScroll = () => {
+
+    const scheduleApply = () => {
       if (raf) return;
-      raf = window.requestAnimationFrame(update);
+      raf = window.requestAnimationFrame(applyPan);
     };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+
+    const canIntercept = (deltaY) => {
+      if (window.scrollY > 0) return false;
+      if (deltaY > 0 && pan < 1) return true;
+      if (deltaY < 0 && pan > 0) return true;
+      return false;
+    };
+
+    const updateFromDelta = (deltaY) => {
+      const h = Math.max(1, gincanaSplash.clientHeight || 1);
+      pan = Math.min(1, Math.max(0, pan + deltaY / h));
+      scheduleApply();
+    };
+
+    const onWheel = (e) => {
+      const dy = Number(e.deltaY || 0);
+      if (!dy) return;
+      if (!canIntercept(dy)) return;
+      e.preventDefault();
+      updateFromDelta(dy);
+    };
+
+    const onTouchStart = (e) => {
+      if (window.scrollY > 0) return;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      touchY = t.clientY;
+    };
+
+    const onTouchMove = (e) => {
+      if (touchY === null) return;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      const dy = touchY - t.clientY;
+      if (!dy) return;
+      if (!canIntercept(dy)) return;
+      e.preventDefault();
+      updateFromDelta(dy);
+      touchY = t.clientY;
+    };
+
+    const onTouchEnd = () => {
+      touchY = null;
+    };
+
+    applyPan();
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
   }
 
   const lightboxRoot = document.querySelector("[data-lightbox-root]");
