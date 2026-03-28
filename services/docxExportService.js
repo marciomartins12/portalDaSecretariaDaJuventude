@@ -255,4 +255,47 @@ async function buildGincanaDocx({ heading, teams }) {
   return Packer.toBuffer(doc);
 }
 
-module.exports = { buildCorridaDocx, buildGincanaDocx };
+async function buildJogosDocx({ heading, groups }) {
+  const children = [...buildHeaderMeta(heading), title(heading.title), subtitle(heading.subtitle), spacer(1)];
+
+  for (const g of groups) {
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun({ text: `Jogo: ${g.label}`, bold: true, size: 28 }),
+          new TextRun({ text: `  •  Total: ${g.rows.length}`, color: "475569", size: 22 })
+        ]
+      })
+    );
+
+    children.push(spacer(1));
+
+    const tRows = [
+      new TableRow({
+        children: [headCell("ID"), headCell("Data"), headCell("Nome"), headCell("Telefone"), headCell("CPF"), headCell("Esportes")]
+      }),
+      ...g.rows.map((r) =>
+        new TableRow({
+          children: [cell(r.id), cell(r.createdAt), cell(r.fullName), cell(r.phone), cell(r.cpf), cell(r.sports)]
+        })
+      )
+    ];
+
+    children.push(
+      new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: tRows
+      })
+    );
+
+    children.push(spacer(2));
+  }
+
+  const doc = new Document({
+    sections: [{ properties: {}, children }]
+  });
+
+  return Packer.toBuffer(doc);
+}
+
+module.exports = { buildCorridaDocx, buildGincanaDocx, buildJogosDocx };

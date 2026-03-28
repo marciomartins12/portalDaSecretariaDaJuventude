@@ -1,7 +1,7 @@
 const { pool } = require("../config/db");
 const { CorridaInscricao, GincanaInscricao } = require("../models/indexSequelize");
 const content = require("../services/contentService");
-const { buildCorridaDocx, buildGincanaDocx } = require("../services/docxExportService");
+const { buildCorridaDocx, buildGincanaDocx, buildJogosDocx } = require("../services/docxExportService");
 
 function dateOnlyParts(value) {
   if (!value) return null;
@@ -129,8 +129,8 @@ async function listEvents(req, res) {
         name: "Jogos Variados",
         total: totalJogos,
         href: "/admin/inscricoes/jogos",
-        exportHref: "/admin/inscricoes/jogos/export.csv",
-        exportLabel: "Exportar CSV"
+        exportHref: "/admin/inscricoes/jogos/export.docx",
+        exportLabel: "Exportar DOCX"
       }
     ]
   });
@@ -636,6 +636,28 @@ function formatJogosSports(raw) {
     .join(", ");
 }
 
+function parseJogosSportKeys(raw) {
+  let keys = [];
+  try {
+    keys = JSON.parse(String(raw || "[]"));
+  } catch {
+    keys = [];
+  }
+  const normalized = (Array.isArray(keys) ? keys : [])
+    .map((k) => String(k || "").trim())
+    .filter(Boolean)
+    .map((k) => {
+      if (k === "videogame_ps2") return "videogame_bomba_patch";
+      return k;
+    });
+  return Array.from(new Set(normalized));
+}
+
+function csvCell(value) {
+  const s = String(value ?? "");
+  return `"${s.replace(/"/g, '""')}"`;
+}
+
 async function listJogos(req, res) {
   const q = String(req.query?.q || "").trim();
   const sport = String(req.query?.sport || "").trim().toLowerCase();
@@ -665,7 +687,7 @@ async function listJogos(req, res) {
     layout: "admin",
     title: "Admin • Inscritos — Jogos Variados",
     total: rows.length,
-    exportHref: "/admin/inscricoes/jogos/export.csv",
+    exportHref: "/admin/inscricoes/jogos/export.docx",
     q,
     sport,
     rows: rows.map((r) => ({
@@ -677,6 +699,77 @@ async function listJogos(req, res) {
       sports: formatJogosSports(r.sports)
     }))
   });
+}
+
+async function exportJogosDocx(req, res) {
+  const q = String(req.query?.q || "").trim();
+  const sport = String(req.query?.sport || "").trim().toLowerCase();
+  const allowed = new Set(["domino", "sinuca", "travinho", "videogame_bomba_patch", "videogame_ps2", "dama"]);
+  let sql = "SELECT * FROM jogos_inscricoes";
+  const wheres = [];
+  const params = [];
+  if (q) {
+    wheres.push("full_name LIKE ?");
+    params.push(`%${q}%`);
+  }
+  if (sport && allowed.has(sport)) {
+    if (sport === "videogame_bomba_patch" || sport === "videogame_ps2") {
+      wheres.push("(sports LIKE ? OR sports LIKE ?)");
+      params.push(`%\"videogame_bomba_patch\"%`, `%\"videogame_ps2\"%`);
+    } else {
+      wheres.push("sports LIKE ?");
+      params.push(`%\"${sport}\"%`);
+    }
+  }
+  if (wheres.length > 0) {
+    sql += " WHERE " + wheres.join(" AND ");
+  }
+  sql += " ORDER BY created_at DESC";
+  const [rows] = await pool.execute(sql, params);
+
+  const sportDefs = [
+    { key: "domino", label: "Dominó" },
+    { key: "sinuca", label: "Sinuca" },
+    { key: "travinho", label: "Travinho" },
+    { key: "videogame_bomba_patch", label: "Videogame (Bomba Patch)" },
+    { key: "dama", label: "Dama" }
+  ];
+  const filterKey = sport === "videogame_ps2" ? "videogame_bomba_patch" : sport;
+
+  const groups = [];
+  for (const def of sportDefs) {
+    if (filterKey && allowed.has(filterKey) && def.key !== filterKey) continue;
+    const groupRows = rows.filter((r) => parseJogosSportKeys(r.sports).includes(def.key));
+    if (groupRows.length === 0) continue;
+    groups.push({
+      key: def.key,
+      label: def.label,
+      rows: groupRows.map((r) => ({
+        id: Number(r.id),
+        createdAt: formatDateTimeBr(r.created_at),
+        fullName: r.full_name,
+        phone: r.phone,
+        cpf: r.cpf,
+        sports: formatJogosSports(r.sports)
+      }))
+    });
+  }
+
+  const total = groups.reduce((acc, g) => acc + g.rows.length, 0);
+  const buffer = await buildJogosDocx({
+    heading: {
+      title: "Inscritos — Jogos Variados",
+      subtitle: `Total: ${total}`,
+      departmentName: res.locals.site?.departmentName || "",
+      exportedBy: req.admin?.email || "",
+      exportedAt: formatDateTimeBr(new Date())
+    },
+    groups
+  });
+
+  res.setHeader("Content-Disposition", `attachment; filename="inscritos-jogos-variados-por-jogo.docx"`);
+  res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+  res.send(buffer);
 }
 
 async function exportJogosCsv(req, res) {
@@ -704,24 +797,49 @@ async function exportJogosCsv(req, res) {
   }
   sql += " ORDER BY created_at DESC";
   const [rows] = await pool.execute(sql, params);
+  const sportDefs = [
+    { key: "domino", label: "Dominó" },
+    { key: "sinuca", label: "Sinuca" },
+    { key: "travinho", label: "Travinho" },
+    { key: "videogame_bomba_patch", label: "Videogame (Bomba Patch)" },
+    { key: "dama", label: "Dama" }
+  ];
+
+  const filterKey = sport === "videogame_ps2" ? "videogame_bomba_patch" : sport;
   const header = ["id", "created_at", "full_name", "phone", "cpf", "sports"];
-  const lines = [header.join(",")];
-  for (const r of rows) {
-    const values = [
-      r.id,
-      formatDateTimeBr(r.created_at),
-      `"${String(r.full_name || "").replace(/"/g, '""')}"`,
-      r.phone,
-      r.cpf,
-      `"${String(formatJogosSports(r.sports) || "").replace(/"/g, '""')}"`
-    ];
-    lines.push(values.join(","));
+  const lines = [];
+
+  for (const def of sportDefs) {
+    if (filterKey && allowed.has(filterKey) && def.key !== filterKey) continue;
+    const group = rows.filter((r) => parseJogosSportKeys(r.sports).includes(def.key));
+    if (group.length === 0) continue;
+
+    lines.push(csvCell(`Jogo: ${def.label}`));
+    lines.push(header.join(","));
+    for (const r of group) {
+      const values = [
+        r.id,
+        formatDateTimeBr(r.created_at),
+        csvCell(r.full_name || ""),
+        r.phone,
+        r.cpf,
+        csvCell(formatJogosSports(r.sports) || "")
+      ];
+      lines.push(values.join(","));
+    }
+    lines.push("");
   }
+
+  if (lines.length === 0) {
+    lines.push(header.join(","));
+  }
+
   const csv = lines.join("\n");
-  res.setHeader("Content-Disposition", `attachment; filename="inscritos-jogos-variados.csv"`);
+  res.setHeader("Content-Disposition", `attachment; filename="inscritos-jogos-variados-por-jogo.csv"`);
   res.setHeader("Content-Type", "text/csv; charset=utf-8");
   res.send("\uFEFF" + csv);
 }
 
 module.exports.listJogos = listJogos;
 module.exports.exportJogosCsv = exportJogosCsv;
+module.exports.exportJogosDocx = exportJogosDocx;

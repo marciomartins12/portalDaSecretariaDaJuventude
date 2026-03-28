@@ -35,6 +35,7 @@ router.get("/inscricoes/sorteio", requireAdmin, adminInscricoesController.listSo
 router.get("/inscricoes/sorteio/export.csv", requireAdmin, adminInscricoesController.exportSorteioCsv);
 router.get("/inscricoes/jogos", requireAdmin, adminInscricoesController.listJogos);
 router.get("/inscricoes/jogos/export.csv", requireAdmin, adminInscricoesController.exportJogosCsv);
+router.get("/inscricoes/jogos/export.docx", requireAdmin, adminInscricoesController.exportJogosDocx);
 
 router.get("/admins", requireAdmin, requireRole("MASTER"), adminAdminsController.listAdmins);
 router.get("/admins/new", requireAdmin, requireRole("MASTER"), adminAdminsController.newAdminPage);
