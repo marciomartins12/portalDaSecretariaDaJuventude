@@ -40,7 +40,7 @@ async function createSorteioInscricao(data) {
   const phone = String(data.phone || "").trim();
   const address = String(data.address || "").trim();
   const cpf = String(data.cpf || "").trim();
-  const caf = String(data.caf || "").trim();
+  const caf = String(data.caf || "").trim().slice(0, 30);
 
   const [result] = await pool.execute(
     `INSERT INTO sorteio_piscicultores_inscricoes
