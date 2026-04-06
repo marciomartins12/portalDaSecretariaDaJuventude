@@ -273,15 +273,29 @@
   if (teamMembersModal) {
     const modalPanel = teamMembersModal.querySelector(".modal__panel");
     const titleEl = teamMembersModal.querySelector("[data-team-modal-title]");
+    const rankEl = teamMembersModal.querySelector("[data-team-modal-rank]");
     const listEl = teamMembersModal.querySelector("[data-team-modal-list]");
 
     document.querySelectorAll("[data-team-open]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const nameFromAttr = btn.getAttribute("data-team-title");
         const nameEl = btn.querySelector(".teamCard__name") || btn.querySelector(".podium__name");
-        const teamName = String(nameFromAttr || (nameEl ? nameEl.textContent : "") || "Equipe").trim();
+        const raw = String(nameFromAttr || (nameEl ? nameEl.textContent : "") || "Equipe").trim();
+        const parts = raw.split(/\s*•\s*/).map((p) => p.trim()).filter(Boolean);
+        let rank = "";
+        let teamTitle = raw;
+        if (parts.length >= 2) {
+          rank = parts[0];
+          teamTitle = parts.slice(1).join(" • ");
+        } else if (parts.length === 1) {
+          teamTitle = parts[0];
+        }
+        if (rankEl) {
+          rankEl.textContent = rank;
+          rankEl.hidden = !rank;
+        }
+        if (titleEl) titleEl.textContent = teamTitle || "Equipe";
         const membersTpl = btn.querySelector("[data-team-members]");
-        if (titleEl) titleEl.textContent = teamName;
         if (listEl) listEl.innerHTML = membersTpl ? membersTpl.innerHTML : "";
         if (modalPanel) {
           const color = getComputedStyle(btn).getPropertyValue("--team-color").trim();

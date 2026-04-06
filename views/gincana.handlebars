@@ -93,6 +93,7 @@
                 {{#if podium.second}}
                   {{#each podium.second.members}}
                     <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                      <div class="teamMemberRow__index" aria-hidden="true">{{addOne @index}}</div>
                       <div class="teamMemberRow__main">
                         <div class="teamMemberRow__name">{{fullName}}</div>
                         <div class="teamMemberRow__roleText">{{role}}</div>
@@ -129,6 +130,7 @@
                 {{#if podium.first}}
                   {{#each podium.first.members}}
                     <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                      <div class="teamMemberRow__index" aria-hidden="true">{{addOne @index}}</div>
                       <div class="teamMemberRow__main">
                         <div class="teamMemberRow__name">{{fullName}}</div>
                         <div class="teamMemberRow__roleText">{{role}}</div>
@@ -164,6 +166,7 @@
                 {{#if podium.third}}
                   {{#each podium.third.members}}
                     <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                      <div class="teamMemberRow__index" aria-hidden="true">{{addOne @index}}</div>
                       <div class="teamMemberRow__main">
                         <div class="teamMemberRow__name">{{fullName}}</div>
                         <div class="teamMemberRow__roleText">{{role}}</div>
@@ -184,15 +187,26 @@
   </div>
 </section>
 
-<div class="modal" id="teamMembersModal" aria-hidden="true">
-  <button class="modal__backdrop" type="button" data-modal-close aria-label="Fechar"></button>
+<div class="modal modal--team" id="teamMembersModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="teamMembersModalTitle">
+  <button class="modal__backdrop modal__backdrop--team" type="button" data-modal-close aria-label="Fechar"></button>
   <div class="modal__panel glass teamModalPanel">
-    <div class="modal__head">
-      <div class="modal__title" data-team-modal-title>Equipe</div>
-      <button class="btn btn--ghost" type="button" data-modal-close>Fechar</button>
+    <div class="teamModalChrome" aria-hidden="true">
+      <span class="teamModalChrome__handle"></span>
+      <span class="teamModalChrome__glow"></span>
     </div>
-    <div class="modal__body">
-      <div class="teamModalHint">Capitão aparece destacado.</div>
+    <div class="modal__head teamModalHead">
+      <div class="teamModalHead__main">
+        <p class="teamModalEyebrow" data-team-modal-rank></p>
+        <h2 class="teamModalTitle" id="teamMembersModalTitle" data-team-modal-title>Integrantes</h2>
+      </div>
+      <button class="teamModalClose" type="button" data-modal-close aria-label="Fechar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal__body teamModalBody">
+      <p class="teamModalHint">O capitão aparece em destaque na lista.</p>
       <div class="teamModalList" data-team-modal-list></div>
     </div>
   </div>
