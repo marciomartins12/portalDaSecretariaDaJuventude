@@ -82,7 +82,7 @@
               type="button"
               data-team-open
               data-team-title="{{#if podium.second}}2º lugar • {{podium.second.teamName}}{{else}}2º lugar{{/if}}"
-              style="--team-color: {{#if podium.second}}{{podium.second.colorHex}}{{else}}rgba(255,255,255,0.14){{/if}};"
+              style="--team-color: #facc15;"
               {{#unless podium.second}}disabled{{/unless}}
             >
               <div class="podium__cardInner">
@@ -97,8 +97,11 @@
                 {{#if podium.second}}
                   {{#each podium.second.members}}
                     <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
-                      <div class="teamMemberRow__name">{{fullName}}</div>
-                      <div class="teamMemberRow__role">{{role}}</div>
+                      <div class="teamMemberRow__main">
+                        <div class="teamMemberRow__name">{{fullName}}</div>
+                        <div class="teamMemberRow__roleText">{{role}}</div>
+                      </div>
+                      <div class="teamMemberRow__tag">{{#if isCaptain}}Capitão{{else}}Membro{{/if}}</div>
                     </div>
                   {{/each}}
                 {{/if}}
@@ -114,7 +117,7 @@
               type="button"
               data-team-open
               data-team-title="{{#if podium.first}}1º lugar • {{podium.first.teamName}}{{else}}1º lugar{{/if}}"
-              style="--team-color: {{#if podium.first}}{{podium.first.colorHex}}{{else}}rgba(255,255,255,0.14){{/if}};"
+              style="--team-color: #ef4444;"
               {{#unless podium.first}}disabled{{/unless}}
             >
               <div class="podium__cardInner">
@@ -130,8 +133,11 @@
                 {{#if podium.first}}
                   {{#each podium.first.members}}
                     <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
-                      <div class="teamMemberRow__name">{{fullName}}</div>
-                      <div class="teamMemberRow__role">{{role}}</div>
+                      <div class="teamMemberRow__main">
+                        <div class="teamMemberRow__name">{{fullName}}</div>
+                        <div class="teamMemberRow__roleText">{{role}}</div>
+                      </div>
+                      <div class="teamMemberRow__tag">{{#if isCaptain}}Capitão{{else}}Membro{{/if}}</div>
                     </div>
                   {{/each}}
                 {{/if}}
@@ -147,7 +153,7 @@
               type="button"
               data-team-open
               data-team-title="{{#if podium.third}}3º lugar • {{podium.third.teamName}}{{else}}3º lugar{{/if}}"
-              style="--team-color: {{#if podium.third}}{{podium.third.colorHex}}{{else}}rgba(255,255,255,0.14){{/if}};"
+              style="--team-color: #3b82f6;"
               {{#unless podium.third}}disabled{{/unless}}
             >
               <div class="podium__cardInner">
@@ -162,8 +168,11 @@
                 {{#if podium.third}}
                   {{#each podium.third.members}}
                     <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
-                      <div class="teamMemberRow__name">{{fullName}}</div>
-                      <div class="teamMemberRow__role">{{role}}</div>
+                      <div class="teamMemberRow__main">
+                        <div class="teamMemberRow__name">{{fullName}}</div>
+                        <div class="teamMemberRow__roleText">{{role}}</div>
+                      </div>
+                      <div class="teamMemberRow__tag">{{#if isCaptain}}Capitão{{else}}Membro{{/if}}</div>
                     </div>
                   {{/each}}
                 {{/if}}

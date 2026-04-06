@@ -3036,22 +3036,24 @@ body.nav-open {
 
 .teamModalList {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   max-height: none;
   overflow: visible;
   padding-right: 0;
 }
 
 .teamMemberRow {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  padding: 10px 10px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 12px 12px 14px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--team-color, #60a5fa) 10%, rgba(255, 255, 255, 0.02));
+  border: 1px solid color-mix(in srgb, var(--team-color, #60a5fa) 35%, rgba(255, 255, 255, 0.12));
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
 }
 
 .teamMemberRow::before {
@@ -3065,41 +3067,65 @@ body.nav-open {
   opacity: 0.9;
 }
 
-.teamMemberRow__name {
-  font-weight: 900;
-  font-size: 15px;
-  color: rgba(248, 250, 252, 0.94);
+.teamMemberRow__main {
   min-width: 0;
 }
 
-.teamMemberRow__role {
+.teamMemberRow__name {
+  font-weight: 900;
+  font-size: 15px;
+  color: rgba(248, 250, 252, 0.98);
+  min-width: 0;
+}
+
+.teamMemberRow__roleText {
+  margin-top: 4px;
+  font-weight: 700;
+  font-size: 12px;
+  color: rgba(226, 232, 240, 0.9);
+  line-height: 1.35;
+}
+
+.teamMemberRow__tag {
+  flex: 0 0 auto;
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-size: 10px;
-  color: rgba(248, 250, 252, 0.78);
-  padding: 6px 8px;
+  padding: 7px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid color-mix(in srgb, var(--team-color, #60a5fa) 55%, rgba(255, 255, 255, 0.12));
+  color: rgba(248, 250, 252, 0.94);
 }
 
 .teamMemberRow--captain {
-  border-color: color-mix(in srgb, var(--team-color, #fbbf24) 55%, rgba(255, 255, 255, 0.12));
-  background: color-mix(in srgb, var(--team-color, #fbbf24) 10%, rgba(255, 255, 255, 0.02));
+  border-color: color-mix(in srgb, var(--team-color, #fbbf24) 64%, rgba(255, 255, 255, 0.12));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--team-color, #fbbf24) 20%, rgba(255, 255, 255, 0.03)),
+    rgba(255, 255, 255, 0.03)
+  );
 }
 
 .teamMemberRow--captain::before {
   width: 6px;
 }
 
-.teamMemberRow--captain .teamMemberRow__role {
-  color: rgba(248, 250, 252, 0.92);
+.teamMemberRow--captain .teamMemberRow__tag {
+  background: color-mix(in srgb, var(--team-color, #fbbf24) 24%, rgba(15, 23, 42, 0.45));
+  color: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--team-color, #fbbf24) 25%, transparent);
 }
 
 @media (max-width: 720px) {
   .teamMemberRow {
-    grid-template-columns: 1fr;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .teamMemberRow__tag {
+    align-self: flex-start;
   }
 }
 
@@ -3326,9 +3352,9 @@ body.nav-open {
   gap: 0;
 }
 
-.podium__col--1 { --pcolor: #fbbf24; }
-.podium__col--2 { --pcolor: #94a3b8; }
-.podium__col--3 { --pcolor: #cd7f32; }
+.podium__col--1 { --pcolor: #ef4444; }
+.podium__col--2 { --pcolor: #facc15; }
+.podium__col--3 { --pcolor: #3b82f6; }
 
 .podium__card.podium__block {
   width: 100%;
@@ -3562,26 +3588,23 @@ body.nav-open {
 }
 
 @media (max-width: 640px) {
+  .podium {
+    overflow: hidden;
+  }
+
   .podium__stage {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(156px, 1fr));
+    align-items: end;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
   }
 
   .podium__col {
+    min-width: 156px;
     max-width: none;
-  }
-
-  .podium__col--1 {
-    order: 1;
-  }
-
-  .podium__col--2 {
-    order: 2;
-  }
-
-  .podium__col--3 {
-    order: 3;
   }
 
   .podium__col--1 .podium__card,
