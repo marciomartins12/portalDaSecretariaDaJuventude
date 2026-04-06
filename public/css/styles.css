@@ -4524,3 +4524,166 @@ body.nav-open {
     font-size: 13px;
   }
 }
+
+@media (max-width: 640px) {
+  .pageHero--events .badge {
+    display: none;
+  }
+
+  .pageHero--events .pageHero__title {
+    margin-top: 8px;
+    font-size: clamp(24px, 7.5vw, 34px);
+  }
+
+  .pageHero--events .pageHero__subtitle {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .pageHero--events .pageHero__card .note {
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .pageHero--events .pageHero__actions {
+    flex-direction: column;
+    margin-top: 12px;
+  }
+
+  .pageHero--events .pageHero__actions .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pageHero--events .pageHero__actions .btn--ghost {
+    display: none;
+  }
+
+  .section--highlight:has(.eventsGrid) .section__desc {
+    display: none;
+  }
+
+  .section--highlight:has(.eventsGrid) .section__head {
+    margin-bottom: 12px;
+  }
+
+  .section--highlight:has(.eventsGrid) .section__title {
+    font-size: 22px;
+  }
+
+  .eventsGrid .eventCard {
+    padding: 14px 14px 16px;
+    border-radius: 22px;
+  }
+
+  .eventsGrid .eventRow {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .eventsGrid .eventRow__icon {
+    display: none;
+  }
+
+  .eventsGrid .eventCard__badge {
+    display: none;
+  }
+
+  .eventsGrid .eventCard__title {
+    font-size: clamp(17px, 5.2vw, 20px);
+    line-height: 1.15;
+  }
+
+  .eventsGrid .eventCard__main .eventCard__desc {
+    display: none;
+  }
+
+  .eventsGrid .eventCard__winner {
+    display: none;
+  }
+
+  .eventsGrid .eventCard__meta {
+    margin-top: 8px;
+    gap: 6px;
+  }
+
+  .eventsGrid .eventCard .metaPill {
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+
+  .eventsGrid .eventCard .metaPill--accent {
+    display: none;
+  }
+
+  .eventsGrid .eventRow__actions {
+    margin-top: 2px;
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .eventsGrid .eventRow__actions .btn--ghost {
+    display: none;
+  }
+
+  .eventsGrid .eventRow__actions .btn--primary {
+    flex: none;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero__panel--homeGincana .heroCard__info {
+    font-size: 12px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hero__panel--homeGincana .heroCard__meta .metaPill:not(.metaPill--victory) {
+    display: none;
+  }
+
+  .hero__panel--homeGincana .heroCard__meta {
+    gap: 8px;
+  }
+
+  .hero__panel--homeGincana .heroCard__actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero__panel--homeGincana .heroCard__actions .btn--ghost {
+    display: none;
+  }
+
+  .hero__panel--homeGincana .heroCard__actions .btn--primary {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .section:has(.cardChips) .cardChips {
+    display: none;
+  }
+
+  .section:has(.cardChips) .cardActions .btn--ghost {
+    display: none;
+  }
+
+  .section:has(.cardChips) .cardActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section:has(.cardChips) .cardActions .btn--primary {
+    flex: none;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
