@@ -278,7 +278,7 @@
     document.querySelectorAll("[data-team-open]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const nameFromAttr = btn.getAttribute("data-team-title");
-        const nameEl = btn.querySelector(".teamCard__name");
+        const nameEl = btn.querySelector(".teamCard__name") || btn.querySelector(".podium__name");
         const teamName = String(nameFromAttr || (nameEl ? nameEl.textContent : "") || "Equipe").trim();
         const membersTpl = btn.querySelector("[data-team-members]");
         if (titleEl) titleEl.textContent = teamName;
