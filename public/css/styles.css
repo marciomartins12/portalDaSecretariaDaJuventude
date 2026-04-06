@@ -3283,6 +3283,8 @@ body.nav-open {
   gap: 14px;
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background:
     radial-gradient(680px 420px at 50% 0%, rgba(251, 191, 36, 0.16), rgba(255, 255, 255, 0) 55%),
@@ -3325,6 +3327,7 @@ body.nav-open {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
 .podium__title {
@@ -3361,6 +3364,7 @@ body.nav-open {
   justify-content: center;
   gap: clamp(10px, 2.5vw, 18px);
   min-height: 0;
+  min-width: 0;
   padding: 0 2px 4px;
   position: relative;
   z-index: 1;
@@ -3620,21 +3624,38 @@ body.nav-open {
 @media (max-width: 640px) {
   .podium {
     overflow: hidden;
+    padding: 14px;
+    max-width: 100%;
   }
 
   .podium__stage {
     display: grid;
-    grid-template-columns: repeat(3, minmax(156px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: end;
-    gap: 10px;
-    overflow-x: auto;
+    gap: clamp(6px, 2vw, 10px);
+    overflow-x: hidden;
+    width: 100%;
+    min-width: 0;
     padding-bottom: 8px;
-    scrollbar-width: thin;
   }
 
   .podium__col {
-    min-width: 156px;
+    min-width: 0;
     max-width: none;
+  }
+
+  .podium__cardInner {
+    padding: 16px 8px 12px;
+  }
+
+  .podium__rankLabel {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .podium__ribbon {
+    padding: 5px 8px;
+    font-size: 10px;
   }
 
   .podium__col--1 .podium__card,
