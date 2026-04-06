@@ -1267,6 +1267,22 @@ body.nav-open {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+.heroCard__eyebrow--victory {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.42);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(249, 115, 22, 0.16));
+  color: rgba(255, 250, 220, 0.96);
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.18);
+}
+
+.heroCard__eyebrow--victory::before {
+  content: "🏅";
+}
 .editaltiotulomaior{
   font-size: 40px !important;
 }
@@ -2197,6 +2213,12 @@ body.nav-open {
 .metaPill--accent {
   border-color: rgba(255, 59, 59, 0.36);
   background: rgba(255, 255, 255, 0.06);
+}
+
+.metaPill--victory {
+  border-color: rgba(251, 191, 36, 0.34);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(249, 115, 22, 0.1));
+  color: rgba(255, 250, 235, 0.95);
 }
 
 .i {
@@ -3148,6 +3170,20 @@ body.nav-open {
   pointer-events: none;
 }
 
+.podium::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(4px 4px at 10% 22%, rgba(255, 255, 255, 0.32), transparent 65%),
+    radial-gradient(4px 4px at 26% 10%, rgba(251, 191, 36, 0.36), transparent 65%),
+    radial-gradient(4px 4px at 48% 16%, rgba(255, 255, 255, 0.24), transparent 65%),
+    radial-gradient(4px 4px at 66% 11%, rgba(147, 197, 253, 0.34), transparent 65%),
+    radial-gradient(4px 4px at 88% 24%, rgba(251, 113, 133, 0.3), transparent 65%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
 .podium__head {
   position: relative;
   display: grid;
@@ -3245,6 +3281,13 @@ body.nav-open {
   padding: 0;
   font: inherit;
   color: inherit;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.podium__blockButton:hover:not(:disabled) {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--team-color, var(--pcolor)) 52%, rgba(255, 255, 255, 0.16));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.38), 0 0 40px color-mix(in srgb, var(--team-color, var(--pcolor)) 24%, rgba(0, 0, 0, 0));
 }
 
 .podium__blockButton:focus-visible {
@@ -3325,6 +3368,33 @@ body.nav-open {
   font-size: 12px;
   position: relative;
   box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28), 0 0 0 2px rgba(34, 197, 94, 0.12) inset;
+}
+
+.podium__col--1 .podium__prize {
+  background:
+    radial-gradient(18px 18px at 18px 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 65%),
+    radial-gradient(18px 18px at calc(100% - 18px) 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 65%),
+    linear-gradient(180deg, rgba(251, 191, 36, 0.42), rgba(217, 119, 6, 0.24));
+  border-color: rgba(251, 191, 36, 0.55);
+  color: rgba(255, 250, 220, 0.98);
+}
+
+.podium__col--2 .podium__prize {
+  background:
+    radial-gradient(18px 18px at 18px 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 65%),
+    radial-gradient(18px 18px at calc(100% - 18px) 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 65%),
+    linear-gradient(180deg, rgba(148, 163, 184, 0.38), rgba(100, 116, 139, 0.22));
+  border-color: rgba(148, 163, 184, 0.52);
+  color: rgba(241, 245, 249, 0.96);
+}
+
+.podium__col--3 .podium__prize {
+  background:
+    radial-gradient(18px 18px at 18px 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 65%),
+    radial-gradient(18px 18px at calc(100% - 18px) 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0) 65%),
+    linear-gradient(180deg, rgba(251, 146, 60, 0.4), rgba(194, 65, 12, 0.22));
+  border-color: rgba(251, 146, 60, 0.5);
+  color: rgba(255, 237, 213, 0.96);
 }
 
 .podium__prize::before,
