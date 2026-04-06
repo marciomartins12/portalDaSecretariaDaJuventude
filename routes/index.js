@@ -2,11 +2,6 @@ const express = require("express");
 
 const { pool } = require("../config/db");
 const pagesController = require("../controllers/pagesController");
-const inscricaoController = require("../controllers/inscricaoController");
-const { validateInscricaoGincana } = require("../middlewares/validateInscricaoGincana");
-const { validateInscricaoCorrida } = require("../middlewares/validateInscricaoCorrida");
-const { validateInscricaoSorteio } = require("../middlewares/validateInscricaoSorteio");
-const { validateInscricaoJogos } = require("../middlewares/validateInscricaoJogos");
 
 const router = express.Router();
 
@@ -34,22 +29,15 @@ router.get("/sitemap.xml", (req, res) => {
 
   const urls = [
     "/",
-    "/inscricoes",
     "/eventos",
     "/gincana",
     "/gincana/provas/pdf",
-    "/inscricoes/corrida",
-    "/inscricoes/piscicultores",
-    "/inscricoes/jogos",
     "/peri-mirim",
     "/editais",
     "/editais/gincana/pdf",
     "/noticias",
     "/trabalho-jovem"
   ];
-  if (String(process.env.GINCANA_INSCRICOES_ABERTAS || "0").trim() === "1") {
-    urls.splice(4, 0, "/inscricoes/gincana");
-  }
 
   const body = urls
     .map((p) => {
@@ -85,49 +73,17 @@ router.post("/track-device", async (req, res) => {
 });
 
 router.get("/", pagesController.home);
-router.get("/inscricoes", pagesController.inscricoes);
 router.get("/eventos", pagesController.eventos);
 router.get("/gincana", pagesController.gincana);
 router.get("/editais", pagesController.editais);
 
-const gincanaInscricoesAbertas = String(process.env.GINCANA_INSCRICOES_ABERTAS || "0").trim() === "1";
-if (gincanaInscricoesAbertas) {
-  router.get("/inscricoes/gincana", pagesController.inscricao);
-  router.post("/inscricoes/gincana/revisar", validateInscricaoGincana, inscricaoController.reviewGincana);
-  router.post("/inscricoes/gincana/enviar", validateInscricaoGincana, inscricaoController.submitGincana);
-  router.post("/inscricoes/gincana/editar", validateInscricaoGincana, inscricaoController.editGincana);
-} else {
-  router.get("/inscricoes/gincana", (req, res) => res.redirect(302, "/gincana"));
-  router.post("/inscricoes/gincana/revisar", (req, res) => res.status(410).redirect(302, "/gincana"));
-  router.post("/inscricoes/gincana/enviar", (req, res) => res.status(410).redirect(302, "/gincana"));
-  router.post("/inscricoes/gincana/editar", (req, res) => res.status(410).redirect(302, "/gincana"));
-}
-
-router.get("/inscricoes/corrida", pagesController.inscricaoCorrida);
-router.post(
-  "/inscricoes/corrida",
-  validateInscricaoCorrida,
-  inscricaoController.submitCorrida
-);
-
-router.get("/inscricoes/piscicultores", pagesController.inscricaoSorteio);
-router.post(
-  "/inscricoes/piscicultores",
-  validateInscricaoSorteio,
-  inscricaoController.submitSorteio
-);
-
-router.get("/inscricoes/jogos", pagesController.inscricaoJogos);
-router.post(
-  "/inscricoes/jogos",
-  validateInscricaoJogos,
-  inscricaoController.submitJogos
-);
+router.get("/inscricoes", (req, res) => res.redirect(302, "/eventos"));
+router.use("/inscricoes", (req, res) => res.redirect(302, "/eventos"));
 
 router.get("/peri-mirim", pagesController.periMirim);
 
-router.get("/inscricao", (req, res) => res.redirect(302, "/inscricoes"));
-router.post("/inscricao", (req, res) => res.redirect(302, "/inscricoes"));
+router.get("/inscricao", (req, res) => res.redirect(302, "/eventos"));
+router.post("/inscricao", (req, res) => res.redirect(302, "/eventos"));
 
 router.get("/edital", (req, res) => res.redirect(302, "/editais"));
 router.get("/edital/pdf", (req, res) => res.redirect(302, "/editais/gincana/pdf"));

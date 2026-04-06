@@ -128,47 +128,10 @@
   <div class="container">
     <div class="section__head">
       <h2 class="section__title">Eventos</h2>
-      <p class="section__desc">Confira os próximos eventos e participe.</p>
+      <p class="section__desc">Confira os próximos eventos e acompanhe.</p>
     </div>
 
     <div class="eventsGrid">
-      <article class="eventCard glass reveal">
-        <div class="eventRow">
-          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="target"></div>
-          <div class="eventRow__main">
-            <div class="eventCard__badge">Jogos</div>
-            <h3 class="eventCard__title">Jogos Variados</h3>
-            <p class="eventCard__desc">Dominó, Sinuca, Travinho, Videogame (Bomba Patch) e Dama</p>
-            <div class="eventCard__meta">
-              <div class="metaPill">Inscrições abertas</div>
-            </div>
-          </div>
-          <div class="eventRow__actions">
-            <a class="btn btn--primary" href="/inscricoes/jogos">Inscrever-se</a>
-            <a class="btn btn--ghost" href="/inscricoes">Ver inscrições</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="eventCard glass reveal">
-        <div class="eventRow">
-          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="bolt"></div>
-          <div class="eventRow__main">
-            <div class="eventCard__badge">Corrida</div>
-            <h3 class="eventCard__title">{{corrida.title}}</h3>
-            <p class="eventCard__desc">{{corrida.subtitle}}</p>
-            <div class="eventCard__meta">
-              <div class="metaPill">{{corrida.dateLabel}}</div>
-              <div class="metaPill">{{corrida.location}}</div>
-            </div>
-          </div>
-          <div class="eventRow__actions">
-            <a class="btn btn--primary" href="/inscricoes/corrida">Inscrever-se</a>
-            <a class="btn btn--ghost" href="/editais">Ver editais</a>
-          </div>
-        </div>
-      </article>
-
       <article class="eventCard eventCard--main glass reveal">
         <div class="eventRow">
           <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="spark"></div>
@@ -191,6 +154,43 @@
 
       <article class="eventCard glass reveal">
         <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="target"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Jogos</div>
+            <h3 class="eventCard__title">Jogos Variados</h3>
+            <p class="eventCard__desc">Dominó, Sinuca, Travinho, Videogame (Bomba Patch) e Dama</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">Inscrições encerradas</div>
+            </div>
+          </div>
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/eventos">Ver detalhes</a>
+            <a class="btn btn--ghost" href="/editais">Ver editais</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
+          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="bolt"></div>
+          <div class="eventRow__main">
+            <div class="eventCard__badge">Corrida</div>
+            <h3 class="eventCard__title">{{corrida.title}}</h3>
+            <p class="eventCard__desc">{{corrida.subtitle}}</p>
+            <div class="eventCard__meta">
+              <div class="metaPill">{{corrida.dateLabel}}</div>
+              <div class="metaPill">{{corrida.location}}</div>
+            </div>
+          </div>
+          <div class="eventRow__actions">
+            <a class="btn btn--primary" href="/eventos">Ver detalhes</a>
+            <a class="btn btn--ghost" href="/editais">Ver editais</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="eventCard glass reveal">
+        <div class="eventRow">
           <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="users"></div>
           <div class="eventRow__main">
             <div class="eventCard__badge">Feirinha</div>
@@ -203,8 +203,8 @@
             <p class="eventCard__desc">Eventos da Feirinha: Sorteio de alevinos</p>
           </div>
           <div class="eventRow__actions">
-            <a class="btn btn--primary" href="/inscricoes/piscicultores">Fazer inscrição</a>
-            <a class="btn btn--ghost" href="/inscricoes">Ver todos</a>
+            <a class="btn btn--primary" href="/eventos">Ver detalhes</a>
+            <a class="btn btn--ghost" href="/editais">Ver editais</a>
           </div>
         </div>
       </article>
