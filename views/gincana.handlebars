@@ -6,9 +6,9 @@
       <div class="gincanaHeader__copy">
         {{> pageCrumb current="Gincana"}}
         <h1 class="hero__title">Gincana Celebra Peri Mirim</h1>
-        <p class="hero__subtitle">Acompanhe as novidades, as equipes inscritas e os arquivos do evento.</p>
+        <p class="hero__subtitle">Acompanhe o pódio da Gincana 2026, as novidades e os arquivos do evento.</p>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#equipes">Ver equipes</a>
+          <a class="btn btn--primary" href="#podio">Ver pódio</a>
           <a class="btn btn--soft" href="/editais/gincana/pdf">Baixar edital</a>
           <a class="btn btn--ghost" href="#provas">Ver provas</a>
         </div>
@@ -18,9 +18,9 @@
         <div class="heroCard">
           <div class="heroCard__top">
             <div>
-              <div class="heroCard__eyebrow">Destaque</div>
-              <div class="heroCard__title">{{gincana.title}}</div>
-              <div class="heroCard__info">{{gincana.dateLabel}} • {{gincana.location}}</div>
+              <div class="heroCard__eyebrow">Informações</div>
+              <div class="heroCard__title">{{#if podium.first}}{{podium.first.teamName}}{{else}}Equipe vencedora{{/if}}</div>
+              <div class="heroCard__info">Equipe vencedora da Gincana 2026</div>
             </div>
             <div class="piabaMark" aria-hidden="true">
               <svg width="54" height="54" viewBox="0 0 1280 1280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -33,13 +33,8 @@
 
           <div class="heroCard__meta">
             <div class="metaPill">
-              <span class="i" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 3v3M17 3v3M4.5 8.5h15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                  <path d="M6 6h12a2.5 2.5 0 0 1 2.5 2.5v10A2.5 2.5 0 0 1 18 21H6a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 6 6Z" stroke="currentColor" stroke-width="1.6"/>
-                </svg>
-              </span>
-              {{gincana.dateLabel}}
+              <span class="i" aria-hidden="true">🏆</span>
+              {{#if podium.first}}{{podium.first.teamName}}{{else}}Equipe vencedora{{/if}}
             </div>
             <div class="metaPill">
               <span class="i" aria-hidden="true">
@@ -72,7 +67,7 @@
           </div>
 
           <div class="heroCard__actions">
-            <a class="btn btn--primary btn--wide" href="#equipes">Ver equipes</a>
+            <a class="btn btn--primary btn--wide" href="#podio">Ver pódio</a>
             <a class="btn btn--soft btn--wide" href="/editais/gincana/pdf">Baixar edital</a>
             <a class="btn btn--ghost btn--wide" href="#provas">Ver provas</a>
           </div>
@@ -85,93 +80,97 @@
 <section class="section">
   <div class="container">
     <div class="section__head">
-      <h2 class="section__title" id="equipes">Equipes</h2>
-      <p class="section__desc">Clique em uma equipe para abrir um pop-up com os membros.</p>
+      <h2 class="section__title" id="podio">Pódio da Gincana 2026</h2>
+      <p class="section__desc">Clique em 1º, 2º ou 3º lugar para ver os integrantes da equipe vencedora.</p>
     </div>
 
-    <div class="gincanaBody">
-      <div class="gincanaBody__teams">
-        {{#if teams.length}}
-          <div class="teamLegend glass">
-            <div class="teamLegend__title">Cores por ordem de inscrição</div>
-            <div class="teamLegend__items">
-              <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--yellow"></span> ID 1 • Amarelo</div>
-              <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--red"></span> ID 2 • Vermelho</div>
-              <div class="teamLegend__item"><span class="teamLegend__dot teamLegend__dot--blue"></span> ID 3 • Azul</div>
-            </div>
-            <div class="teamLegend__note">O ID da equipe é definido pela ordem de inscrição.</div>
-          </div>
-          <div class="teamsGrid">
-            {{#each teams}}
-              <button class="teamCard teamCardButton glass reveal" type="button" style="--team-color: {{colorHex}};" data-team-open>
-                <div class="teamCard__summary">
-                  <div class="teamCard__name">
-                    <span class="teamCard__badge" aria-hidden="true">ID {{order}}</span>
-                    {{teamName}}
-                  </div>
-                  <div class="teamCard__meta">
-                    <span class="chip">{{membersCount}} integrante(s)</span>
-                    <span class="chip chip--color">{{colorLabel}}</span>
-                  </div>
-                </div>
-                <div class="teamMembersTpl" hidden data-team-members>
-                  {{#each members}}
-                    <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
-                      <div class="teamMemberRow__name">{{fullName}}</div>
-                      <div class="teamMemberRow__role">{{role}}</div>
-                    </div>
-                  {{/each}}
-                </div>
-              </button>
-            {{/each}}
-          </div>
-        {{else}}
-          <div class="alert glass reveal" role="status">
-            <div class="alert__title">Sem equipes para exibir</div>
-            <div class="alert__desc">As equipes aparecerão aqui assim que estiverem cadastradas no sistema.</div>
-          </div>
-        {{/if}}
-      </div>
-
-      <aside class="gincanaBody__podium">
-        <div class="podium glass reveal">
-          <div class="podium__head">
-            <div class="podium__titleRow">
-              <div class="podium__title">Pódio</div>
-              <div class="podium__badge">🏆 Destaque</div>
-            </div>
-            <div class="podium__subtitle">Premiação: R$ 2.000 • R$ 1.200 • R$ 800</div>
-          </div>
-          <div class="podium__stage">
-            <div class="podium__col podium__col--2">
-              <div class="podium__block">
-                <div class="podium__medal" aria-hidden="true">🥈</div>
-                <div class="podium__place">2º</div>
-                <div class="podium__name">—</div>
-                <div class="podium__prize">R$ 1.200</div>
-              </div>
-            </div>
-            <div class="podium__col podium__col--1">
-              <div class="podium__block">
-                <div class="podium__crown" aria-hidden="true">👑</div>
-                <div class="podium__medal" aria-hidden="true">🥇</div>
-                <div class="podium__place">1º</div>
-                <div class="podium__name">—</div>
-                <div class="podium__prize">R$ 2.000</div>
-              </div>
-            </div>
-            <div class="podium__col podium__col--3">
-              <div class="podium__block">
-                <div class="podium__medal" aria-hidden="true">🥉</div>
-                <div class="podium__place">3º</div>
-                <div class="podium__name">—</div>
-                <div class="podium__prize">R$ 800</div>
-              </div>
-            </div>
-          </div>
-          <div class="podium__desc">Em breve</div>
+    <div class="podium glass reveal">
+      <div class="podium__head">
+        <div class="podium__titleRow">
+          <div class="podium__title">Pódio da Gincana 2026</div>
+          <div class="podium__badge">🏆 Vencedores</div>
         </div>
-      </aside>
+        <div class="podium__subtitle">Clique em uma posição para ver os integrantes.</div>
+      </div>
+      <div class="podium__stage">
+        <div class="podium__col podium__col--2">
+          <button
+            class="podium__block podium__blockButton"
+            type="button"
+            data-team-open
+            data-team-title="{{#if podium.second}}2º lugar • {{podium.second.teamName}}{{else}}2º lugar{{/if}}"
+            style="--team-color: {{#if podium.second}}{{podium.second.colorHex}}{{else}}rgba(255,255,255,0.14){{/if}};"
+            {{#unless podium.second}}disabled{{/unless}}
+          >
+            <div class="podium__medal" aria-hidden="true">🥈</div>
+            <div class="podium__place">2º</div>
+            <div class="podium__name">{{#if podium.second}}{{podium.second.teamName}}{{else}}—{{/if}}</div>
+            <div class="podium__prize">Equipe ID 1</div>
+            <div class="teamMembersTpl" hidden data-team-members>
+              {{#if podium.second}}
+                {{#each podium.second.members}}
+                  <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                    <div class="teamMemberRow__name">{{fullName}}</div>
+                    <div class="teamMemberRow__role">{{role}}</div>
+                  </div>
+                {{/each}}
+              {{/if}}
+            </div>
+          </button>
+        </div>
+        <div class="podium__col podium__col--1">
+          <button
+            class="podium__block podium__blockButton"
+            type="button"
+            data-team-open
+            data-team-title="{{#if podium.first}}1º lugar • {{podium.first.teamName}}{{else}}1º lugar{{/if}}"
+            style="--team-color: {{#if podium.first}}{{podium.first.colorHex}}{{else}}rgba(255,255,255,0.14){{/if}};"
+            {{#unless podium.first}}disabled{{/unless}}
+          >
+            <div class="podium__crown" aria-hidden="true">👑</div>
+            <div class="podium__medal" aria-hidden="true">🥇</div>
+            <div class="podium__place">1º</div>
+            <div class="podium__name">{{#if podium.first}}{{podium.first.teamName}}{{else}}—{{/if}}</div>
+            <div class="podium__prize">Equipe ID 2</div>
+            <div class="teamMembersTpl" hidden data-team-members>
+              {{#if podium.first}}
+                {{#each podium.first.members}}
+                  <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                    <div class="teamMemberRow__name">{{fullName}}</div>
+                    <div class="teamMemberRow__role">{{role}}</div>
+                  </div>
+                {{/each}}
+              {{/if}}
+            </div>
+          </button>
+        </div>
+        <div class="podium__col podium__col--3">
+          <button
+            class="podium__block podium__blockButton"
+            type="button"
+            data-team-open
+            data-team-title="{{#if podium.third}}3º lugar • {{podium.third.teamName}}{{else}}3º lugar{{/if}}"
+            style="--team-color: {{#if podium.third}}{{podium.third.colorHex}}{{else}}rgba(255,255,255,0.14){{/if}};"
+            {{#unless podium.third}}disabled{{/unless}}
+          >
+            <div class="podium__medal" aria-hidden="true">🥉</div>
+            <div class="podium__place">3º</div>
+            <div class="podium__name">{{#if podium.third}}{{podium.third.teamName}}{{else}}—{{/if}}</div>
+            <div class="podium__prize">Equipe ID 3</div>
+            <div class="teamMembersTpl" hidden data-team-members>
+              {{#if podium.third}}
+                {{#each podium.third.members}}
+                  <div class="teamMemberRow {{#if isCaptain}}teamMemberRow--captain{{/if}}">
+                    <div class="teamMemberRow__name">{{fullName}}</div>
+                    <div class="teamMemberRow__role">{{role}}</div>
+                  </div>
+                {{/each}}
+              {{/if}}
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="podium__desc">Ordem do pódio: ID 2 (1º), ID 1 (2º), ID 3 (3º).</div>
     </div>
   </div>
 </section>

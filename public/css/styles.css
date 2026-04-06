@@ -3240,6 +3240,23 @@ body.nav-open {
   transform: translateZ(0);
 }
 
+.podium__blockButton {
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.podium__blockButton:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--team-color, rgba(255, 255, 255, 0.26)) 60%, rgba(255, 255, 255, 0.26));
+  outline-offset: 3px;
+}
+
+.podium__blockButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .podium__block::after {
   content: "";
   position: absolute;

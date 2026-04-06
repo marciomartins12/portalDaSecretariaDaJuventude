@@ -80,6 +80,7 @@ function listGincanaProvas() {
 
 async function gincanaPage(req, res) {
   let teams = [];
+  let podium = { first: null, second: null, third: null };
   let provas = [];
   try {
     const [teamRows] = await pool.execute(
@@ -120,9 +121,16 @@ async function gincanaPage(req, res) {
         members
       };
     });
+    const findById = (id) => teams.find((t) => t.id === id) || null;
+    podium = {
+      first: findById(2),
+      second: findById(1),
+      third: findById(3)
+    };
     provas = listGincanaProvas();
   } catch {
     teams = [];
+    podium = { first: null, second: null, third: null };
     provas = [];
   }
 
@@ -131,6 +139,7 @@ async function gincanaPage(req, res) {
     metaDescription: "Acompanhe a Gincana Celebra Peri Mirim. Informações, comunicados e atualizações.",
     gincana: content.gincana,
     teams,
+    podium,
     provas,
     preloadImages: ["/public/assets/fotoPrincipalDaGinacana.png"]
   });
