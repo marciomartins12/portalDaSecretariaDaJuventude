@@ -28,9 +28,9 @@ async function loadGincanaTeamsAndPodium() {
       });
     }
     const palette = [
-      { key: "yellow", label: "Amarelo", color: "#fbbf24" },
-      { key: "red", label: "Vermelho", color: "#fb7185" },
-      { key: "blue", label: "Azul", color: "#60a5fa" }
+      { key: "yellow", label: "Amarelo", color: "#ffe135" },
+      { key: "red", label: "Vermelho", color: "#ff3d6b" },
+      { key: "blue", label: "Azul", color: "#22d3ee" }
     ];
 
     teams = teamRows.map((t, idx) => {
@@ -71,7 +71,8 @@ async function home(req, res) {
     gincana: content.gincana,
     feirinha: content.feirinha,
     podium,
-    news: content.news
+    news: content.news,
+    preloadImages: ["/public/assets/LOGO-Juventude-BRANCO.png"]
   });
 }
 

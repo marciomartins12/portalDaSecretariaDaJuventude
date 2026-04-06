@@ -1,5 +1,19 @@
-
-<section class="gincanaSplash" style="--gincana-splash-image: url('/public/assets/fotoPrincipalDaGinacana.png?v={{assetVersion}}');"></section>
+<section
+  class="gincanaSplash"
+  style="--gincana-focus-y: 38%;"
+  aria-label="Destaque visual da Gincana"
+>
+  <img
+    class="gincanaSplash__img"
+    src="/public/assets/fotoPrincipalDaGinacana.png?v={{assetVersion}}"
+    alt="Gincana Celebra Peri Mirim — momento do evento"
+    width="1920"
+    height="1080"
+    fetchpriority="high"
+    decoding="async"
+    loading="eager"
+  />
+</section>
 <section class="hero gincanaHeader">
   <div class="container">
     <div class="hero__grid">
@@ -78,7 +92,7 @@
               type="button"
               data-team-open
               data-team-title="{{#if podium.second}}2º lugar • {{podium.second.teamName}}{{else}}2º lugar{{/if}}"
-              style="--team-color: #facc15;"
+              style="--team-color: #ffe135;"
               {{#unless podium.second}}disabled{{/unless}}
             >
               <div class="podium__cardInner">
@@ -114,7 +128,7 @@
               type="button"
               data-team-open
               data-team-title="{{#if podium.first}}1º lugar • {{podium.first.teamName}}{{else}}1º lugar{{/if}}"
-              style="--team-color: #ef4444;"
+              style="--team-color: #ff3d6b;"
               {{#unless podium.first}}disabled{{/unless}}
             >
               <div class="podium__cardInner">
@@ -151,7 +165,7 @@
               type="button"
               data-team-open
               data-team-title="{{#if podium.third}}3º lugar • {{podium.third.teamName}}{{else}}3º lugar{{/if}}"
-              style="--team-color: #3b82f6;"
+              style="--team-color: #22d3ee;"
               {{#unless podium.third}}disabled{{/unless}}
             >
               <div class="podium__cardInner">
