@@ -7,81 +7,9 @@ const { pool } = require("../config/db");
 const path = require("path");
 const fs = require("fs");
 
-function home(req, res) {
-  res.render("home", {
-    title: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
-    metaDescription:
-      "Portal oficial da Secretaria Municipal da Juventude de Peri Mirim (MA). Informações, editais, notícias e inscrições para eventos e oportunidades.",
-    gincana: content.gincana,
-    corrida: content.corrida,
-    feirinha: content.feirinha,
-    news: content.news
-  });
-}
-
-function inscricoes(req, res) {
-  res.render("inscricoes", {
-    title: "Inscrições",
-    metaDescription:
-      "Página de inscrições da Secretaria Municipal da Juventude de Peri Mirim (MA). Acesse os eventos disponíveis e faça sua inscrição.",
-    gincana: content.gincana
-  });
-}
-
-function editais(req, res) {
-  res.render("editais", {
-    title: "Editais",
-    metaDescription:
-      "Editais e documentos oficiais da Secretaria Municipal da Juventude de Peri Mirim (MA). Consulte regras, prazos e arquivos em PDF.",
-    gincana: content.gincana
-  });
-}
-
-function eventos(req, res) {
-  res.render("eventos", {
-    title: "Eventos",
-    metaDescription:
-      "Eventos e inscrições da Secretaria Municipal da Juventude de Peri Mirim (MA). Confira os próximos eventos e participe.",
-    gincana: content.gincana,
-    corrida: content.corrida,
-    feirinha: content.feirinha
-  });
-}
-
-function prettifyProvaName(filename) {
-  const base = String(filename || "").replace(/\.pdf$/i, "");
-  const noPrefix = base.replace(/^\s*\d+\s*[-_. ]\s*/i, "");
-  const words = noPrefix
-    .replace(/[_-]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .split(" ")
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
-  return words.join(" ").trim() || base;
-}
-
-function listGincanaProvas() {
-  const dir = path.join(__dirname, "..", "public", "arquivos", "provas");
-  let entries = [];
-  try {
-    entries = fs.readdirSync(dir);
-  } catch {
-    entries = [];
-  }
-  const pdfs = entries.filter((f) => /\.pdf$/i.test(f));
-  pdfs.sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true, sensitivity: "base" }));
-  return pdfs.map((f) => ({
-    file: f,
-    name: prettifyProvaName(f),
-    href: `/gincana/provas/${encodeURIComponent(f)}`
-  }));
-}
-
-async function gincanaPage(req, res) {
+async function loadGincanaTeamsAndPodium() {
   let teams = [];
   let podium = { first: null, second: null, third: null };
-  let provas = [];
   try {
     const [teamRows] = await pool.execute(
       "SELECT id, team_name, neighborhood, created_at FROM gincana_inscricoes ORDER BY created_at ASC, id ASC"
@@ -127,10 +55,92 @@ async function gincanaPage(req, res) {
       second: findById(1),
       third: findById(3)
     };
-    provas = listGincanaProvas();
   } catch {
     teams = [];
     podium = { first: null, second: null, third: null };
+  }
+  return { teams, podium };
+}
+
+async function home(req, res) {
+  const { podium } = await loadGincanaTeamsAndPodium();
+  res.render("home", {
+    title: res.locals.site?.departmentName || "Secretaria Municipal da Juventude de Peri Mirim",
+    metaDescription:
+      "Portal oficial da Secretaria Municipal da Juventude de Peri Mirim (MA). Informações, editais, notícias e inscrições para eventos e oportunidades.",
+    gincana: content.gincana,
+    feirinha: content.feirinha,
+    podium,
+    news: content.news
+  });
+}
+
+function inscricoes(req, res) {
+  res.render("inscricoes", {
+    title: "Inscrições",
+    metaDescription:
+      "Página de inscrições da Secretaria Municipal da Juventude de Peri Mirim (MA). Acesse os eventos disponíveis e faça sua inscrição.",
+    gincana: content.gincana
+  });
+}
+
+function editais(req, res) {
+  res.render("editais", {
+    title: "Editais",
+    metaDescription:
+      "Editais e documentos oficiais da Secretaria Municipal da Juventude de Peri Mirim (MA). Consulte regras, prazos e arquivos em PDF.",
+    gincana: content.gincana
+  });
+}
+
+async function eventos(req, res) {
+  const { podium } = await loadGincanaTeamsAndPodium();
+  res.render("eventos", {
+    title: "Eventos",
+    metaDescription:
+      "Eventos e inscrições da Secretaria Municipal da Juventude de Peri Mirim (MA). Confira os próximos eventos e participe.",
+    gincana: content.gincana,
+    feirinha: content.feirinha,
+    podium
+  });
+}
+
+function prettifyProvaName(filename) {
+  const base = String(filename || "").replace(/\.pdf$/i, "");
+  const noPrefix = base.replace(/^\s*\d+\s*[-_. ]\s*/i, "");
+  const words = noPrefix
+    .replace(/[_-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
+  return words.join(" ").trim() || base;
+}
+
+function listGincanaProvas() {
+  const dir = path.join(__dirname, "..", "public", "arquivos", "provas");
+  let entries = [];
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    entries = [];
+  }
+  const pdfs = entries.filter((f) => /\.pdf$/i.test(f));
+  pdfs.sort((a, b) => a.localeCompare(b, "pt-BR", { numeric: true, sensitivity: "base" }));
+  return pdfs.map((f) => ({
+    file: f,
+    name: prettifyProvaName(f),
+    href: `/gincana/provas/${encodeURIComponent(f)}`
+  }));
+}
+
+async function gincanaPage(req, res) {
+  let provas = [];
+  const { teams, podium } = await loadGincanaTeamsAndPodium();
+  try {
+    provas = listGincanaProvas();
+  } catch {
     provas = [];
   }
 

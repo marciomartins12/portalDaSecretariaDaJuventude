@@ -27,17 +27,18 @@
   <div class="container">
     <div class="section__head">
       <h2 class="section__title">Eventos</h2>
-      <p class="section__desc">Confira os próximos eventos e acompanhe.</p>
+      <p class="section__desc">Gincana Celebra Peri Mirim e Feirinha do Povo.</p>
     </div>
 
     <div class="eventsGrid">
-      <article class="eventCard eventCard--main glass reveal">
+      <article class="eventCard eventCard--main glass reveal" id="evento-gincana">
         <div class="eventRow">
           <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="spark"></div>
           <div class="eventRow__main">
-            <div class="eventCard__badge">Evento principal</div>
+            <div class="eventCard__badge">Gincana</div>
             <h3 class="eventCard__title">{{gincana.title}}</h3>
             <p class="eventCard__desc">{{gincana.subtitle}}</p>
+            <p class="eventCard__winner">{{#if podium.first}}Equipe campeã: <strong>{{podium.first.teamName}}</strong>{{else}}Equipe campeã: em breve{{/if}}</p>
             <div class="eventCard__meta">
               <div class="metaPill">{{gincana.dateLabel}}</div>
               <div class="metaPill">{{gincana.location}}</div>
@@ -51,58 +52,21 @@
         </div>
       </article>
 
-      <article class="eventCard glass reveal">
-        <div class="eventRow">
-          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="target"></div>
-          <div class="eventRow__main">
-            <div class="eventCard__badge">Jogos</div>
-            <h3 class="eventCard__title">Jogos Variados</h3>
-            <p class="eventCard__desc">Dominó, Sinuca, Travinho, Videogame (Bomba Patch) e Dama</p>
-            <div class="eventCard__meta">
-              <div class="metaPill">Inscrições encerradas</div>
-            </div>
-          </div>
-          <div class="eventRow__actions">
-            <a class="btn btn--primary" href="/eventos">Ver detalhes</a>
-            <a class="btn btn--ghost" href="/editais">Ver editais</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="eventCard glass reveal">
-        <div class="eventRow">
-          <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="bolt"></div>
-          <div class="eventRow__main">
-            <div class="eventCard__badge">Corrida</div>
-            <h3 class="eventCard__title">{{corrida.title}}</h3>
-            <p class="eventCard__desc">{{corrida.subtitle}}</p>
-            <div class="eventCard__meta">
-              <div class="metaPill">{{corrida.dateLabel}}</div>
-              <div class="metaPill">{{corrida.location}}</div>
-            </div>
-          </div>
-          <div class="eventRow__actions">
-            <a class="btn btn--primary" href="/eventos">Ver detalhes</a>
-            <a class="btn btn--ghost" href="/editais">Ver editais</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="eventCard glass reveal">
+      <article class="eventCard glass reveal" id="evento-feirinha">
         <div class="eventRow">
           <div class="eventRow__icon card__icon" aria-hidden="true" data-icon="users"></div>
           <div class="eventRow__main">
-            <div class="eventCard__badge">Feirinha</div>
+            <div class="eventCard__badge">Feirinha do Povo</div>
             <h3 class="eventCard__title">{{feirinha.title}}</h3>
             <p class="eventCard__desc">{{feirinha.subtitle}}</p>
             <div class="eventCard__meta">
               <div class="metaPill">{{feirinha.dateLabel}}</div>
               <div class="metaPill">{{feirinha.location}}</div>
             </div>
-            <p class="eventCard__desc">Eventos da Feirinha: Sorteio de alevinos</p>
+            <p class="eventCard__desc">Inclui sorteio de alevinos para piscicultores.</p>
           </div>
           <div class="eventRow__actions">
-            <a class="btn btn--primary" href="/eventos">Ver detalhes</a>
+            <a class="btn btn--primary" href="#evento-feirinha">Ver detalhes</a>
             <a class="btn btn--ghost" href="/editais">Ver editais</a>
           </div>
         </div>
