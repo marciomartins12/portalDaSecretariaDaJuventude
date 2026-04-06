@@ -1345,6 +1345,19 @@ body.nav-open {
   filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.45));
 }
 
+.heroCard__trophy--sm {
+  width: 52px;
+  height: 52px;
+}
+
+.heroCard__trophy--sm .heroCard__trophyIcon {
+  font-size: 28px;
+}
+
+.hero__panel--homeGincana.cardNeon {
+  padding: 22px 22px 20px;
+}
+
 .heroCard__meta--compact {
   grid-template-columns: 1fr;
 }
@@ -1352,6 +1365,10 @@ body.nav-open {
 @media (min-width: 480px) {
   .heroCard__meta--compact {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .heroCard__meta--compact .metaPill--victory {
+    grid-column: 1 / -1;
   }
 }
 
@@ -1930,6 +1947,19 @@ body.nav-open {
   color: var(--muted);
   font-size: 14px;
   line-height: 1.7;
+}
+
+.eventCard__winner {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.55;
+  color: rgba(248, 250, 252, 0.92);
+}
+
+.eventCard__winner strong {
+  font-weight: 900;
+  color: rgba(253, 224, 71, 0.98);
 }
 
 .eventCard__meta {
